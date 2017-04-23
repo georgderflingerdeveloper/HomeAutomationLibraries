@@ -1,0 +1,35 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeAutomationLibraryCollection", "HomeAutomationLibraryCollection\HomeAutomationLibraryCollection.csproj", "{731AA7EC-EA9D-44EC-B1F7-9016523DBDE7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "COMMUNICATION_UDP", "COMMUNICATION_UDP", "{C3AEE8A0-4FB0-4ABC-B546-33CFF7B9155B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibUdp", "LibUdp\LibUdp.csproj", "{04B6D081-6952-4F0D-8402-DF169E0DFB51}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Udp_UnitTest", "LibUdp\Udp_UnitTest\Udp_UnitTest.csproj", "{C5FB61C4-D909-409F-8C88-256D6085EDB1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{731AA7EC-EA9D-44EC-B1F7-9016523DBDE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{731AA7EC-EA9D-44EC-B1F7-9016523DBDE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{731AA7EC-EA9D-44EC-B1F7-9016523DBDE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{731AA7EC-EA9D-44EC-B1F7-9016523DBDE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04B6D081-6952-4F0D-8402-DF169E0DFB51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04B6D081-6952-4F0D-8402-DF169E0DFB51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04B6D081-6952-4F0D-8402-DF169E0DFB51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04B6D081-6952-4F0D-8402-DF169E0DFB51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5FB61C4-D909-409F-8C88-256D6085EDB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5FB61C4-D909-409F-8C88-256D6085EDB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5FB61C4-D909-409F-8C88-256D6085EDB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5FB61C4-D909-409F-8C88-256D6085EDB1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{04B6D081-6952-4F0D-8402-DF169E0DFB51} = {C3AEE8A0-4FB0-4ABC-B546-33CFF7B9155B}
+		{C5FB61C4-D909-409F-8C88-256D6085EDB1} = {C3AEE8A0-4FB0-4ABC-B546-33CFF7B9155B}
+	EndGlobalSection
+EndGlobal
