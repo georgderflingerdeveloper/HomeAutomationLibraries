@@ -50,7 +50,7 @@ namespace LibUdp.BASIC.SEND
             catch
             {
 
-                throw new Exception("Data sending failed");
+                throw new Exception( BasicErrorMessage.DataSendingFailed );
             }
         }
 
