@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace LibUdp
-{
-    interface IUdpBasic
+namespace LibUdp.BASIC.INTERFACE
+ {
+    public interface IUdpBasic
     {
  
     }

@@ -38,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="UdpBasic_UnitTests.cs" />
+    <Compile Include="UdpSend_UnitTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LibUdp.csproj">
