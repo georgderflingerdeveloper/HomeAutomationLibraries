@@ -42,17 +42,17 @@ namespace LibUdp
         {
             if( String.IsNullOrWhiteSpace( message ) )
             {
-                //Services.TraceMessage_( "Try to send empty string!" );
-                return;
+                throw( new Exception(message) );
             }
             try
             {
                 byte[] data = Encoding.UTF8.GetBytes( message );
                 client?.Send( data, data.Length, remoteEndPoint );
             }
-            catch( Exception err )
+            catch
             {
-                //Services.TraceMessage_( err.Message + " " + err.Data + " " );
+   
+                throw new Exception("Data sending failed");
             }
         }
 
