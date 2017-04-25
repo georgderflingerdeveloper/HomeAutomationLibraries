@@ -1,5 +1,4 @@
 ﻿using System;
-
 using System.Timers;
 using System.Text;
 using System.Net;
@@ -7,6 +6,8 @@ using System.Net.Sockets;
 using System.Threading;
 using LibUdp.BASIC.SEND.INTERFACE;
 using LibUdp.BASIC.CONSTANTS;
+using TimerMockable;
+
 
 namespace LibUdp.BASIC.SEND
 {
@@ -18,20 +19,7 @@ namespace LibUdp.BASIC.SEND
 
         public UdpSend ( string ip_, int port_ )
         {
-            if( port_ == 0 )
-            {
-                throw new Exception( BasicErrorMessage.InvalidPortNumber );
-            }
-
-            try 
-            {
-                Adress = IPAddress.Parse( ip_ );
-            }
-            catch 
-            {
-                throw new Exception( BasicErrorMessage.InvalidIpAdress );
-            }
-
+            Adress = IPAddress.Parse( ip_ );
             remoteEndPoint = new IPEndPoint( Adress, port_ );
             client         = new UdpClient(  );
         }
@@ -40,18 +28,10 @@ namespace LibUdp.BASIC.SEND
         {
             if( String.IsNullOrWhiteSpace( message ) )
             {
-                throw( new Exception(message) );
+                throw( new Exception( BasicErrorMessage.InvalidSendString ) );
             }
-            try
-            {
-                byte[] data = Encoding.UTF8.GetBytes( message );
-                client?.Send( data, data.Length, remoteEndPoint );
-            }
-            catch
-            {
-
-                throw new Exception( BasicErrorMessage.DataSendingFailed );
-            }
+            byte[] data = Encoding.UTF8.GetBytes( message );
+            client?.Send( data, data.Length, remoteEndPoint );
         }
 
         public void SendString( string message )

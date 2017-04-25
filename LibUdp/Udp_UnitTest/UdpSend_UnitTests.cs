@@ -11,6 +11,8 @@ namespace UdpSend_UnitTest
         UdpSend TestSender;
         string ValidIpAdress = "127.0.0.1";
         string InvalidIpAdress = "1232342.0.0.66666";
+        string TestStringToSend = "hello";
+        string InvalidTestStringToSend = "";
         int ValidPort = 5000;
 
 
@@ -23,15 +25,13 @@ namespace UdpSend_UnitTest
         [Test( )]
         public void TestInvalidIp( )
         {
-            try
-            {
-               TestSender = new UdpSend( InvalidIpAdress, ValidPort );
-            }
-            catch( Exception ex )
-            {
-               Assert.That( ex.Message, Is.EqualTo(BasicErrorMessage.InvalidIpAdress));
-            }
+           Assert.Catch<Exception>(() => new UdpSend(InvalidIpAdress, ValidPort));
         }
 
+        [Test()]
+        public void TestSendingFailed()
+        {
+            Assert.Catch<Exception>(() => new UdpSend(ValidIpAdress, ValidPort).SendString(InvalidTestStringToSend));
+        }
     }
 }
