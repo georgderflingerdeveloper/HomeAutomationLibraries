@@ -3,10 +3,10 @@ using System;
 using LibUdp;
 namespace Udp_UnitTest
 {
-    [TestFixture( )]
+    [TestFixture]
     public class Test
     {
-        [Test( )]
+        [Test]
         public void TestCase( )
         {
         }

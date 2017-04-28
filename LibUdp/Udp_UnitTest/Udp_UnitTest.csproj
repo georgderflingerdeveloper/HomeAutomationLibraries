@@ -46,6 +46,10 @@
       <Project>{04B6D081-6952-4F0D-8402-DF169E0DFB51}</Project>
       <Name>LibUdp</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\TimerMockable\TimerMockable.csproj">
+      <Project>{323A5AA7-F7EB-4990-9B0E-540D75837716}</Project>
+      <Name>TimerMockable</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -5,4 +5,9 @@ namespace LibUdp.BASIC.SEND.INTERFACE
     {
         void SendString( string message );
     }
+
+    public interface IUdpSendPeriodic
+    {
+        void SendString( string message, uint counts );
+    }
 }
