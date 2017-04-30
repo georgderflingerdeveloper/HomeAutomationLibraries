@@ -18,6 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "COMMUNICATION", "COMMUNICAT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimerMockable", "TimerMockable\TimerMockable.csproj", "{323A5AA7-F7EB-4990-9B0E-540D75837716}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryTestRunner", "LibraryTestRunner\LibraryTestRunner.csproj", "{AB0386B7-A989-4D8E-997B-ACA7A3C03170}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +42,10 @@ Global
 		{323A5AA7-F7EB-4990-9B0E-540D75837716}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{323A5AA7-F7EB-4990-9B0E-540D75837716}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{323A5AA7-F7EB-4990-9B0E-540D75837716}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB0386B7-A989-4D8E-997B-ACA7A3C03170}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB0386B7-A989-4D8E-997B-ACA7A3C03170}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB0386B7-A989-4D8E-997B-ACA7A3C03170}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB0386B7-A989-4D8E-997B-ACA7A3C03170}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

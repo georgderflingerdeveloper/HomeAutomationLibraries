@@ -42,19 +42,38 @@ namespace LibUdp.BASIC.SEND
         }
     }
 
+    public enum SendingStatus
+    {
+        eIdle,
+        eStarted,
+        eFinished,
+        eInvalid
+    }
+
+    public class DataSendingEventArgs : EventArgs
+    {
+        public uint  ActualCounts{ get; set;  }
+        public SendingStatus Status{ get; set; }
+    }
+
+
     public class UdpSendPeriodic : UdpSend, IUdpSendPeriodic
     {
         ITimer _PeriodicTimer;
-        ITimer _DurationTimer;
         uint           _Counts;
         private uint   _ActualCounts;
         private string _Message;
+        DataSendingEventArgs _DataSendingEventArgs = new DataSendingEventArgs();
+        public delegate void DataSendingStatus( object sender, DataSendingEventArgs e );
+        public event DataSendingStatus EDataSendingStatus;
 
-        public UdpSendPeriodic( string ip_, int port_, ITimer PeriodicTimer, ITimer DurationTimer ) : base( ip_, port_ )
+
+        public UdpSendPeriodic( string ip_, int port_, ITimer PeriodicTimer ) : base( ip_, port_ )
         {
             _PeriodicTimer = PeriodicTimer;
-            _DurationTimer = DurationTimer;
             _PeriodicTimer.Elapsed += _PeriodicTimer_Elapsed;
+            _DataSendingEventArgs.Status = SendingStatus.eIdle;
+            EDataSendingStatus?.Invoke( this, _DataSendingEventArgs );
         }
 
         public void SendString( string message, uint counts )
@@ -65,7 +84,7 @@ namespace LibUdp.BASIC.SEND
                 return;
             }
             _PeriodicTimer.Start( );
-            _Counts = counts;
+            _Counts       = counts;
             _ActualCounts = 1;
             sendString( message );
             _Message = message;
@@ -74,26 +93,18 @@ namespace LibUdp.BASIC.SEND
         private void _PeriodicTimer_Elapsed( object sender, ElapsedEventArgs e )
         {
             sendString( _Message );
-            if( _ActualCounts >= _Counts - 1 )
+            if( _ActualCounts >= _Counts )
             {
                 _PeriodicTimer.Stop( );
+                EDataSendingStatus?.Invoke( this, _DataSendingEventArgs );
+                return;
             }
             _ActualCounts++;
+            _DataSendingEventArgs.ActualCounts = _ActualCounts;
+            _PeriodicTimer.Start();
         }
 
-        public uint ActualCounts
-        {
-            get
-            {
-                return _ActualCounts;
-            }
-
-            set
-            {
-                _ActualCounts = value;
-            }
-        }
-
-        public string Message { get => _Message; set => _Message = value; }
+        public uint   ActualCounts{ get => _ActualCounts; set => _ActualCounts = value; }
+        public string Message     { get => _Message;      set => _Message = value;      }
     }
 }
