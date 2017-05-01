@@ -88,6 +88,8 @@ namespace LibUdp.BASIC.SEND
             _ActualCounts = 1;
             sendString( message );
             _Message = message;
+            _DataSendingEventArgs.Status = SendingStatus.eStarted;
+            EDataSendingStatus?.Invoke( this, _DataSendingEventArgs );
         }
 
         private void _PeriodicTimer_Elapsed( object sender, ElapsedEventArgs e )
@@ -96,11 +98,13 @@ namespace LibUdp.BASIC.SEND
             if( _ActualCounts >= _Counts )
             {
                 _PeriodicTimer.Stop( );
+                _DataSendingEventArgs.Status = SendingStatus.eFinished;
                 EDataSendingStatus?.Invoke( this, _DataSendingEventArgs );
                 return;
             }
             _ActualCounts++;
             _DataSendingEventArgs.ActualCounts = _ActualCounts;
+            _PeriodicTimer.Stop();
             _PeriodicTimer.Start();
         }
 
