@@ -169,5 +169,28 @@ namespace UdpSend_UnitTest
             Assert.That( EventData.Status, Is.EqualTo( SendingStatus.eFinished));
         }
 
+        [Test]
+        public void TestPeriodicSendingStatusIsPulsing()
+        {
+            MockTestTimerPeriodic = new Mock<ITimer>();
+            TestPeriodicSender = new UdpSendPeriodic(UdpSendTestParameters.ValidIpAdress,
+                                                      UdpSendTestParameters.ValidPort,
+                                                      MockTestTimerPeriodic.Object
+                                                    );
+
+            DataSendingEventArgs EventData = new DataSendingEventArgs();
+            TestPeriodicSender.EDataSendingStatus += (sender, e) => EventData = e;
+            TestPeriodicSender.ActualCounts = UdpSendTestParameters.ActualCountsFakeValue;
+
+            TestPeriodicSender.SendString(UdpSendTestParameters.TestStringToSend, UdpSendTestParameters.TestNumberOfCounts);
+
+            for (int idx = 0; idx < UdpSendTestParameters.TestNumberOfCounts-1; idx++)
+            {
+                MockTestTimerPeriodic.Raise((obj) => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
+            }
+
+            Assert.That(EventData.Status, Is.EqualTo(SendingStatus.ePulsing));
+        }
+
     }
 }
