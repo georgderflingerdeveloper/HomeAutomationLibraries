@@ -75,6 +75,7 @@ namespace UdpSend_UnitTest
             TestPeriodicSender.SendString( UdpSendTestParameters.TestStringToSend, 0);
 
             Assert.AreEqual( 0, TestPeriodicSender.ActualCounts);
+            Assert.AreEqual(SendingCommand.eCmdIdle, TestPeriodicSender.Command);
         }
 
         [Test]
@@ -187,7 +188,70 @@ namespace UdpSend_UnitTest
                 MockTestTimerPeriodic.Raise((obj) => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
             }
 
-            Assert.That(EventData.Status, Is.EqualTo(SendingStatus.ePulsing));
+            Assert.That(EventData.Status, Is.EqualTo(SendingStatus.ePulsingCounted));
+        }
+
+        [Test]
+        public void TestPeriodicSendingEndless_WhenCommand_Is_Idle()
+        {
+            MockTestTimerPeriodic = new Mock<ITimer>();
+            TestPeriodicSender = new UdpSendPeriodic(UdpSendTestParameters.ValidIpAdress,
+                                                      UdpSendTestParameters.ValidPort,
+                                                      MockTestTimerPeriodic.Object
+                                                    );
+
+
+            Assert.AreEqual(SendingCommand.eCmdIdle, TestPeriodicSender.Command);
+        }
+
+        [Test]
+        public void TestPeriodicSendingEndless()
+        {
+            MockTestTimerPeriodic = new Mock<ITimer>();
+            TestPeriodicSender = new UdpSendPeriodic(UdpSendTestParameters.ValidIpAdress,
+                                                      UdpSendTestParameters.ValidPort,
+                                                      MockTestTimerPeriodic.Object
+                                                    );
+
+            DataSendingEventArgs EventData = new DataSendingEventArgs();
+            TestPeriodicSender.EDataSendingStatus += (sender, e) => EventData = e;
+            TestPeriodicSender.ActualCounts = UdpSendTestParameters.ActualCountsFakeValue;
+
+            TestPeriodicSender.SendStringCyclic(UdpSendTestParameters.TestStringToSend);
+
+            for (int idx = 0; idx < UdpSendTestParameters.TestNumberOfCounts - 1; idx++)
+            {
+                MockTestTimerPeriodic.Raise((obj) => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
+            }
+
+            Assert.That(EventData.Status, Is.EqualTo(SendingStatus.ePulsingEndless));
+            Assert.AreEqual(SendingCommand.eStartEndless, TestPeriodicSender.Command);
+        }
+
+        [Test]
+        public void TestPeriodicSendingEndless_Stop()
+        {
+            MockTestTimerPeriodic = new Mock<ITimer>();
+            TestPeriodicSender = new UdpSendPeriodic(UdpSendTestParameters.ValidIpAdress,
+                                                      UdpSendTestParameters.ValidPort,
+                                                      MockTestTimerPeriodic.Object
+                                                    );
+
+            DataSendingEventArgs EventData = new DataSendingEventArgs();
+            TestPeriodicSender.EDataSendingStatus += (sender, e) => EventData = e;
+            TestPeriodicSender.ActualCounts = UdpSendTestParameters.ActualCountsFakeValue;
+
+            TestPeriodicSender.SendStringCyclic(UdpSendTestParameters.TestStringToSend);
+
+            for (int idx = 0; idx < UdpSendTestParameters.TestNumberOfCounts - 1; idx++)
+            {
+                MockTestTimerPeriodic.Raise((obj) => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
+            }
+
+            TestPeriodicSender.StopSendStringCyclic();
+
+            Assert.That(EventData.Status, Is.EqualTo(SendingStatus.eIdle));
+            Assert.AreEqual(SendingCommand.eStop, TestPeriodicSender.Command);
         }
     }
 }

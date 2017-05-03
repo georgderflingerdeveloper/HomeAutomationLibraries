@@ -46,9 +46,17 @@ namespace LibUdp.BASIC.SEND
     {
         eIdle,
         eStarted,
-        ePulsing,
+        ePulsingCounted,
+        ePulsingEndless,
         eFinished,
         eInvalid
+    }
+
+    public enum SendingCommand
+    {
+        eCmdIdle,
+        eStop,
+        eStartEndless
     }
 
     public class DataSendingEventArgs : EventArgs
@@ -57,13 +65,13 @@ namespace LibUdp.BASIC.SEND
         public SendingStatus Status{ get; set; }
     }
 
-
     public class UdpSendPeriodic : UdpSend, IUdpSendPeriodic
     {
         ITimer _PeriodicTimer;
         uint           _Counts;
         private uint   _ActualCounts;
         private string _Message;
+        SendingCommand _Command;
         DataSendingEventArgs _DataSendingEventArgs = new DataSendingEventArgs();
         public delegate void DataSendingStatus( object sender, DataSendingEventArgs e );
         public event DataSendingStatus EDataSendingStatus;
@@ -89,7 +97,8 @@ namespace LibUdp.BASIC.SEND
 
         public void SendString( string message, uint counts )
         {
-            if( counts == 0 )
+            _Command = SendingCommand.eCmdIdle;
+           if( counts == 0 )
             {
                 _ActualCounts = 0;
                 return;
@@ -101,27 +110,56 @@ namespace LibUdp.BASIC.SEND
             sendString( message );
             _Message = message;
             FireSendingStatus( SendingStatus.eStarted );
+         }
+
+        public void SendStringCyclic( string message )
+        {
+            _PeriodicTimer.Start();
+            _Message = message;
+            sendString( message );
+            FireSendingStatus(SendingStatus.eStarted);
+            _Command = SendingCommand.eStartEndless;
+        }
+
+        public void StopSendStringCyclic( )
+        {
+            _PeriodicTimer.Stop();
+            FireSendingStatus( SendingStatus.eIdle );
+            _Command = SendingCommand.eStop;
         }
 
         private void _PeriodicTimer_Elapsed( object sender, ElapsedEventArgs e )
         {
-            if( _ActualCounts < _Counts )
-            { 
+            void SendCountWithTimerRestart( )
+            {
                 sendString( _Message );
                 _ActualCounts++;
                 _DataSendingEventArgs.ActualCounts = _ActualCounts;
                 RestartPeriodicTimer();
-                FireSendingStatus(SendingStatus.ePulsing);
+            }
+
+            if( _Command == SendingCommand.eStartEndless )
+            {
+                SendCountWithTimerRestart( );
+                FireSendingStatus(SendingStatus.ePulsingEndless);
+                return;
+            }
+
+            if( _ActualCounts < _Counts )
+            {
+                SendCountWithTimerRestart( );
+                FireSendingStatus( SendingStatus.ePulsingCounted );
             }
             else
             {
                 _DataSendingEventArgs.ActualCounts = _ActualCounts = 0;
                 _PeriodicTimer.Stop();
-                FireSendingStatus(SendingStatus.eFinished);
+                FireSendingStatus( SendingStatus.eFinished );
             }
         }
 
-        public uint   ActualCounts{ get => _ActualCounts; set => _ActualCounts = value; }
-        public string Message     { get => _Message;      set => _Message = value;      }
+        public uint           ActualCounts{ get => _ActualCounts; set => _ActualCounts = value; }
+        public string         Message     { get => _Message;      set => _Message      = value; }
+        public SendingCommand Command     { get => _Command;      set => _Command      = value; }
     }
 }

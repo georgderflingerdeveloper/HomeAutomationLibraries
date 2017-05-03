@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\LibraryTestRunner",
+    "\\LibUdp",
+    "\\LibUdp\\BASIC",
+    "\\LibUdp\\BASIC\\SEND",
+    "\\LibUdp\\Udp_UnitTest",
+    "\\TimerMockable"
+  ],
+  "SelectedNode": "\\LibUdp\\BASIC\\SEND\\UdpSend.cs",
+  "PreviewInSolutionExplorer": false
+}
