@@ -97,6 +97,7 @@ namespace LibUdp.BASIC.SEND
             _PeriodicTimer.Start( );
             _Counts       = counts;
             _ActualCounts = 1;
+            _DataSendingEventArgs.ActualCounts = _ActualCounts;
             sendString( message );
             _Message = message;
             FireSendingStatus( SendingStatus.eStarted );
@@ -104,17 +105,20 @@ namespace LibUdp.BASIC.SEND
 
         private void _PeriodicTimer_Elapsed( object sender, ElapsedEventArgs e )
         {
-            sendString( _Message );
-            if( _ActualCounts >= _Counts )
-            {
-                _PeriodicTimer.Stop( );
-                FireSendingStatus( SendingStatus.eFinished );
-                return;
+            if( _ActualCounts < _Counts )
+            { 
+                sendString( _Message );
+                _ActualCounts++;
+                _DataSendingEventArgs.ActualCounts = _ActualCounts;
+                RestartPeriodicTimer();
+                FireSendingStatus(SendingStatus.ePulsing);
             }
-            _ActualCounts++;
-            _DataSendingEventArgs.ActualCounts = _ActualCounts;
-            RestartPeriodicTimer( );
-            FireSendingStatus(SendingStatus.ePulsing);
+            else
+            {
+                _DataSendingEventArgs.ActualCounts = _ActualCounts = 0;
+                _PeriodicTimer.Stop();
+                FireSendingStatus(SendingStatus.eFinished);
+            }
         }
 
         public uint   ActualCounts{ get => _ActualCounts; set => _ActualCounts = value; }

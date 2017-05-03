@@ -10,8 +10,13 @@ namespace LibraryTestRunner
         {
             UdpSendPeriodic TestSendPeriodic = new UdpSendPeriodic( "127.0.0.1", 5000, new Timer_(500) );
             Console.WriteLine( "Send UDP packets:" );
-            TestSendPeriodic.SendString( "Hello", 10);
-            Console.ReadKey();
+            TestSendPeriodic.EDataSendingStatus += (sender, e) =>
+            {
+                Console.WriteLine("Status: " + e.Status.ToString());
+                Console.WriteLine("Count:" + e.ActualCounts.ToString());
+            };
+           TestSendPeriodic.SendString( "Hello", 10);
+           Console.ReadKey();
         }
     }
 }

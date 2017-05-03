@@ -77,8 +77,6 @@ namespace UdpSend_UnitTest
             Assert.AreEqual( 0, TestPeriodicSender.ActualCounts);
         }
 
-  
-
         [Test]
         public void TestPeriodicSendingWithNumberOfCounts()
         {
@@ -111,7 +109,6 @@ namespace UdpSend_UnitTest
             TestPeriodicSender.SendString( UdpSendTestParameters.TestStringToSend, UdpSendTestParameters.TestNumberOfCounts);
 
             Assert.AreEqual( UdpSendTestParameters.TestStringToSend, TestPeriodicSender.Message );
-
         }
 
         [Test]
@@ -144,6 +141,7 @@ namespace UdpSend_UnitTest
             TestPeriodicSender.SendString( UdpSendTestParameters.TestStringToSend, UdpSendTestParameters.TestNumberOfCounts );
 
             Assert.That( EventData.Status, Is.EqualTo( SendingStatus.eStarted));
+            Assert.AreEqual(1, EventData.ActualCounts);
         }
 
         [Test]
@@ -191,6 +189,5 @@ namespace UdpSend_UnitTest
 
             Assert.That(EventData.Status, Is.EqualTo(SendingStatus.ePulsing));
         }
-
     }
 }
