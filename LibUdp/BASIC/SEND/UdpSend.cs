@@ -33,7 +33,7 @@ namespace LibUdp.BASIC.SEND
                 throw (new Exception( BasicErrorMessage.InvalidSendString ));
             }
             byte[] data = Encoding.UTF8.GetBytes( message );
-            client?.Send( data, data.Length, remoteEndPoint );
+            client?.SendAsync( data, data.Length, remoteEndPoint );
         }
 
         public void SendString( string message )
@@ -67,7 +67,7 @@ namespace LibUdp.BASIC.SEND
 
     public class UdpSendPeriodic : UdpSend, IUdpSendPeriodic
     {
-        ITimer _PeriodicTimer;
+        ITimer         _PeriodicTimer;
         uint           _Counts;
         private uint   _ActualCounts;
         private string _Message;
@@ -128,15 +128,16 @@ namespace LibUdp.BASIC.SEND
             _Command = SendingCommand.eStop;
         }
 
+        void SendCountWithTimerRestart( )
+        {
+            sendString( _Message );
+            _ActualCounts++;
+            _DataSendingEventArgs.ActualCounts = _ActualCounts;
+            RestartPeriodicTimer();
+        }
+
         private void _PeriodicTimer_Elapsed( object sender, ElapsedEventArgs e )
         {
-            void SendCountWithTimerRestart( )
-            {
-                sendString( _Message );
-                _ActualCounts++;
-                _DataSendingEventArgs.ActualCounts = _ActualCounts;
-                RestartPeriodicTimer();
-            }
 
             if( _Command == SendingCommand.eStartEndless )
             {

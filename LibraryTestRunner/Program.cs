@@ -12,11 +12,11 @@ namespace LibraryTestRunner
             Console.WriteLine( "Send UDP packets:" );
             TestSendPeriodic.EDataSendingStatus += (sender, e) =>
             {
-                Console.WriteLine("Status: " + e.Status.ToString());
-                Console.WriteLine("Count:" + e.ActualCounts.ToString());
+                Console.WriteLine("Status: " + e.Status.ToString() );
+                Console.WriteLine("Count:"   + e.ActualCounts.ToString() );
             };
-           TestSendPeriodic.SendString( "Hello", 10);
-           Console.ReadKey();
+            TestSendPeriodic.SendString( "Hello", 10);
+            Console.ReadKey();
         }
     }
 }

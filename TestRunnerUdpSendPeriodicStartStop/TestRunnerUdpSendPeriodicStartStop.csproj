@@ -1,12 +1,12 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AB0386B7-A989-4D8E-997B-ACA7A3C03170}</ProjectGuid>
+    <ProjectGuid>{67364CDD-4019-4EA7-8937-195251DB1078}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>LibraryTestRunner</RootNamespace>
-    <AssemblyName>LibraryTestRunner</AssemblyName>
+    <RootNamespace>TestRunnerUdpSendPeriodicStartStop</RootNamespace>
+    <AssemblyName>TestRunnerUdpSendPeriodicStartStop</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -30,7 +30,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="TestRunnerSendStartStop.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -38,26 +38,14 @@
       <Project>{04B6D081-6952-4F0D-8402-DF169E0DFB51}</Project>
       <Name>LibUdp</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LibraryTestRunner\LibraryTestRunner.csproj">
+      <Project>{AB0386B7-A989-4D8E-997B-ACA7A3C03170}</Project>
+      <Name>LibraryTestRunner</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TimerMockable\TimerMockable.csproj">
       <Project>{323A5AA7-F7EB-4990-9B0E-540D75837716}</Project>
       <Name>TimerMockable</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services\" />
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ProjectExtensions>
-    <MonoDevelop>
-      <Properties>
-        <Policies>
-          <VersionControlPolicy>
-            <CommitMessageStyle Indent="&#x9;" LastFilePostfix=":&#xA;  " LineAlign="0" IncludeDirectoryPaths="True" />
-            <inheritsSet />
-            <inheritsScope />
-          </VersionControlPolicy>
-        </Policies>
-      </Properties>
-    </MonoDevelop>
-  </ProjectExtensions>
 </Project>

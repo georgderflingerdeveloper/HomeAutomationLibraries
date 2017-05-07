@@ -26,7 +26,6 @@ namespace UdpSend_UnitTest
     {
         UdpSend TestSender;
 
-
         [Test]
         public void TestValidIpAndPort( )
         {
