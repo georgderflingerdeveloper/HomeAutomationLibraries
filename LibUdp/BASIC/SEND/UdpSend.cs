@@ -61,8 +61,8 @@ namespace LibUdp.BASIC.SEND
 
     public class DataSendingEventArgs : EventArgs
     {
-        public uint  ActualCounts{ get; set;  }
-        public SendingStatus Status{ get; set; }
+        public uint            ActualCounts { get; set; }
+        public SendingStatus   Status       { get; set; }
     }
 
     public class UdpSendPeriodic : UdpSend, IUdpSendPeriodic
@@ -81,7 +81,7 @@ namespace LibUdp.BASIC.SEND
             _DataSendingEventArgs.Status = status;
             EDataSendingStatus?.Invoke(this, _DataSendingEventArgs);
         }
-
+ 
         void RestartPeriodicTimer( )
         {
             _PeriodicTimer.Stop();
@@ -98,7 +98,7 @@ namespace LibUdp.BASIC.SEND
         public void SendString( string message, uint counts )
         {
             _Command = SendingCommand.eCmdIdle;
-           if( counts == 0 )
+           if ( counts == 0 )
             {
                 _ActualCounts = 0;
                 return;
@@ -117,8 +117,8 @@ namespace LibUdp.BASIC.SEND
             _PeriodicTimer.Start();
             _Message = message;
             sendString( message );
-            FireSendingStatus(SendingStatus.eStarted);
             _Command = SendingCommand.eStartEndless;
+            FireSendingStatus(SendingStatus.eStarted);
         }
 
         public void StopSendStringCyclic( )

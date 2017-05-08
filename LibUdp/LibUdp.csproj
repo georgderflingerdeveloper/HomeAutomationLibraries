@@ -31,6 +31,8 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BASIC\RECEIVE\IUdpReceive.cs" />
+    <Compile Include="BASIC\RECEIVE\UdpReceive.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BASIC\UdpBasic.cs" />
     <Compile Include="BASIC\INTERFACE\IUdpBasic.cs" />
@@ -51,8 +53,6 @@
       <Name>TimerMockable</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="BASIC\RECEIVE\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

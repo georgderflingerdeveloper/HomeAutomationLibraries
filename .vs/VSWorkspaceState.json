@@ -5,8 +5,9 @@
     "\\LibUdp",
     "\\LibUdp\\BASIC",
     "\\LibUdp\\BASIC\\SEND",
+    "\\LibUdp\\Connected Services",
     "\\LibUdp\\Udp_UnitTest",
-    "\\TimerMockable"
+    "\\TestRunnerUdpSendPeriodicStartStop"
   ],
   "SelectedNode": "\\LibUdp\\BASIC\\SEND\\UdpSend.cs",
   "PreviewInSolutionExplorer": false
