@@ -1,5 +1,6 @@
 ﻿using System;
 using LibUdp.BASIC.SEND;
+using LibUdp.BASIC.CONSTANTS;
 using TimerMockable;
 
 namespace TestRunnerUdpSendPeriodicStartStop
@@ -11,7 +12,7 @@ namespace TestRunnerUdpSendPeriodicStartStop
         {
             Console.WriteLine( "UDP Sender - press (s) for start or (e) for end" );
 
-            UdpSendPeriodic SenderPeriodic = new UdpSendPeriodic( "127.0.0.1", 5000, new Timer_(500) );
+            UdpSendPeriodic SenderPeriodic = new UdpSendPeriodic(BasicIpSettings.Localhost, BasicIpSettings.DefaultPort, new Timer_(500) );
 
             SenderPeriodic.EDataSendingStatus += (sender, e) => 
             {
