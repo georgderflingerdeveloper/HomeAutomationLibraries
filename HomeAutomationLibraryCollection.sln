@@ -2,8 +2,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeAutomationLibraryCollection", "HomeAutomationLibraryCollection\HomeAutomationLibraryCollection.csproj", "{731AA7EC-EA9D-44EC-B1F7-9016523DBDE7}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "COMPONENTS", "COMPONENTS", "{C3AEE8A0-4FB0-4ABC-B546-33CFF7B9155B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibUdp", "LibUdp\LibUdp.csproj", "{04B6D081-6952-4F0D-8402-DF169E0DFB51}"
@@ -27,16 +25,20 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestRunnerUdpReceive", "Tes
 		{04B6D081-6952-4F0D-8402-DF169E0DFB51} = {04B6D081-6952-4F0D-8402-DF169E0DFB51}
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "COLLECTION", "COLLECTION", "{A3B03053-4C2D-4068-BA2D-860E9536740B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeAutomationLibs", "HomeAutomationLibs\HomeAutomationLibs.csproj", "{1A3D70F4-BE61-4A1F-9B1D-03698C3482CB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{04B6D081-6952-4F0D-8402-DF169E0DFB51} = {04B6D081-6952-4F0D-8402-DF169E0DFB51}
+		{323A5AA7-F7EB-4990-9B0E-540D75837716} = {323A5AA7-F7EB-4990-9B0E-540D75837716}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{731AA7EC-EA9D-44EC-B1F7-9016523DBDE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{731AA7EC-EA9D-44EC-B1F7-9016523DBDE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{731AA7EC-EA9D-44EC-B1F7-9016523DBDE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{731AA7EC-EA9D-44EC-B1F7-9016523DBDE7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{04B6D081-6952-4F0D-8402-DF169E0DFB51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{04B6D081-6952-4F0D-8402-DF169E0DFB51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04B6D081-6952-4F0D-8402-DF169E0DFB51}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -61,6 +63,10 @@ Global
 		{1819DAC5-C6D6-40B2-A5D5-57B6D2B4A71D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1819DAC5-C6D6-40B2-A5D5-57B6D2B4A71D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1819DAC5-C6D6-40B2-A5D5-57B6D2B4A71D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A3D70F4-BE61-4A1F-9B1D-03698C3482CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A3D70F4-BE61-4A1F-9B1D-03698C3482CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A3D70F4-BE61-4A1F-9B1D-03698C3482CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A3D70F4-BE61-4A1F-9B1D-03698C3482CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -72,5 +78,6 @@ Global
 		{DCF35186-69B9-4F65-9428-A915547EDAAA} = {C829C412-EE18-452A-BDF8-5D06C210266E}
 		{1590295E-2AA4-4066-9D4F-7018A01FFA30} = {C3AEE8A0-4FB0-4ABC-B546-33CFF7B9155B}
 		{323A5AA7-F7EB-4990-9B0E-540D75837716} = {DCF35186-69B9-4F65-9428-A915547EDAAA}
+		{1A3D70F4-BE61-4A1F-9B1D-03698C3482CB} = {A3B03053-4C2D-4068-BA2D-860E9536740B}
 	EndGlobalSection
 EndGlobal

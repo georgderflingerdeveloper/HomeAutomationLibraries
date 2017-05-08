@@ -44,10 +44,6 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HomeAutomationLibraryCollection\HomeAutomationLibraryCollection.csproj">
-      <Project>{731AA7EC-EA9D-44EC-B1F7-9016523DBDE7}</Project>
-      <Name>HomeAutomationLibraryCollection</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TimerMockable\TimerMockable.csproj">
       <Project>{323A5AA7-F7EB-4990-9B0E-540D75837716}</Project>
       <Name>TimerMockable</Name>
