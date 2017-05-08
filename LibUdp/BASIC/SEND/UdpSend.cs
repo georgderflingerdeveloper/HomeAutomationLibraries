@@ -38,7 +38,7 @@ namespace LibUdp.BASIC.SEND
 
         public void SendString( string message )
         {
-            sendString( message );
+           sendString( message );
         }
     }
 
@@ -95,13 +95,18 @@ namespace LibUdp.BASIC.SEND
             FireSendingStatus( SendingStatus.eIdle );
         }
 
-        public void SendString( string message, uint counts )
+        public void AppendMetadata( )
+        {
+            _Message = _ActualCounts.ToString() + _Message;
+        }
+
+        public UdpSendPeriodic SendString( string message, uint counts )
         {
             _Command = SendingCommand.eCmdIdle;
            if ( counts == 0 )
             {
                 _ActualCounts = 0;
-                return;
+                return this;
             }
             _PeriodicTimer.Start( );
             _Counts       = counts;
@@ -110,15 +115,17 @@ namespace LibUdp.BASIC.SEND
             sendString( message );
             _Message = message;
             FireSendingStatus( SendingStatus.eStarted );
-         }
+            return this;
+        }
 
-        public void SendStringCyclic( string message )
+        public UdpSendPeriodic SendStringCyclic( string message )
         {
             _PeriodicTimer.Start();
             _Message = message;
             sendString( message );
             _Command = SendingCommand.eStartEndless;
             FireSendingStatus(SendingStatus.eStarted);
+            return this;
         }
 
         public void StopSendStringCyclic( )
