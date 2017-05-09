@@ -39,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="UdpBasic_UnitTests.cs" />
+    <Compile Include="UdpSendPeriodic_UnitTest.cs" />
     <Compile Include="UdpSend_UnitTests.cs" />
   </ItemGroup>
   <ItemGroup>

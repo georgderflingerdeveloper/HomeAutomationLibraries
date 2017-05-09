@@ -26,7 +26,7 @@ namespace TestRunnerUdpSendPeriodicStartStop
                 switch( command )
                 {
                     case "s":
-                         SenderPeriodic.SendStringCyclic( "Hello" );
+                         SenderPeriodic.SendStringCyclicWithMetaData( "Hello" );
                          break;
 
                     case "e":
