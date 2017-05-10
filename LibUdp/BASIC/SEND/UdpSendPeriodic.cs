@@ -40,7 +40,7 @@ namespace LibUdp.BASIC.SEND
         private uint _ActualCounts;
         private string _Message;
         SendingCommand _Command;
-        string _MessageWithMetaData;
+        string _MessageWithHeader;
         bool _AppendMetaData = false;
         DataSendingEventArgs _DataSendingEventArgs = new DataSendingEventArgs();
         public delegate void DataSendingStatus(object sender, DataSendingEventArgs e);
@@ -58,7 +58,7 @@ namespace LibUdp.BASIC.SEND
             _PeriodicTimer.Start();
         }
 
-        void PrepareSending( uint counts )
+        void PreparePeriodicSending( uint counts )
         {
             _PeriodicTimer.Start( );
             _Counts = counts;
@@ -77,7 +77,7 @@ namespace LibUdp.BASIC.SEND
             return false;
         }
 
-        string AppendMetaData( string message )
+        string AppendHeader( string message )
         {
             return ( _ActualCounts.ToString( ) + Formatting.MessageSeperator + message );
         }
@@ -86,57 +86,58 @@ namespace LibUdp.BASIC.SEND
         {
             _PeriodicTimer = PeriodicTimer;
             _PeriodicTimer.Elapsed += _PeriodicTimer_Elapsed;
-            FireSendingStatus(SendingStatus.eIdle);
+            FireSendingStatus( SendingStatus.eIdle );
         }
  
-        public void SendString( string message, uint counts )
+        public void SendMessage( string message, uint counts )
         {
             if( IsCountZero( counts ) )
             {
                 return;
             }
-            PrepareSending( counts );
+            PreparePeriodicSending( counts );
             _Message = message;
-            sendString( _Message );
+            sendMessage( _Message );
             FireSendingStatus( SendingStatus.eStarted );
+            return;
         }
 
-        public void SendStringWithMetaData( string message, uint counts )
+        public void SendMessageWithHeader( string message, uint counts )
         {
             _AppendMetaData = true;
             if (IsCountZero( counts ))
             {
                 return;
             }
-            PrepareSending( counts );
+            PreparePeriodicSending( counts );
             _Message = message;
-            _MessageWithMetaData = AppendMetaData( _Message );
-            sendString( _MessageWithMetaData );
+            _MessageWithHeader = AppendHeader( _Message );
+            sendMessage( _MessageWithHeader );
             FireSendingStatus( SendingStatus.eStarted );
         }
 
-        public void SendStringCyclic( string message )
+        public void SendPeriodicMessage( string message )
         {
             _PeriodicTimer.Start();
             _Message = message;
-            sendString( _Message );
+            sendMessage( _Message );
             _Command = SendingCommand.eStartEndless;
             FireSendingStatus( SendingStatus.eStarted );
         }
 
-        public void SendStringCyclicWithMetaData( string message )
+        public void SendPeriodicMessageWithHeader( string message )
         {
             _AppendMetaData = true;
             _PeriodicTimer.Start( );
             _ActualCounts = 1;
             _Message = message;
-            _MessageWithMetaData = AppendMetaData( _Message );
-            sendString( _MessageWithMetaData );
+            _MessageWithHeader = AppendHeader( _Message );
+            sendMessage( _MessageWithHeader );
             _Command = SendingCommand.eStartEndless;
             FireSendingStatus( SendingStatus.eStarted );
         }
 
-        public void StopSendStringCyclic()
+        public void StopSendPeriodicMessage()
         {
             _PeriodicTimer.Stop();
             FireSendingStatus(SendingStatus.eIdle);
@@ -144,17 +145,17 @@ namespace LibUdp.BASIC.SEND
             _AppendMetaData = false;
         }
 
-        void SendCountWithTimerRestart()
+        void SendMessageWithTimerRestart()
         {
             _ActualCounts++;
             if( _AppendMetaData )
             {
-                _MessageWithMetaData = AppendMetaData( _Message );
-                sendString( _MessageWithMetaData );
+                _MessageWithHeader = AppendHeader( _Message );
+                sendMessage( _MessageWithHeader );
             }
             else
             {
-                sendString( _Message );
+                sendMessage( _Message );
             }
             _DataSendingEventArgs.ActualCounts = _ActualCounts;
             RestartPeriodicTimer();
@@ -164,14 +165,14 @@ namespace LibUdp.BASIC.SEND
         {
             if (_Command == SendingCommand.eStartEndless)
             {
-                SendCountWithTimerRestart();
+                SendMessageWithTimerRestart();
                 FireSendingStatus(SendingStatus.ePulsingEndless);
                 return;
             }
 
             if (_ActualCounts < _Counts)
             {
-                SendCountWithTimerRestart();
+                SendMessageWithTimerRestart();
                 FireSendingStatus(SendingStatus.ePulsingCounted);
             }
             else
@@ -185,6 +186,6 @@ namespace LibUdp.BASIC.SEND
         public uint ActualCounts { get => _ActualCounts; set => _ActualCounts = value; }
         public string Message { get => _Message; set => _Message = value; }
         public SendingCommand Command { get => _Command; set => _Command = value; }
-        public string MessageWithMetaData { get => _MessageWithMetaData; set => _MessageWithMetaData = value; }
-    }
+        public string MessageWithHeader { get => _MessageWithHeader; set => _MessageWithHeader = value; }
+   }
 }

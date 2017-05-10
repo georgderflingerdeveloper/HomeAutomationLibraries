@@ -15,7 +15,7 @@ namespace LibraryTestRunner
                 Console.WriteLine("Status: " + e.Status.ToString() );
                 Console.WriteLine("Count:"   + e.ActualCounts.ToString() );
             };
-            TestSendPeriodic.SendString( "Hello", 10);
+            TestSendPeriodic.SendMessage( "Hello", 10);
             Console.ReadKey();
         }
     }

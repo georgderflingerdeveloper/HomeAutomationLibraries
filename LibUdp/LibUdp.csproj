@@ -40,6 +40,7 @@
     <Compile Include="BASIC\SEND\UdpSend.cs" />
     <Compile Include="BASIC\SEND\IUdpSend.cs" />
     <Compile Include="BASIC\CONSTANTS\BasicErrorMessage.cs" />
+    <Compile Include="BASIC\SEND\IUdpSendPeriodic.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

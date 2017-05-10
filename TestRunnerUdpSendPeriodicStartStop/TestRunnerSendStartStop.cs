@@ -26,11 +26,11 @@ namespace TestRunnerUdpSendPeriodicStartStop
                 switch( command )
                 {
                     case "s":
-                         SenderPeriodic.SendStringCyclicWithMetaData( "Hello" );
+                         SenderPeriodic.SendPeriodicMessageWithHeader( "Hello" );
                          break;
 
                     case "e":
-                         SenderPeriodic.StopSendStringCyclic();
+                         SenderPeriodic.StopSendPeriodicMessage();
                          break;
                 }
             }while ( command != "e" );

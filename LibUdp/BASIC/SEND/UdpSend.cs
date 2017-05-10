@@ -26,7 +26,7 @@ namespace LibUdp.BASIC.SEND
             client = new UdpClient( );
         }
 
-        protected void sendString( string message )
+        protected void sendMessage( string message )
         {
             if( String.IsNullOrWhiteSpace( message ) )
             {
@@ -38,7 +38,7 @@ namespace LibUdp.BASIC.SEND
 
         public void SendString( string message )
         {
-           sendString( message );
+           sendMessage( message );
         }
     }
 }

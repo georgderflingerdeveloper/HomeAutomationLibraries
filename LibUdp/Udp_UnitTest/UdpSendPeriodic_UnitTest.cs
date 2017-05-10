@@ -6,6 +6,8 @@ using LibUdp.BASIC.CONSTANTS;
 using Moq;
 using TimerMockable;
 using System.Timers;
+using System.CodeDom;
+using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 
 namespace UdpSend_UnitTest
 {
@@ -16,6 +18,11 @@ namespace UdpSend_UnitTest
         Mock<ITimer> MockTestTimerPeriodic;
         string[] SplittedMessage;
         int AppendedIndex;
+
+        void SetupMockedTimer()
+        {
+            MockTestTimerPeriodic.Setup( mobj => mobj.Start() );
+        }
 
         void RaiseTimerEvents()
         {  
@@ -33,7 +40,7 @@ namespace UdpSend_UnitTest
 
         void PrepareMessageForTesting()
         {
-            SplittedMessage = TestPeriodicSender?.MessageWithMetaData.Split( '_' );
+            SplittedMessage = TestPeriodicSender?.MessageWithHeader.Split( '_' );
             AppendedIndex = Convert.ToInt32( SplittedMessage[0] );
         }
 
@@ -48,11 +55,11 @@ namespace UdpSend_UnitTest
             
             TestPeriodicSender.ActualCounts = UdpSendTestParameters.ActualCountsFakeValue;
 
-            TestPeriodicSender.SendString( UdpSendTestParameters.TestStringToSend, 0);
+            TestPeriodicSender.SendMessage( UdpSendTestParameters.TestStringToSend, 0);
 
             Assert.AreEqual( 0, TestPeriodicSender.ActualCounts);
             Assert.AreEqual(SendingCommand.eCmdIdle, TestPeriodicSender.Command);
-        }
+         }
 
         [Test]
         public void TestPeriodicSendingWithNumberOfCounts()
@@ -65,11 +72,28 @@ namespace UdpSend_UnitTest
             
             TestPeriodicSender.ActualCounts = UdpSendTestParameters.ActualCountsFakeValue;
 
-            TestPeriodicSender.SendString( UdpSendTestParameters.TestStringToSend, UdpSendTestParameters.TestNumberOfCounts);
+            TestPeriodicSender.SendMessage( UdpSendTestParameters.TestStringToSend, UdpSendTestParameters.TestNumberOfCounts);
 
             RaiseTimerEvents();
              
             Assert.AreEqual( UdpSendTestParameters.TestNumberOfCounts, TestPeriodicSender.ActualCounts);
+        }
+
+        [Test]
+        public void TestPeriodicSendingWithNumberOfCounts_StartTimer()
+        {
+            MockTestTimerPeriodic = new Mock<ITimer>();
+            TestPeriodicSender = new UdpSendPeriodic( UdpSendTestParameters.ValidIpAdress,
+                                                     UdpSendTestParameters.ValidPort,
+                                                     MockTestTimerPeriodic.Object
+                                                    );
+
+            TestPeriodicSender.ActualCounts = UdpSendTestParameters.ActualCountsFakeValue;
+
+            TestPeriodicSender.SendMessage( UdpSendTestParameters.TestStringToSend, UdpSendTestParameters.TestNumberOfCounts);
+
+            MockTestTimerPeriodic.Verify( tobj => tobj.Start(), Times.AtLeastOnce());
+        
         }
 
         [Test]
@@ -83,7 +107,7 @@ namespace UdpSend_UnitTest
 
             TestPeriodicSender.ActualCounts = UdpSendTestParameters.ActualCountsFakeValue;
 
-            TestPeriodicSender.SendString( UdpSendTestParameters.TestStringToSend, UdpSendTestParameters.TestNumberOfCounts);
+            TestPeriodicSender.SendMessage( UdpSendTestParameters.TestStringToSend, UdpSendTestParameters.TestNumberOfCounts);
 
             Assert.AreEqual( UdpSendTestParameters.TestStringToSend, TestPeriodicSender.Message );
         }
@@ -115,7 +139,7 @@ namespace UdpSend_UnitTest
             DataSendingEventArgs EventData = new DataSendingEventArgs();
             TestPeriodicSender.EDataSendingStatus += (sender, e) => EventData = e;
 
-            TestPeriodicSender.SendString( UdpSendTestParameters.TestStringToSend, UdpSendTestParameters.TestNumberOfCounts );
+            TestPeriodicSender.SendMessage( UdpSendTestParameters.TestStringToSend, UdpSendTestParameters.TestNumberOfCounts );
 
             Assert.That( EventData.Status, Is.EqualTo( SendingStatus.eStarted));
             Assert.AreEqual(1, EventData.ActualCounts);
@@ -134,7 +158,7 @@ namespace UdpSend_UnitTest
             TestPeriodicSender.EDataSendingStatus += (sender, e) => EventData = e;
             TestPeriodicSender.ActualCounts = UdpSendTestParameters.ActualCountsFakeValue;
 
-            TestPeriodicSender.SendString( UdpSendTestParameters.TestStringToSend, UdpSendTestParameters.TestNumberOfCounts);
+            TestPeriodicSender.SendMessage( UdpSendTestParameters.TestStringToSend, UdpSendTestParameters.TestNumberOfCounts);
 
             for( int idx = 0; idx < UdpSendTestParameters.TestNumberOfCounts ; idx++)
             {
@@ -157,7 +181,7 @@ namespace UdpSend_UnitTest
             TestPeriodicSender.EDataSendingStatus += (sender, e) => EventData = e;
             TestPeriodicSender.ActualCounts = UdpSendTestParameters.ActualCountsFakeValue;
 
-            TestPeriodicSender.SendString(UdpSendTestParameters.TestStringToSend, UdpSendTestParameters.TestNumberOfCounts);
+            TestPeriodicSender.SendMessage(UdpSendTestParameters.TestStringToSend, UdpSendTestParameters.TestNumberOfCounts);
 
             for (int idx = 0; idx < UdpSendTestParameters.TestNumberOfCounts-1; idx++)
             {
@@ -193,7 +217,7 @@ namespace UdpSend_UnitTest
             TestPeriodicSender.EDataSendingStatus += (sender, e) => EventData = e;
             TestPeriodicSender.ActualCounts = UdpSendTestParameters.ActualCountsFakeValue;
 
-            TestPeriodicSender.SendStringCyclic(UdpSendTestParameters.TestStringToSend);
+            TestPeriodicSender.SendPeriodicMessage(UdpSendTestParameters.TestStringToSend);
 
             for (int idx = 0; idx < UdpSendTestParameters.TestNumberOfCounts - 1; idx++)
             {
@@ -217,14 +241,14 @@ namespace UdpSend_UnitTest
             TestPeriodicSender.EDataSendingStatus += (sender, e) => EventData = e;
             TestPeriodicSender.ActualCounts = UdpSendTestParameters.ActualCountsFakeValue;
 
-            TestPeriodicSender.SendStringCyclic(UdpSendTestParameters.TestStringToSend);
+            TestPeriodicSender.SendPeriodicMessage(UdpSendTestParameters.TestStringToSend);
 
             for (int idx = 0; idx < UdpSendTestParameters.TestNumberOfCounts - 1; idx++)
             {
                 MockTestTimerPeriodic.Raise((obj) => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
             }
 
-            TestPeriodicSender.StopSendStringCyclic();
+            TestPeriodicSender.StopSendPeriodicMessage();
 
             Assert.That(EventData.Status, Is.EqualTo(SendingStatus.eIdle));
             Assert.AreEqual(SendingCommand.eStop, TestPeriodicSender.Command);
@@ -240,7 +264,7 @@ namespace UdpSend_UnitTest
                                                       MockTestTimerPeriodic.Object
                                                     );
 
-            TestPeriodicSender.SendStringWithMetaData( UdpSendTestParameters.TestStringToSend, UdpSendTestParameters.TestNumberOfCounts );
+            TestPeriodicSender.SendMessageWithHeader( UdpSendTestParameters.TestStringToSend, UdpSendTestParameters.TestNumberOfCounts );
             PrepareMessageForTesting( );
 
             Assert.AreEqual( 1, AppendedIndex );
@@ -261,7 +285,7 @@ namespace UdpSend_UnitTest
             TestPeriodicSender.EDataSendingStatus += ( sender, e ) => EventData = e;
             TestPeriodicSender.ActualCounts = UdpSendTestParameters.ActualCountsFakeValue;
 
-            TestPeriodicSender.SendStringCyclicWithMetaData( UdpSendTestParameters.TestStringToSend );
+            TestPeriodicSender.SendPeriodicMessageWithHeader( UdpSendTestParameters.TestStringToSend );
 
             for (int idx = 2; idx < UdpSendTestParameters.TestNumberOfCounts - 1; idx++)
             {
