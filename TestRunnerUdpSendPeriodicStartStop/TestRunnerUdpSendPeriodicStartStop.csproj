@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -41,6 +41,10 @@
     <ProjectReference Include="..\LibraryTestRunner\LibraryTestRunner.csproj">
       <Project>{AB0386B7-A989-4D8E-997B-ACA7A3C03170}</Project>
       <Name>LibraryTestRunner</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SystemServices\SystemServices.csproj">
+      <Project>{2eefd039-02a7-4dc4-940e-58b76074eb88}</Project>
+      <Name>SystemServices</Name>
     </ProjectReference>
     <ProjectReference Include="..\TimerMockable\TimerMockable.csproj">
       <Project>{323A5AA7-F7EB-4990-9B0E-540D75837716}</Project>

@@ -2,6 +2,7 @@
 using System.Timers;
 using LibUdp.BASIC.SEND.INTERFACE;
 using TimerMockable;
+using SystemServices;
 
 namespace LibUdp.BASIC.SEND
 {
@@ -36,6 +37,7 @@ namespace LibUdp.BASIC.SEND
     public class UdpSendPeriodic : UdpSend, IUdpSendPeriodic
     {
         ITimer _PeriodicTimer;
+        ITimeUtil _TimeUtil;
         uint _Counts;
         private uint _ActualCounts;
         private string _Message;
@@ -45,6 +47,14 @@ namespace LibUdp.BASIC.SEND
         DataSendingEventArgs _DataSendingEventArgs = new DataSendingEventArgs();
         public delegate void DataSendingStatus(object sender, DataSendingEventArgs e);
         public event DataSendingStatus EDataSendingStatus;
+
+        public UdpSendPeriodic(string ip_, int port_, ITimer PeriodicTimer, ITimeUtil TimeUtil ) : base(ip_, port_)
+        {
+            _PeriodicTimer = PeriodicTimer;
+            _TimeUtil = TimeUtil;
+            _PeriodicTimer.Elapsed += _PeriodicTimer_Elapsed;
+            FireSendingStatus( SendingStatus.eIdle );
+        }
 
         void FireSendingStatus( SendingStatus status )
         {
@@ -82,12 +92,6 @@ namespace LibUdp.BASIC.SEND
             return ( _ActualCounts.ToString( ) + Formatting.MessageSeperator + message );
         }
 
-        public UdpSendPeriodic(string ip_, int port_, ITimer PeriodicTimer) : base(ip_, port_)
-        {
-            _PeriodicTimer = PeriodicTimer;
-            _PeriodicTimer.Elapsed += _PeriodicTimer_Elapsed;
-            FireSendingStatus( SendingStatus.eIdle );
-        }
  
         public void SendMessage( string message, uint counts )
         {

@@ -1,6 +1,7 @@
 ﻿using System;
 using LibUdp.BASIC.SEND;
 using TimerMockable;
+using SystemServices;
 
 namespace LibraryTestRunner
 {
@@ -8,7 +9,7 @@ namespace LibraryTestRunner
     {
         public static void Main( string[] args )
         {
-            UdpSendPeriodic TestSendPeriodic = new UdpSendPeriodic( "127.0.0.1", 5000, new Timer_(500) );
+            UdpSendPeriodic TestSendPeriodic = new UdpSendPeriodic( "127.0.0.1", 5000, new Timer_(500), new TimeUtil() );
             Console.WriteLine( "Send UDP packets:" );
             TestSendPeriodic.EDataSendingStatus += (sender, e) =>
             {

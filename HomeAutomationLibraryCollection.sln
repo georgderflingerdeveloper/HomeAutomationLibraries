@@ -5,8 +5,16 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "COMPONENTS", "COMPONENTS", "{C3AEE8A0-4FB0-4ABC-B546-33CFF7B9155B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibUdp", "LibUdp\LibUdp.csproj", "{04B6D081-6952-4F0D-8402-DF169E0DFB51}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2EEFD039-02A7-4DC4-940E-58B76074EB88} = {2EEFD039-02A7-4DC4-940E-58B76074EB88}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Udp_UnitTest", "LibUdp\Udp_UnitTest\Udp_UnitTest.csproj", "{C5FB61C4-D909-409F-8C88-256D6085EDB1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2EEFD039-02A7-4DC4-940E-58B76074EB88} = {2EEFD039-02A7-4DC4-940E-58B76074EB88}
+		{04B6D081-6952-4F0D-8402-DF169E0DFB51} = {04B6D081-6952-4F0D-8402-DF169E0DFB51}
+		{323A5AA7-F7EB-4990-9B0E-540D75837716} = {323A5AA7-F7EB-4990-9B0E-540D75837716}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BASIC", "BASIC", "{C829C412-EE18-452A-BDF8-5D06C210266E}"
 EndProject
@@ -17,8 +25,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimerMockable", "TimerMockable\TimerMockable.csproj", "{323A5AA7-F7EB-4990-9B0E-540D75837716}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryTestRunner", "LibraryTestRunner\LibraryTestRunner.csproj", "{AB0386B7-A989-4D8E-997B-ACA7A3C03170}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2EEFD039-02A7-4DC4-940E-58B76074EB88} = {2EEFD039-02A7-4DC4-940E-58B76074EB88}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestRunnerUdpSendPeriodicStartStop", "TestRunnerUdpSendPeriodicStartStop\TestRunnerUdpSendPeriodicStartStop.csproj", "{67364CDD-4019-4EA7-8937-195251DB1078}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2EEFD039-02A7-4DC4-940E-58B76074EB88} = {2EEFD039-02A7-4DC4-940E-58B76074EB88}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestRunnerUdpReceive", "TestRunnerUdpReceive\TestRunnerUdpReceive.csproj", "{1819DAC5-C6D6-40B2-A5D5-57B6D2B4A71D}"
 	ProjectSection(ProjectDependencies) = postProject

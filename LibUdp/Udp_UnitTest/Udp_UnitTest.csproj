@@ -43,13 +43,17 @@
     <Compile Include="UdpSend_UnitTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LibUdp.csproj">
-      <Project>{04B6D081-6952-4F0D-8402-DF169E0DFB51}</Project>
-      <Name>LibUdp</Name>
+    <ProjectReference Include="..\..\SystemServices\SystemServices.csproj">
+      <Project>{2eefd039-02a7-4dc4-940e-58b76074eb88}</Project>
+      <Name>SystemServices</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\TimerMockable\TimerMockable.csproj">
-      <Project>{323A5AA7-F7EB-4990-9B0E-540D75837716}</Project>
+      <Project>{323a5aa7-f7eb-4990-9b0e-540d75837716}</Project>
       <Name>TimerMockable</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LibUdp.csproj">
+      <Project>{04b6d081-6952-4f0d-8402-df169e0dfb51}</Project>
+      <Name>LibUdp</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

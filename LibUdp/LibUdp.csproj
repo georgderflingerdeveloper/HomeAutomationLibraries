@@ -38,16 +38,20 @@
     <Compile Include="BASIC\UdpBasic.cs" />
     <Compile Include="BASIC\INTERFACE\IUdpBasic.cs" />
     <Compile Include="BASIC\SEND\UdpSend.cs" />
-    <Compile Include="BASIC\SEND\IUdpSend.cs" />
+    <Compile Include="BASIC\SEND\INTERFACE\IUdpSend.cs" />
     <Compile Include="BASIC\CONSTANTS\BasicErrorMessage.cs" />
-    <Compile Include="BASIC\SEND\IUdpSendPeriodic.cs" />
+    <Compile Include="BASIC\SEND\INTERFACE\IUdpSendPeriodic.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SystemServices\SystemServices.csproj">
+      <Project>{2eefd039-02a7-4dc4-940e-58b76074eb88}</Project>
+      <Name>SystemServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TimerMockable\TimerMockable.csproj">
-      <Project>{323A5AA7-F7EB-4990-9B0E-540D75837716}</Project>
+      <Project>{323a5aa7-f7eb-4990-9b0e-540d75837716}</Project>
       <Name>TimerMockable</Name>
     </ProjectReference>
   </ItemGroup>

@@ -6,8 +6,7 @@ using LibUdp.BASIC.CONSTANTS;
 using Moq;
 using TimerMockable;
 using System.Timers;
-using System.CodeDom;
-using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
+using SystemServices;
 
 namespace UdpSend_UnitTest
 {
@@ -16,11 +15,21 @@ namespace UdpSend_UnitTest
     {
         UdpSendPeriodic TestPeriodicSender;
         Mock<ITimer> MockTestTimerPeriodic;
+        Mock<ITimeUtil> MockTimeStamp;
+
         string[] SplittedMessage;
+        string TestTimeStamp = "15052017:20h16m33s520ms";
         int AppendedIndex;
+
+        void SetupMockedTimestamp()
+        {
+            MockTimeStamp = new Mock<ITimeUtil>();
+            MockTimeStamp.Setup( tobj => tobj.IGetTimeStamp( ) ).Returns( TestTimeStamp );
+        }
 
         void SetupMockedTimer()
         {
+            MockTestTimerPeriodic = new Mock<ITimer>( );
             MockTestTimerPeriodic.Setup( mobj => mobj.Start() );
         }
 
@@ -44,15 +53,22 @@ namespace UdpSend_UnitTest
             AppendedIndex = Convert.ToInt32( SplittedMessage[0] );
         }
 
+        void SetupSendPeriodic()
+        {
+            SetupMockedTimestamp( );
+            SetupMockedTimer( );
+            TestPeriodicSender = new UdpSendPeriodic( UdpSendTestParameters.ValidIpAdress,
+                                                      UdpSendTestParameters.ValidPort,
+                                                      MockTestTimerPeriodic.Object,
+                                                      MockTimeStamp.Object
+                                                    );
+        }
+
         [Test]
         public void TestPeriodicSendingWithCountIsZero()
         {
-            MockTestTimerPeriodic = new Mock<ITimer>();
-            TestPeriodicSender = new UdpSendPeriodic( UdpSendTestParameters.ValidIpAdress,
-                                                      UdpSendTestParameters.ValidPort,
-                                                      MockTestTimerPeriodic.Object
-                                                    );
-            
+            SetupSendPeriodic( );
+
             TestPeriodicSender.ActualCounts = UdpSendTestParameters.ActualCountsFakeValue;
 
             TestPeriodicSender.SendMessage( UdpSendTestParameters.TestStringToSend, 0);
@@ -64,11 +80,7 @@ namespace UdpSend_UnitTest
         [Test]
         public void TestPeriodicSendingWithNumberOfCounts()
         {
-            MockTestTimerPeriodic = new Mock<ITimer>();
-            TestPeriodicSender = new UdpSendPeriodic( UdpSendTestParameters.ValidIpAdress,
-                                                      UdpSendTestParameters.ValidPort,
-                                                      MockTestTimerPeriodic.Object
-                                                    );
+            SetupSendPeriodic( );
             
             TestPeriodicSender.ActualCounts = UdpSendTestParameters.ActualCountsFakeValue;
 
@@ -82,11 +94,7 @@ namespace UdpSend_UnitTest
         [Test]
         public void TestPeriodicSendingWithNumberOfCounts_StartTimer()
         {
-            MockTestTimerPeriodic = new Mock<ITimer>();
-            TestPeriodicSender = new UdpSendPeriodic( UdpSendTestParameters.ValidIpAdress,
-                                                     UdpSendTestParameters.ValidPort,
-                                                     MockTestTimerPeriodic.Object
-                                                    );
+            SetupSendPeriodic( );
 
             TestPeriodicSender.ActualCounts = UdpSendTestParameters.ActualCountsFakeValue;
 
@@ -99,11 +107,7 @@ namespace UdpSend_UnitTest
         [Test]
         public void TestSendHandsOverMessage()
         {
-            MockTestTimerPeriodic = new Mock<ITimer>();
-            TestPeriodicSender = new UdpSendPeriodic( UdpSendTestParameters.ValidIpAdress,
-                                                      UdpSendTestParameters.ValidPort,
-                                                      MockTestTimerPeriodic.Object
-                                                    );
+            SetupSendPeriodic( );
 
             TestPeriodicSender.ActualCounts = UdpSendTestParameters.ActualCountsFakeValue;
 
@@ -115,11 +119,7 @@ namespace UdpSend_UnitTest
         [Test]
         public void TestSendStatusIsIdle()
         {
-            MockTestTimerPeriodic = new Mock<ITimer>(); 
-            TestPeriodicSender = new UdpSendPeriodic( UdpSendTestParameters.ValidIpAdress,
-                                                      UdpSendTestParameters.ValidPort,
-                                                      MockTestTimerPeriodic.Object
-                                                    );
+            SetupSendPeriodic( );
 
             DataSendingEventArgs EventData = new DataSendingEventArgs();
 
@@ -131,11 +131,8 @@ namespace UdpSend_UnitTest
         [Test]
         public void TestSendStatusIsStarted()
         {
-            MockTestTimerPeriodic = new Mock<ITimer>();
-            TestPeriodicSender = new UdpSendPeriodic( UdpSendTestParameters.ValidIpAdress,
-                                                      UdpSendTestParameters.ValidPort,
-                                                      MockTestTimerPeriodic.Object
-                                                    );
+            SetupSendPeriodic( );
+
             DataSendingEventArgs EventData = new DataSendingEventArgs();
             TestPeriodicSender.EDataSendingStatus += (sender, e) => EventData = e;
 
@@ -148,11 +145,7 @@ namespace UdpSend_UnitTest
         [Test]
         public void TestPeriodicSendingStatusIsFinished()
         {
-            MockTestTimerPeriodic = new Mock<ITimer>();
-            TestPeriodicSender = new UdpSendPeriodic( UdpSendTestParameters.ValidIpAdress,
-                                                      UdpSendTestParameters.ValidPort,
-                                                      MockTestTimerPeriodic.Object
-                                                    );
+            SetupSendPeriodic( );
 
             DataSendingEventArgs EventData = new DataSendingEventArgs();
             TestPeriodicSender.EDataSendingStatus += (sender, e) => EventData = e;
@@ -171,11 +164,7 @@ namespace UdpSend_UnitTest
         [Test]
         public void TestPeriodicSendingStatusIsPulsing()
         {
-            MockTestTimerPeriodic = new Mock<ITimer>();
-            TestPeriodicSender = new UdpSendPeriodic(UdpSendTestParameters.ValidIpAdress,
-                                                      UdpSendTestParameters.ValidPort,
-                                                      MockTestTimerPeriodic.Object
-                                                    );
+            SetupSendPeriodic( );
 
             DataSendingEventArgs EventData = new DataSendingEventArgs();
             TestPeriodicSender.EDataSendingStatus += (sender, e) => EventData = e;
@@ -194,12 +183,7 @@ namespace UdpSend_UnitTest
         [Test]
         public void TestPeriodicSendingEndless_WhenCommand_Is_Idle()
         {
-            MockTestTimerPeriodic = new Mock<ITimer>();
-            TestPeriodicSender = new UdpSendPeriodic(UdpSendTestParameters.ValidIpAdress,
-                                                      UdpSendTestParameters.ValidPort,
-                                                      MockTestTimerPeriodic.Object
-                                                    );
-
+            SetupSendPeriodic( );
 
             Assert.AreEqual(SendingCommand.eCmdIdle, TestPeriodicSender.Command);
         }
@@ -207,11 +191,7 @@ namespace UdpSend_UnitTest
         [Test]
         public void TestPeriodicSendingEndless()
         {
-            MockTestTimerPeriodic = new Mock<ITimer>();
-            TestPeriodicSender = new UdpSendPeriodic(UdpSendTestParameters.ValidIpAdress,
-                                                      UdpSendTestParameters.ValidPort,
-                                                      MockTestTimerPeriodic.Object
-                                                    );
+            SetupSendPeriodic( );
 
             DataSendingEventArgs EventData = new DataSendingEventArgs();
             TestPeriodicSender.EDataSendingStatus += (sender, e) => EventData = e;
@@ -231,11 +211,7 @@ namespace UdpSend_UnitTest
         [Test]
         public void TestPeriodicSendingEndless_Stop()
         {
-            MockTestTimerPeriodic = new Mock<ITimer>();
-            TestPeriodicSender = new UdpSendPeriodic(UdpSendTestParameters.ValidIpAdress,
-                                                      UdpSendTestParameters.ValidPort,
-                                                      MockTestTimerPeriodic.Object
-                                                    );
+            SetupSendPeriodic( );
 
             DataSendingEventArgs EventData = new DataSendingEventArgs();
             TestPeriodicSender.EDataSendingStatus += (sender, e) => EventData = e;
@@ -258,11 +234,8 @@ namespace UdpSend_UnitTest
         public void TestSendMessageWithMetaData()
         {
             CleanupMessageForTesting( );
-            MockTestTimerPeriodic = new Mock<ITimer>( );
-            TestPeriodicSender = new UdpSendPeriodic( UdpSendTestParameters.ValidIpAdress,
-                                                      UdpSendTestParameters.ValidPort,
-                                                      MockTestTimerPeriodic.Object
-                                                    );
+
+            SetupSendPeriodic( );
 
             TestPeriodicSender.SendMessageWithHeader( UdpSendTestParameters.TestStringToSend, UdpSendTestParameters.TestNumberOfCounts );
             PrepareMessageForTesting( );
@@ -275,11 +248,8 @@ namespace UdpSend_UnitTest
         public void TestPeriodicSendingEndlessWithMetaData()
         {
             CleanupMessageForTesting( );
-            MockTestTimerPeriodic = new Mock<ITimer>( );
-            TestPeriodicSender = new UdpSendPeriodic( UdpSendTestParameters.ValidIpAdress,
-                                                      UdpSendTestParameters.ValidPort,
-                                                      MockTestTimerPeriodic.Object
-                                                    );
+
+            SetupSendPeriodic( );
 
             DataSendingEventArgs EventData = new DataSendingEventArgs( );
             TestPeriodicSender.EDataSendingStatus += ( sender, e ) => EventData = e;
