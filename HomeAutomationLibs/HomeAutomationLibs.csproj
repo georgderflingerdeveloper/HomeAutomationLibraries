@@ -48,6 +48,10 @@
       <Project>{04b6d081-6952-4f0d-8402-df169e0dfb51}</Project>
       <Name>LibUdp</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SystemServices\SystemServices.csproj">
+      <Project>{2eefd039-02a7-4dc4-940e-58b76074eb88}</Project>
+      <Name>SystemServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TimerMockable\TimerMockable.csproj">
       <Project>{323a5aa7-f7eb-4990-9b0e-540d75837716}</Project>
       <Name>TimerMockable</Name>
