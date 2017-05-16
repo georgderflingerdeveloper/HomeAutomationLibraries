@@ -2,13 +2,12 @@
   "ExpandedNodes": [
     "",
     "\\LibraryTestRunner",
-    "\\LibUdp",
     "\\LibUdp\\BASIC",
     "\\LibUdp\\BASIC\\SEND",
     "\\LibUdp\\BASIC\\SEND\\INTERFACE",
     "\\LibUdp\\Udp_UnitTest",
-    "\\TestRunnerUdpSendPeriodicStartStop"
+    "\\TimerMockable"
   ],
-  "SelectedNode": "\\HomeAutomationLibraryCollection.sln",
+  "SelectedNode": "\\TestRunnerUdpSendPeriodicStartStop",
   "PreviewInSolutionExplorer": false
 }

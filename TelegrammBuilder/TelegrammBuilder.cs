@@ -7,6 +7,16 @@ using SystemServices;
 
 namespace TelegrammBuilder
 {
+    public enum Rooms
+    {
+        eLivingRoom,
+        eAnteRoom,
+        eSleepingRoom,
+        eBathRoom,
+        eGallery,
+        eRoof
+    }
+
     public class TelegrammEventArgs : EventArgs
     {
         string MsgTelegramm;
@@ -36,7 +46,8 @@ namespace TelegrammBuilder
     public class TelegrammBuilder : ITelegrammBuilder
     {
         ITimeUtil _TimeStamp;
-        public TelegrammBuilder( ITimeUtil TimeStamp )
+        Rooms _Rooms;
+        public TelegrammBuilder( Rooms Rooms, ITimeUtil TimeStamp )
         {
 
         }
