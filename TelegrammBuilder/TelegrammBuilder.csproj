@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ITelegrammBuilder.cs" />
+    <Compile Include="INTERFACE\ITelegrammBuilder.cs" />
     <Compile Include="TelegrammBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

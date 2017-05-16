@@ -40,8 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="COMMON\GetData.cs" />
+    <Compile Include="COMMON\InfoOperationMode.cs" />
     <Compile Include="COMMON\InfoString.cs" />
+    <Compile Include="COMMON\Seperators.cs" />
     <Compile Include="HardConfig.cs" />
+    <Compile Include="LIVINGROOM\HardConfigLivingRoom.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
