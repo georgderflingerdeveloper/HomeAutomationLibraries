@@ -20,6 +20,7 @@ namespace UdpSend_UnitTest
         string[] SplittedMessage;
         string TestTimeStamp = "15052017:20h16m33s520ms";
         int AppendedIndex;
+        string AppendedTimestamp = "";
 
         void SetupMockedTimestamp()
         {
@@ -51,6 +52,7 @@ namespace UdpSend_UnitTest
         {
             SplittedMessage = TestPeriodicSender?.MessageWithHeader.Split( '_' );
             AppendedIndex = Convert.ToInt32( SplittedMessage[0] );
+            AppendedTimestamp = SplittedMessage[1];
         }
 
         void SetupSendPeriodic()
@@ -231,7 +233,7 @@ namespace UdpSend_UnitTest
         }
 
         [Test]
-        public void TestSendMessageWithMetaData()
+        public void TestSendMessageWithMetaData_Index()
         {
             CleanupMessageForTesting( );
 
@@ -243,9 +245,8 @@ namespace UdpSend_UnitTest
             Assert.AreEqual( 1, AppendedIndex );
         }
 
-
         [Test]
-        public void TestPeriodicSendingEndlessWithMetaData()
+        public void TestPeriodicSendingEndlessWithMetaData_Index()
         {
             CleanupMessageForTesting( );
 
@@ -263,6 +264,19 @@ namespace UdpSend_UnitTest
                 PrepareMessageForTesting( );
                 Assert.AreEqual( idx, AppendedIndex );
             }
+        }
+
+        [Test]
+        public void TestSendMessageWithMetaData_Timestamp()
+        {
+            CleanupMessageForTesting( );
+
+            SetupSendPeriodic( );
+
+            TestPeriodicSender.SendMessageWithHeader( UdpSendTestParameters.TestStringToSend, UdpSendTestParameters.TestNumberOfCounts );
+            PrepareMessageForTesting( );
+
+            Assert.AreEqual( TestTimeStamp, AppendedTimestamp );
         }
     }
 }

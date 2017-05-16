@@ -5,10 +5,10 @@
     "\\LibUdp",
     "\\LibUdp\\BASIC",
     "\\LibUdp\\BASIC\\SEND",
-    "\\LibUdp\\Connected Services",
+    "\\LibUdp\\BASIC\\SEND\\INTERFACE",
     "\\LibUdp\\Udp_UnitTest",
     "\\TestRunnerUdpSendPeriodicStartStop"
   ],
-  "SelectedNode": "\\LibUdp\\BASIC\\SEND\\UdpSend.cs",
+  "SelectedNode": "\\HomeAutomationLibraryCollection.sln",
   "PreviewInSolutionExplorer": false
 }

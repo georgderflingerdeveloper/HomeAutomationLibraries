@@ -89,7 +89,11 @@ namespace LibUdp.BASIC.SEND
 
         string AppendHeader( string message )
         {
-            return ( _ActualCounts.ToString( ) + Formatting.MessageSeperator + message );
+            return (   _ActualCounts.ToString( ) 
+                     +  Formatting.MessageSeperator 
+                     + _TimeUtil.IGetTimeStamp() 
+                     +  Formatting.MessageSeperator
+                     +  message );
         }
 
  
