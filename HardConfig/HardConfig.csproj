@@ -49,12 +49,14 @@
     <Compile Include="COMMON\InfoString.cs" />
     <Compile Include="COMMON\Seperators.cs" />
     <Compile Include="HardConfig.cs" />
+    <Compile Include="LIVINGROOM\CENTERCONTROL_WITH_KITCHEN\HardConfigCenterControl.cs" />
+    <Compile Include="LIVINGROOM\CENTERCONTROL_WITH_KITCHEN\HardConfigKitchen.cs" />
     <Compile Include="LIVINGROOM\CENTERCONTROL_WITH_KITCHEN\HardConfigLivingRoom.cs" />
+    <Compile Include="LIVINGROOM\EAST\HardConfigLivingRoomEast.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SLEEPINGROOM\HardConfigSleepingRoom.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="LIVINGROOM\EAST\" />
     <Folder Include="LIVINGROOM\WEST\" />
   </ItemGroup>
   <ItemGroup>

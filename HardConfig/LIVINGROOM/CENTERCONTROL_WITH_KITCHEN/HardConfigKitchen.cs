@@ -1,99 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using HardConfig.COMMON;
-using HardConfig.LIVINGROOM.CENTERCONTROL_WITH_KITCHEN;
+using SystemServices;
 
-
-namespace HardConfig.LIVINGROOM
+namespace HardConfig.LIVINGROOM.CENTERCONTROL_WITH_KITCHEN
 {
-    class HardConfigLivingRoom
+    static class ParametersLightControlKitchen
     {
+        static readonly public double TimeDemandForAutomaticOffKitchen = TimeConverter.ToMiliseconds( 20, 5 );
+        static readonly public double TimeDemandForAllOn = TimeConverter.ToMiliseconds( 15 );
+        static readonly public double TimeDemandForAllOutputsOff = TimeConverter.ToMiliseconds( 9 );
     }
 
     static class KitchenIOAssignment
     {
-        public const int indKitchenMainButton = 0;
+        public const int indKitchenMainButton       = 0;
         public const int indKitchenPresenceDetector = 7;
-    }
-
-    static class CenterOutsideDeviceNames
-    {
-        public const string Prefix = InfoOperationMode.CENTER_KITCHEN_AND_LIVING_ROOM + Seperators.InfoSeperator;
-        public const string Rainsensor = Prefix + "Rainsensor";
-    }
-
-    static class CenterOutsideIODevices
-    {
-        public const int indDigitalOutputLightsOutside = 15;
-        public const int indDigitalInputSecondaryLightControlOutside = 9;
-        public const int indDigitalInputRainSensor = 10;
-
-        static Dictionary<uint, string> InputDeviceDictionary = new Dictionary<uint, string>
-        {
-                 { indDigitalInputRainSensor,                 CenterOutsideDeviceNames.Rainsensor                 },
-        };
-
-        static Dictionary<uint, string> OutputDeviceDictionary = new Dictionary<uint, string>
-        {
-        };
-
-        public static string GetInputDeviceName( uint key )
-        {
-            return ( GetData.ValueFromDeviceDictionary( InputDeviceDictionary, key ) );
-        }
-        public static string GetOutputDeviceName( uint key )
-        {
-            return ( GetData.ValueFromDeviceDictionary( OutputDeviceDictionary, key ) );
-        }
     }
 
     static class CenterKitchenDeviceNames
     {
         public const string Prefix = InfoOperationMode.CENTER_KITCHEN_AND_LIVING_ROOM + Seperators.WhiteSpace;
-        public const string LightSightCabinet = Prefix + "LED Balken Seitenschrank mit Elektroverteilung";
-        public const string MainButton = Prefix + "Haupt Taster";
-        public const string PresenceDetector = Prefix + "Bewegungsmelder neben E-Vereiler";
-        public const string ButtonSleepingRoom = Prefix + "Taster Schlafzimmer";
-        public const string ButtonAnteRoom = Prefix + "Taster Vorhaus";
-        public const string ButtonBathRoom = Prefix + "Taster Badezimmer";
-        public const string ButtonWashRoom = Prefix + "Taster WC";
-        public const string FrontLight1 = Prefix + "Lichtbalken Küche 1 ( ganz rechts und links )";
-        public const string FrontLight2 = Prefix + "Lichtbalken Küche 2 ( von rechts )";
-        public const string FrontLight3 = Prefix + "Lichtbalken Küche 3 ( von rechts )";
-        public const string FumeHood = Prefix + "Lichtbalken am Dunstabzug";
-        public const string Slot = Prefix + "Lichtbalken im Zwischenraum";
-        public const string KitchenCabinet = Prefix + "Lichtbalken über Küchenschrank";
-        public const string WindowBoardEastDown = Prefix + "Zierlicht Fensterbalken Ost";
-        public const string Boiler = Prefix + "Warmwasser Boiler";
-        public const string CirculationPump = Prefix + "Zirkulationspumpe für Warmwasser";
-        public const string HeaterEast = Prefix + "Thermostatkopf Heizung Ost";
-        public const string HeaterWest = Prefix + "Thermostatkopf Heizung West";
-        public const string FanWashRoom = Prefix + "Lüfter WC";
-    }
-
-    static class CenterButtonRelayIOAssignment
-    {
-        public const int indDigitalInputRelaySleepingRoom = 3;
-        public const int indDigitalInputRelayWashRoom = 4;
-        public const int indDigitalInputRelayAnteRoom = 5;
-        public const int indDigitalInputRelayBathRoom = 6;
-    }
-
-    static class WaterHeatingSystemIODeviceIndices
-    {
-        public const int indDigitalOutputWarmWaterCirculationPump = 11;
-    }
-
-    static class KitchenLivingRoomIOAssignment
-    {
-        public const int indFirstHeater = 13;
-        public const int indLastHeater = 14;
-    }
-
-    static class WashRoomIODeviceIndices
-    {
-        public const int indDigitalOutputWashRoomLight = 5;
-        public const int indDigitalOutputWashRoomFan = 12;
+        public const string LightSightCabinet   = Prefix  + "LED Balken Seitenschrank mit Elektroverteilung";
+        public const string MainButton          = Prefix  + "Haupt Taster";
+        public const string PresenceDetector    = Prefix  + "Bewegungsmelder neben E-Vereiler";
+        public const string ButtonSleepingRoom  = Prefix  + "Taster Schlafzimmer";
+        public const string ButtonAnteRoom      = Prefix  + "Taster Vorhaus";
+        public const string ButtonBathRoom      = Prefix  + "Taster Badezimmer";
+        public const string ButtonWashRoom      = Prefix  + "Taster WC";
+        public const string FrontLight1         = Prefix  + "Lichtbalken Küche 1 ( ganz rechts und links )";
+        public const string FrontLight2         = Prefix  + "Lichtbalken Küche 2 ( von rechts )";
+        public const string FrontLight3         = Prefix  + "Lichtbalken Küche 3 ( von rechts )";
+        public const string FumeHood            = Prefix  + "Lichtbalken am Dunstabzug";
+        public const string Slot                = Prefix  + "Lichtbalken im Zwischenraum";
+        public const string KitchenCabinet      = Prefix  + "Lichtbalken über Küchenschrank";
+        public const string WindowBoardEastDown = Prefix  + "Zierlicht Fensterbalken Ost";
+        public const string Boiler              = Prefix  + "Warmwasser Boiler";
+        public const string CirculationPump     = Prefix  + "Zirkulationspumpe für Warmwasser";
+        public const string HeaterEast          = Prefix  + "Thermostatkopf Heizung Ost";
+        public const string HeaterWest          = Prefix  + "Thermostatkopf Heizung West";
+        public const string FanWashRoom         = Prefix  + "Lüfter WC";
     }
 
     static class KitchenCenterIoDevices
@@ -139,10 +88,10 @@ namespace HardConfig.LIVINGROOM
         {
             return ( GetData.ValueFromDeviceDictionary( CenterInputDeviceDictionary, Convert.ToUInt32( key ) ) );
         }
+
         public static string GetOutputDeviceName( int key )
         {
             return ( GetData.ValueFromDeviceDictionary( CenterOutputDeviceDictionary, Convert.ToUInt32( key ) ) );
         }
     }
-
 }
