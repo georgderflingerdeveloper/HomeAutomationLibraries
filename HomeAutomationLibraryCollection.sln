@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "COMPONENTS", "COMPONENTS", "{C3AEE8A0-4FB0-4ABC-B546-33CFF7B9155B}"
 EndProject
@@ -63,6 +63,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TESTRUNNERS", "TESTRUNNERS", "{479D24D1-9321-4886-A3DC-25B697ACF871}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegrammBuilder", "TelegrammBuilder\TelegrammBuilder.csproj", "{921FDDE8-85C6-4AB4-8757-2345FA18AD59}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5D49F2EA-7A48-4D68-BADC-A40414FF7FD7} = {5D49F2EA-7A48-4D68-BADC-A40414FF7FD7}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HARDCONFIGURATION", "HARDCONFIGURATION", "{2B3A8D65-5461-46D9-B7CC-8E9490DC5CCC}"
 EndProject

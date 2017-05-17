@@ -4,7 +4,7 @@ using SystemServices;
 
 namespace HardConfig.SLEEPINGROOM
 {
-    static class SleepingRoomIODeviceIndices
+    public static class SleepingRoomIODeviceIndices
     {
         public const int indDigitalInputMainButton = 0;
         public const int indDigitalInputWindowWest = 2;                    // Fenster hinten Richtung Westen

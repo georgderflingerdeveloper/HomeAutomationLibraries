@@ -45,6 +45,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HardConfig\HardConfig.csproj">
+      <Project>{5d49f2ea-7a48-4d68-badc-a40414ff7fd7}</Project>
+      <Name>HardConfig</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SystemServices\SystemServices.csproj">
       <Project>{2eefd039-02a7-4dc4-940e-58b76074eb88}</Project>
       <Name>SystemServices</Name>
