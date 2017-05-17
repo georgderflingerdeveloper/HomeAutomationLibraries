@@ -17,10 +17,10 @@ namespace HardConfig.LIVINGROOM
 
     static class CenterLivingRoomIODeviceIndices
     {
-        public const int indDigitalOutputBoiler = 10;
+        public const int indDigitalOutputBoiler            = 10;
         public const int indDigitalOutputPumpHeatingSystem = 8;
-        public const int indDigitalInputDoorEntryAnteRoom = 8;
-        public const int indDigitalInputPowerMeter = 9;
+        public const int indDigitalInputDoorEntryAnteRoom  = 8;
+        public const int indDigitalInputPowerMeter         = 9;
     }
 
     static class CenterOutsideDeviceNames
@@ -36,9 +36,9 @@ namespace HardConfig.LIVINGROOM
         public const int indDigitalInputRainSensor = 10;
 
         static Dictionary<uint, string> InputDeviceDictionary = new Dictionary<uint, string>
-            {
+        {
                  { indDigitalInputRainSensor,                 CenterOutsideDeviceNames.Rainsensor                 },
-            };
+        };
 
         static Dictionary<uint, string> OutputDeviceDictionary = new Dictionary<uint, string>
         {

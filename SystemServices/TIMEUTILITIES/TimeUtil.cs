@@ -132,7 +132,7 @@ namespace SystemServices
         }
     }
 
-    static class TimeConverter
+    public static class TimeConverter
     {
         static public double ToMiliseconds( double seconds )
         {

@@ -67,6 +67,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HARDCONFIGURATION", "HARDCONFIGURATION", "{2B3A8D65-5461-46D9-B7CC-8E9490DC5CCC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HardConfig", "HardConfig\HardConfig.csproj", "{5D49F2EA-7A48-4D68-BADC-A40414FF7FD7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2EEFD039-02A7-4DC4-940E-58B76074EB88} = {2EEFD039-02A7-4DC4-940E-58B76074EB88}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
