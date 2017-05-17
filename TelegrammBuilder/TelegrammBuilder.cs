@@ -24,8 +24,9 @@ namespace TelegrammBuilder
 
     public static class FurnitureStatus
     {
-        public static string Open   = "OPEN";
-        public static string Closed = "CLOSED";
+        public static string Open       = "OFFEN";
+        public static string Closed     = "GESCHLOSSEN";
+        public static string TippedOver = "GEKIPPT";
     }
 
     public class Furniture
