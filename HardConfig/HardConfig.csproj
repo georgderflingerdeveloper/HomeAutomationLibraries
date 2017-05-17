@@ -40,7 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ANTEROOM\BATHROOM\HardConfigBathRoom.cs" />
     <Compile Include="ANTEROOM\HardConfigAnteRoom.cs" />
+    <Compile Include="ANTEROOM\WASHROOM\HardConfigWashRoom.cs" />
     <Compile Include="COMMON\Definitiones.cs" />
     <Compile Include="COMMON\Formatting.cs" />
     <Compile Include="COMMON\GeneralConstants.cs" />
@@ -53,12 +55,11 @@
     <Compile Include="LIVINGROOM\CENTERCONTROL_WITH_KITCHEN\HardConfigKitchen.cs" />
     <Compile Include="LIVINGROOM\CENTERCONTROL_WITH_KITCHEN\HardConfigLivingRoom.cs" />
     <Compile Include="LIVINGROOM\EAST\HardConfigLivingRoomEast.cs" />
+    <Compile Include="LIVINGROOM\WEST\HardConfigLivingRoomWest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SLEEPINGROOM\HardConfigSleepingRoom.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="LIVINGROOM\WEST\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\SystemServices\SystemServices.csproj">
       <Project>{2eefd039-02a7-4dc4-940e-58b76074eb88}</Project>
