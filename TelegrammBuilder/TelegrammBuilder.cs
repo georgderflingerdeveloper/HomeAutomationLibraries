@@ -106,7 +106,8 @@ namespace TelegrammBuilder
 
         void ActualiseTelegramm( int numberAsKey, bool value )
         {
-            TelegrammTrailer = _TelegrammTemplate.Room + Seperators.TelegrammSeperator + _TimeStamp.IGetTimeStamp( );
+            TelegrammTrailer = _TelegrammTemplate.Room;
+            TelEventArgs.MsgTelegramm = null;
 
             if (_TelegrammTemplate.FurnitureStatusInformation.ContainsKey( numberAsKey ))
             {
@@ -121,7 +122,9 @@ namespace TelegrammBuilder
                     index++;
                 }
 
-                MessageTelegramm[index] = _TelegrammTemplate.FurnitureStatusInformation[numberAsKey].Name;
+                MessageTelegramm[index]     = _TelegrammTemplate.FurnitureStatusInformation[numberAsKey].Name;
+                MessageTelegramm[index + 1] = _TelegrammTemplate.FurnitureStatusInformation[numberAsKey].Status = value ? FurnitureStatus.Closed : FurnitureStatus.Open;
+                MessageTelegramm[index + 2] = _TelegrammTemplate.FurnitureStatusInformation[numberAsKey].TimeStampWhenStatusChange = _TimeStamp.IGetTimeStamp( );
 
                 TelEventArgs.MsgTelegramm = TelegrammTrailer + Seperators.TelegrammSeperator + String.Join( "_", MessageTelegramm );
             }

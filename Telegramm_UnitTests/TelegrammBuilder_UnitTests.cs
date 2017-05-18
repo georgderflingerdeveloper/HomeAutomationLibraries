@@ -71,23 +71,6 @@ namespace Telegramm_UnitTests
         }
 
         [Test]
-        public void Test_SecondTelegramm_Element_Timestamp()
-        {
-            CleanUp( );
-
-            SetupTelegrammBuilder( );
-
-            TestBuilder.ENewTelegramm += ( sender, e ) =>
-            {
-                TestTelgrammElements = e.MsgTelegramm.Split( Seperators.TelegrammSeperator );
-            };
-
-            TestBuilder.GotIoChange( SleepingRoomIODeviceIndices.indDigitalInputWindowWest, false );
-
-            Assert.AreEqual( TestTimeStamp, TestTelgrammElements[1] );
-        }
-
-        [Test]
         public void Test_NextTelegramm_Element_FurnitureType()
         {
             CleanUp( );
@@ -101,9 +84,59 @@ namespace Telegramm_UnitTests
 
             TestBuilder.GotIoChange( SleepingRoomIODeviceIndices.indDigitalInputWindowWest, false );
 
-            Assert.AreEqual( SleepingRoomDeviceNames.WindowWest_, TestTelgrammElements[2] );
+            Assert.AreEqual( SleepingRoomDeviceNames.WindowWest_, TestTelgrammElements[1] );
         }
 
+        [Test]
+        public void Test_NextTelegramm_Element_TimeStamp()
+        {
+            CleanUp( );
+
+            SetupTelegrammBuilder( );
+
+            TestBuilder.ENewTelegramm += ( sender, e ) =>
+            {
+                TestTelgrammElements = e.MsgTelegramm.Split( Seperators.TelegrammSeperator );
+            };
+
+            TestBuilder.GotIoChange( SleepingRoomIODeviceIndices.indDigitalInputWindowWest, false );
+
+            Assert.AreEqual( TestTimeStamp, TestTelgrammElements[3] );
+        }
+
+        [Test]
+        public void Test_NextTelegramm_Element_StatusIsClosed()
+        {
+            CleanUp( );
+
+            SetupTelegrammBuilder( );
+
+            TestBuilder.ENewTelegramm += ( sender, e ) =>
+            {
+                TestTelgrammElements = e.MsgTelegramm.Split( Seperators.TelegrammSeperator );
+            };
+
+            TestBuilder.GotIoChange( SleepingRoomIODeviceIndices.indDigitalInputWindowWest, true );
+
+            Assert.AreEqual( FurnitureStatus.Closed, TestTelgrammElements[2] );
+        }
+
+        [Test]
+        public void Test_NextTelegramm_Element_StatusIsOpen()
+        {
+            CleanUp( );
+
+            SetupTelegrammBuilder( );
+
+            TestBuilder.ENewTelegramm += ( sender, e ) =>
+            {
+                TestTelgrammElements = e.MsgTelegramm.Split( Seperators.TelegrammSeperator );
+            };
+
+            TestBuilder.GotIoChange( SleepingRoomIODeviceIndices.indDigitalInputWindowWest, false );
+
+            Assert.AreEqual( FurnitureStatus.Open, TestTelgrammElements[2] );
+        }
 
     }
 }
