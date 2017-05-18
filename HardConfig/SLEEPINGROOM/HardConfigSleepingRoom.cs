@@ -48,12 +48,15 @@ namespace HardConfig.SLEEPINGROOM
         }
     }
 
-    static class SleepingRoomDeviceNames
+
+    public static class SleepingRoomDeviceNames
     {
+        public const string RoomName = "Schlafzimmer";
         public const string Prefix = InfoOperationMode.SLEEPING_ROOM + Seperators.InfoSeperator;
-        public const string WindowWest = Prefix + "WindowWest";
-        public const string MansardWindowNorthLeft = Prefix + "MansardWindowNorthLeft";
-        public const string MansardWindowNorthRight = Prefix + "MansardWindowNorthRight";
+        public const string WindowWest = Prefix + "FensterWestSeite";
+        public const string WindowWest_ = "FensterWestSeite";
+        public const string MansardWindowNorthLeft = "MansardWindowNorthLeft";
+        public const string MansardWindowNorthRight = "MansardWindowNorthRight";
         public const string FireAlert = Prefix + "FireAlert";
         public const string Heater = Prefix + "Heater";
         public const string LightMansardRightEnd = Prefix + "LightMansardRightEnd";
@@ -65,11 +68,11 @@ namespace HardConfig.SLEEPINGROOM
 
     static class SleepingIOLightIndices
     {
-        public const int indSleepingRoomFirstLight = 0;
+        public const int indSleepingRoomFirstLight  = 0;
         public const int indSleepingRoomSecondLight = 1;
-        public const int indSleepingRoomThirdLight = 2;
+        public const int indSleepingRoomThirdLight  = 2;
         public const int indSleepingRoomFourthLight = 3;
-        public const int indSleepingRoomLastLight = 4;
+        public const int indSleepingRoomLastLight   = 4;
     }
 
     static class ParametersHeaterControlSleepingRoom

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HardConfig.COMMON
 {
-    static class GeneralConstants
+    public static class GeneralConstants
     {
         public const double TimerDisabled = 0;
         public const int NumberOfOutputsIOCard = 16;
@@ -24,5 +24,6 @@ namespace HardConfig.COMMON
         public const double DURATION_COMMONTICK = 1000.0;
         public const string SlashUsedInLinux = "//";
         public const string BackSlash = "\\";
+        public const string EmptyTimeStamp = "00000000:00h00m00s000ms";
     }
 }

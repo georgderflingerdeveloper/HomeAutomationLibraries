@@ -50,10 +50,21 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HardConfig\HardConfig.csproj">
+      <Project>{5d49f2ea-7a48-4d68-badc-a40414ff7fd7}</Project>
+      <Name>HardConfig</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SystemServices\SystemServices.csproj">
+      <Project>{2eefd039-02a7-4dc4-940e-58b76074eb88}</Project>
+      <Name>SystemServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TelegrammBuilder\TelegrammBuilder.csproj">
       <Project>{921fdde8-85c6-4ab4-8757-2345fa18ad59}</Project>
       <Name>TelegrammBuilder</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
