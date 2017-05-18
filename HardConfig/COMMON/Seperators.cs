@@ -8,5 +8,6 @@
         public const string WhiteSpace = " ";
         public const string InfoSeperator = "_";
         public const char TelegrammSeperator = '_';
+        public const string TelegrammSeperatorStr = "_";
     }
 }

@@ -1,24 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SystemServices;
 using HardConfig.SLEEPINGROOM;
 using HardConfig.COMMON;
 
 namespace TelegrammBuilder
 {
-    public enum Rooms
-    {
-        eLivingRoom,
-        eAnteRoom,
-        eSleepingRoom,
-        eBathRoom,
-        eGallery,
-        eRoof
-    }
-
     public class TelegrammEventArgs : EventArgs
     {
         public string MsgTelegramm { get; set; }
@@ -57,8 +44,20 @@ namespace TelegrammBuilder
             Room = SleepingRoomDeviceNames.RoomName;
             FurnitureStatusInformation = new Dictionary<int, Furniture>
             {
-                { SleepingRoomIODeviceIndices.indDigitalInputWindowWest, new Furniture{ Name = SleepingRoomDeviceNames.WindowWest_, Status = FurnitureStatus.Unknown, TimeStampWhenStatusChange = GeneralConstants.EmptyTimeStamp } },
-                { SleepingRoomIODeviceIndices.indDigitalInputMansardWindowNorthLeft, new Furniture{ Name = SleepingRoomDeviceNames.MansardWindowNorthLeft, Status = FurnitureStatus.Unknown, TimeStampWhenStatusChange = GeneralConstants.EmptyTimeStamp } }
+                { SleepingRoomIODeviceIndices.indDigitalInputWindowWest,
+                    new Furniture{
+                                   Name                      = SleepingRoomDeviceNames.WindowWest_,
+                                   Status                    = FurnitureStatus.Unknown,
+                                   TimeStampWhenStatusChange = GeneralConstants.EmptyTimeStamp
+                                 }
+                },
+                { SleepingRoomIODeviceIndices.indDigitalInputMansardWindowNorthLeft,
+                    new Furniture{
+                                   Name                      = SleepingRoomDeviceNames.MansardWindowNorthLeft,
+                                   Status                    = FurnitureStatus.Unknown,
+                                   TimeStampWhenStatusChange = GeneralConstants.EmptyTimeStamp
+                                 }
+                }
             };
         }
     }
@@ -71,7 +70,7 @@ namespace TelegrammBuilder
         TelegrammEventArgs TelEventArgs = new TelegrammEventArgs( );
         Telegramm _TelegrammTemplate;
         string TelegrammTrailer;
-        string[] MessageTelegramm;
+        string[] TelegrammContainer;
 
         public MsgTelegrammBuilder( Telegramm TelegrammTemplate, ITimeUtil TimeStamp )
         {
@@ -79,14 +78,15 @@ namespace TelegrammBuilder
             _TimeStamp = TimeStamp;
             MakeMsgTelegramTemplate( );
         }
+
         public event NewTelegramm ENewTelegramm;
 
-        void FireTelegramm()
+        void FireTelegramm( )
         {
             ENewTelegramm?.Invoke( this, TelEventArgs );
         }
 
-        void MakeMsgTelegramTemplate()
+        void MakeMsgTelegramTemplate( )
         {
             string telegramm = "";
             int index = 0;
@@ -105,7 +105,7 @@ namespace TelegrammBuilder
                }
             }
 
-            MessageTelegramm = telegramm.Split( Seperators.TelegrammSeperator );
+            TelegrammContainer = telegramm.Split( Seperators.TelegrammSeperator );
         }
 
         void ActualiseTelegramm( int numberAsKey, bool value )
@@ -115,22 +115,21 @@ namespace TelegrammBuilder
 
             if( _TelegrammTemplate.FurnitureStatusInformation.ContainsKey( numberAsKey ) )
             {
-
                 int index = 0;
-                foreach( string elements in MessageTelegramm )
+                foreach( string elements in TelegrammContainer )
                 {
-                    if( MessageTelegramm[index] == _TelegrammTemplate.FurnitureStatusInformation[numberAsKey].Name )
+                    if( TelegrammContainer[index] == _TelegrammTemplate.FurnitureStatusInformation[numberAsKey].Name )
                     {
                         break;
                     }
                     index++;
                 }
 
-                MessageTelegramm[index]     = _TelegrammTemplate.FurnitureStatusInformation[numberAsKey].Name;
-                MessageTelegramm[index + 1] = _TelegrammTemplate.FurnitureStatusInformation[numberAsKey].Status = value ? FurnitureStatus.Open : FurnitureStatus.Closed;
-                MessageTelegramm[index + 2] = _TelegrammTemplate.FurnitureStatusInformation[numberAsKey].TimeStampWhenStatusChange = _TimeStamp.IGetTimeStamp( );
+                TelegrammContainer[index]     = _TelegrammTemplate.FurnitureStatusInformation[numberAsKey].Name;
+                TelegrammContainer[index + 1] = _TelegrammTemplate.FurnitureStatusInformation[numberAsKey].Status = value ? FurnitureStatus.Open : FurnitureStatus.Closed;
+                TelegrammContainer[index + 2] = _TelegrammTemplate.FurnitureStatusInformation[numberAsKey].TimeStampWhenStatusChange = _TimeStamp.IGetTimeStamp( );
 
-                TelEventArgs.MsgTelegramm = TelegrammTrailer + Seperators.TelegrammSeperator + String.Join( "_", MessageTelegramm );
+                TelEventArgs.MsgTelegramm = TelegrammTrailer + Seperators.TelegrammSeperator + String.Join( Seperators.TelegrammSeperatorStr, TelegrammContainer );
             }
             else
             {
@@ -138,6 +137,7 @@ namespace TelegrammBuilder
             }
 
         }
+
         public void GotIoChange( int ionumber, bool value )
         {
             ActualiseTelegramm( ionumber, value );

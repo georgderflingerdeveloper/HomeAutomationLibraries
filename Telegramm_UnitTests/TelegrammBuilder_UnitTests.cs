@@ -21,7 +21,9 @@ namespace Telegramm_UnitTests
 
         string TestTimeStamp            = "15052017:20h16m33s520ms";
         string DifferentTestTimeStamp   = "19122018:21h29m44s333ms";
+        string DifferentTestTimeStamp_2 = "19122018:21h35m44s333ms";
         string VerificationTelegramm_1  = "Schlafzimmer_FensterWestSeite_OFFEN_15052017:20h16m33s520ms_MansardenFensterLinkeSeite_GESCHLOSSEN_19122018:21h29m44s333ms";
+        string VerificationTelegramm_2  = "Schlafzimmer_FensterWestSeite_GESCHLOSSEN_19122018:21h29m44s333ms_MansardenFensterLinkeSeite_OFFEN_19122018:21h35m44s333ms";
 
         void SetupMockedTimestamp()
         {
@@ -161,6 +163,28 @@ namespace Telegramm_UnitTests
             Assert.AreEqual( VerificationTelegramm_1, Telegramm );
         }
 
+        [Test]
+        public void Test_UpdateDiagramm_Window_Closed_Open_()
+        {
+            CleanUp( );
+
+            SetupTelegrammBuilder( );
+
+            TestBuilder.ENewTelegramm += ( sender, e ) =>
+            {
+                Telegramm = e.MsgTelegramm;
+            };
+
+            TestBuilder.GotIoChange( SleepingRoomIODeviceIndices.indDigitalInputWindowWest, true );
+            MockTimeStamp.Setup( tobj => tobj.IGetTimeStamp( ) ).Returns( DifferentTestTimeStamp );
+            TestBuilder.GotIoChange( SleepingRoomIODeviceIndices.indDigitalInputMansardWindowNorthLeft, false );
+
+            TestBuilder.GotIoChange( SleepingRoomIODeviceIndices.indDigitalInputWindowWest, false );
+            MockTimeStamp.Setup( tobj => tobj.IGetTimeStamp( ) ).Returns( DifferentTestTimeStamp_2 );
+            TestBuilder.GotIoChange( SleepingRoomIODeviceIndices.indDigitalInputMansardWindowNorthLeft, true );
+
+            Assert.AreEqual( VerificationTelegramm_2, Telegramm );
+        }
 
     }
 }
