@@ -32,6 +32,11 @@ namespace TelegrammBuilder
         public static string Unknown    = "UNKNOWN";
     }
 
+    public static class TelegrammStatus
+    {
+        public static string TelegramConfigurationMismatch = "Mismatch in telegram configuration !";
+    }
+
     public class Furniture
     {
         public string Name { get; set; }
@@ -103,19 +108,27 @@ namespace TelegrammBuilder
         {
             TelegrammTrailer = _TelegrammTemplate.Room + Seperators.TelegrammSeperator + _TimeStamp.IGetTimeStamp( );
 
-            int index = 0;
-            foreach( string elements in MessageTelegramm )
+            if (_TelegrammTemplate.FurnitureStatusInformation.ContainsKey( numberAsKey ))
             {
-                if( MessageTelegramm[index] == _TelegrammTemplate.FurnitureStatusInformation[numberAsKey].Name )
+
+                int index = 0;
+                foreach (string elements in MessageTelegramm)
                 {
-                    break;
+                    if (MessageTelegramm[index] == _TelegrammTemplate.FurnitureStatusInformation[numberAsKey].Name)
+                    {
+                        break;
+                    }
+                    index++;
                 }
-                index++;
+
+                MessageTelegramm[index] = _TelegrammTemplate.FurnitureStatusInformation[numberAsKey].Name;
+
+                TelEventArgs.MsgTelegramm = TelegrammTrailer + Seperators.TelegrammSeperator + String.Join( "_", MessageTelegramm );
             }
-
-            MessageTelegramm[index] = _TelegrammTemplate.FurnitureStatusInformation[numberAsKey].Name;
-
-            TelEventArgs.MsgTelegramm = TelegrammTrailer + Seperators.TelegrammSeperator + String.Join( "_", MessageTelegramm );
+            else
+            {
+                TelEventArgs.MsgTelegramm = TelegrammStatus.TelegramConfigurationMismatch;
+            }
 
         }
         public void GotIoChange( int ionumber, bool value )

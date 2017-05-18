@@ -15,6 +15,7 @@ namespace Telegramm_UnitTests
         MsgTelegrammBuilder   TestBuilder;
         SleepingRoomTelegramm TestTelegramm = new SleepingRoomTelegramm( );
         string[] TestTelgrammElements;
+        int WrongIndexForTesting = 0;
 
         string TestTimeStamp = "15052017:20h16m33s520ms";
 
@@ -36,6 +37,23 @@ namespace Telegramm_UnitTests
         }
 
         [Test]
+        public void Test_TelegramConfigurationMismatch()
+        {
+            CleanUp( );
+
+            SetupTelegrammBuilder( );
+
+            TestBuilder.ENewTelegramm += ( sender, e ) =>
+            {
+                TestTelgrammElements = e.MsgTelegramm.Split( Seperators.TelegrammSeperator );
+            };
+
+            TestBuilder.GotIoChange( WrongIndexForTesting, false );
+
+            Assert.AreEqual( TelegrammStatus.TelegramConfigurationMismatch, TestTelgrammElements[0] );
+        }
+
+        [Test]
         public void Test_FirstTelegramm_Element_RoomIdentification()
         {
             CleanUp( );
@@ -47,7 +65,7 @@ namespace Telegramm_UnitTests
                 TestTelgrammElements = e.MsgTelegramm.Split( Seperators.TelegrammSeperator );
             };
 
-            TestBuilder.GotIoChange( 0, false );
+            TestBuilder.GotIoChange( SleepingRoomIODeviceIndices.indDigitalInputWindowWest, false );
 
             Assert.AreEqual( SleepingRoomDeviceNames.RoomName, TestTelgrammElements[0] );
         }
@@ -64,7 +82,7 @@ namespace Telegramm_UnitTests
                 TestTelgrammElements = e.MsgTelegramm.Split( Seperators.TelegrammSeperator );
             };
 
-            TestBuilder.GotIoChange( 0, false );
+            TestBuilder.GotIoChange( SleepingRoomIODeviceIndices.indDigitalInputWindowWest, false );
 
             Assert.AreEqual( TestTimeStamp, TestTelgrammElements[1] );
         }
