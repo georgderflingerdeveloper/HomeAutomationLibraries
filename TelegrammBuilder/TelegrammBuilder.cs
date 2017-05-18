@@ -68,7 +68,6 @@ namespace TelegrammBuilder
     public class MsgTelegrammBuilder : ITelegrammBuilder
     {
         ITimeUtil _TimeStamp;
-        Rooms     _Rooms;
         TelegrammEventArgs TelEventArgs = new TelegrammEventArgs( );
         Telegramm _TelegrammTemplate;
         string TelegrammTrailer;
@@ -90,6 +89,7 @@ namespace TelegrammBuilder
         void MakeMsgTelegramTemplate()
         {
             string telegramm = "";
+            int index = 0;
 
             foreach( KeyValuePair<int, Furniture> pairs in _TelegrammTemplate.FurnitureStatusInformation )
             {
@@ -98,7 +98,11 @@ namespace TelegrammBuilder
                telegramm += pairs.Value.Status;
                telegramm += Seperators.TelegrammSeperator;
                telegramm += pairs.Value.TimeStampWhenStatusChange;
-               telegramm += Seperators.TelegrammSeperator;
+               index++;
+               if( index < _TelegrammTemplate.FurnitureStatusInformation.Count )
+               {
+                   telegramm += Seperators.TelegrammSeperator;
+               }
             }
 
             MessageTelegramm = telegramm.Split( Seperators.TelegrammSeperator );
@@ -109,13 +113,13 @@ namespace TelegrammBuilder
             TelegrammTrailer = _TelegrammTemplate.Room;
             TelEventArgs.MsgTelegramm = null;
 
-            if (_TelegrammTemplate.FurnitureStatusInformation.ContainsKey( numberAsKey ))
+            if( _TelegrammTemplate.FurnitureStatusInformation.ContainsKey( numberAsKey ) )
             {
 
                 int index = 0;
-                foreach (string elements in MessageTelegramm)
+                foreach( string elements in MessageTelegramm )
                 {
-                    if (MessageTelegramm[index] == _TelegrammTemplate.FurnitureStatusInformation[numberAsKey].Name)
+                    if( MessageTelegramm[index] == _TelegrammTemplate.FurnitureStatusInformation[numberAsKey].Name )
                     {
                         break;
                     }
@@ -123,7 +127,7 @@ namespace TelegrammBuilder
                 }
 
                 MessageTelegramm[index]     = _TelegrammTemplate.FurnitureStatusInformation[numberAsKey].Name;
-                MessageTelegramm[index + 1] = _TelegrammTemplate.FurnitureStatusInformation[numberAsKey].Status = value ? FurnitureStatus.Closed : FurnitureStatus.Open;
+                MessageTelegramm[index + 1] = _TelegrammTemplate.FurnitureStatusInformation[numberAsKey].Status = value ? FurnitureStatus.Open : FurnitureStatus.Closed;
                 MessageTelegramm[index + 2] = _TelegrammTemplate.FurnitureStatusInformation[numberAsKey].TimeStampWhenStatusChange = _TimeStamp.IGetTimeStamp( );
 
                 TelEventArgs.MsgTelegramm = TelegrammTrailer + Seperators.TelegrammSeperator + String.Join( "_", MessageTelegramm );

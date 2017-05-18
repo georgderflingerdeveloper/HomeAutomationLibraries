@@ -55,7 +55,7 @@ namespace HardConfig.SLEEPINGROOM
         public const string Prefix = InfoOperationMode.SLEEPING_ROOM + Seperators.InfoSeperator;
         public const string WindowWest = Prefix + "FensterWestSeite";
         public const string WindowWest_ = "FensterWestSeite";
-        public const string MansardWindowNorthLeft = "MansardWindowNorthLeft";
+        public const string MansardWindowNorthLeft = "MansardenFensterLinkeSeite";
         public const string MansardWindowNorthRight = "MansardWindowNorthRight";
         public const string FireAlert = Prefix + "FireAlert";
         public const string Heater = Prefix + "Heater";
