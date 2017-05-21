@@ -13,7 +13,7 @@ namespace TelegrammBuilder
 
     public static class DeviceStatus
     {
-        public static string Open       = "OFFEN" ;
+        public static string Open       = "OFFEN";
         public static string Closed     = "GESCHLOSSEN";
         public static string TippedOver = "GEKIPPT";
         public static string Unknown    = "UNKNOWN";
