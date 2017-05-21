@@ -1,0 +1,17 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\HardConfig",
+    "\\HardConfig\\ANTEROOM",
+    "\\HardConfig\\ANTEROOM\\BATHROOM",
+    "\\HardConfig\\ANTEROOM\\WASHROOM",
+    "\\HardConfig\\LIVINGROOM",
+    "\\HardConfig\\LIVINGROOM\\EAST",
+    "\\HardConfig\\LIVINGROOM\\WEST",
+    "\\LibUdp",
+    "\\LibUdp\\Udp_UnitTest",
+    "\\Telegramm_UnitTests"
+  ],
+  "SelectedNode": "\\TestRunnerUdpSendPeriodicStartStop\\TestRunnerUdpSendPeriodicStartStop.csproj",
+  "PreviewInSolutionExplorer": false
+}
