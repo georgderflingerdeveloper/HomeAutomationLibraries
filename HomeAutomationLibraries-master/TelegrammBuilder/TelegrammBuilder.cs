@@ -19,6 +19,11 @@ namespace TelegrammBuilder
         public static string Unknown    = "UNKNOWN";
     }
 
+    public static class TelegrammTypes
+    {
+        public static string WindowInformation = "FENSTERINFORMATION";
+    }
+
     public static class TelegrammStatus
     {
         public static string TelegramConfigurationMismatch = "Mismatch in telegram configuration !";
@@ -33,8 +38,9 @@ namespace TelegrammBuilder
 
     public class Telegramm
     {
+        public string Type { get; set; }
         public string Room { get; set; }
-        public Dictionary<int, Device> FurnitureStatusInformation { get; set; }
+        public Dictionary<int, Device> DeviceStatusInformation { get; set; }
     }
 
     public class SleepingRoomTelegramm : Telegramm
@@ -42,21 +48,22 @@ namespace TelegrammBuilder
         public SleepingRoomTelegramm()
         {
             Room = SleepingRoomDeviceNames.RoomName;
-            FurnitureStatusInformation = new Dictionary<int, Device>
+            Type = TelegrammTypes.WindowInformation;
+            DeviceStatusInformation = new Dictionary<int, Device>
             {
                 { SleepingRoomIODeviceIndices.indDigitalInputWindowWest,
-                    new Device{
+                    new Device  {
                                    Name                      = SleepingRoomDeviceNames.WindowWest_,
                                    Status                    = DeviceStatus.Unknown,
                                    TimeStampWhenStatusChange = GeneralConstants.EmptyTimeStamp
-                                 }
+                                }
                 },
                 { SleepingRoomIODeviceIndices.indDigitalInputMansardWindowNorthLeft,
-                    new Device{
+                    new Device  {
                                    Name                      = SleepingRoomDeviceNames.MansardWindowNorthLeft,
                                    Status                    = DeviceStatus.Unknown,
                                    TimeStampWhenStatusChange = GeneralConstants.EmptyTimeStamp
-                                 }
+                                }
                 }
             };
         }
@@ -91,7 +98,7 @@ namespace TelegrammBuilder
             string telegramm = "";
             int index = 0;
 
-            foreach( KeyValuePair<int, Device> pairs in _TelegrammTemplate.FurnitureStatusInformation )
+            foreach( KeyValuePair<int, Device> pairs in _TelegrammTemplate.DeviceStatusInformation )
             {
                telegramm += pairs.Value.Name;
                telegramm += Seperators.TelegrammSeperator;
@@ -99,7 +106,7 @@ namespace TelegrammBuilder
                telegramm += Seperators.TelegrammSeperator;
                telegramm += pairs.Value.TimeStampWhenStatusChange;
                index++;
-               if( index < _TelegrammTemplate.FurnitureStatusInformation.Count )
+               if( index < _TelegrammTemplate.DeviceStatusInformation.Count )
                {
                    telegramm += Seperators.TelegrammSeperator;
                }
@@ -110,24 +117,24 @@ namespace TelegrammBuilder
 
         void ActualiseTelegramm( int numberAsKey, bool value )
         {
-            TelegrammTrailer = _TelegrammTemplate.Room;
+            TelegrammTrailer = _TelegrammTemplate.Room + Seperators.TelegrammSeperatorStr + _TelegrammTemplate.Type;
             TelEventArgs.MsgTelegramm = null;
 
-            if( _TelegrammTemplate.FurnitureStatusInformation.ContainsKey( numberAsKey ) )
+            if( _TelegrammTemplate.DeviceStatusInformation.ContainsKey( numberAsKey ) )
             {
                 int index = 0;
                 foreach( string elements in TelegrammContainer )
                 {
-                    if( TelegrammContainer[index] == _TelegrammTemplate.FurnitureStatusInformation[numberAsKey].Name )
+                    if( TelegrammContainer[index] == _TelegrammTemplate.DeviceStatusInformation[numberAsKey].Name )
                     {
                         break;
                     }
                     index++;
                 }
 
-                TelegrammContainer[index]     = _TelegrammTemplate.FurnitureStatusInformation[numberAsKey].Name;
-                TelegrammContainer[index + 1] = _TelegrammTemplate.FurnitureStatusInformation[numberAsKey].Status = value ? DeviceStatus.Open : DeviceStatus.Closed;
-                TelegrammContainer[index + 2] = _TelegrammTemplate.FurnitureStatusInformation[numberAsKey].TimeStampWhenStatusChange = _TimeStamp.IGetTimeStamp( );
+                TelegrammContainer[index]     = _TelegrammTemplate.DeviceStatusInformation[numberAsKey].Name;
+                TelegrammContainer[index + 1] = _TelegrammTemplate.DeviceStatusInformation[numberAsKey].Status = value ? DeviceStatus.Open : DeviceStatus.Closed;
+                TelegrammContainer[index + 2] = _TelegrammTemplate.DeviceStatusInformation[numberAsKey].TimeStampWhenStatusChange = _TimeStamp.IGetTimeStamp( );
 
                 TelEventArgs.MsgTelegramm = TelegrammTrailer + Seperators.TelegrammSeperator + String.Join( Seperators.TelegrammSeperatorStr, TelegrammContainer );
             }

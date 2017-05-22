@@ -22,8 +22,14 @@ namespace Telegramm_UnitTests
         string TestTimeStamp            = "15052017:20h16m33s520ms";
         string DifferentTestTimeStamp   = "19122018:21h29m44s333ms";
         string DifferentTestTimeStamp_2 = "19122018:21h35m44s333ms";
-        string VerificationTelegramm_1  = "Schlafzimmer_FensterWestSeite_OFFEN_15052017:20h16m33s520ms_MansardenFensterLinkeSeite_GESCHLOSSEN_19122018:21h29m44s333ms";
-        string VerificationTelegramm_2  = "Schlafzimmer_FensterWestSeite_GESCHLOSSEN_19122018:21h29m44s333ms_MansardenFensterLinkeSeite_OFFEN_19122018:21h35m44s333ms";
+        string VerificationTelegramm_1  = "Schlafzimmer_FENSTERINFORMATION_FensterWestSeite_OFFEN_15052017:20h16m33s520ms_MansardenFensterLinkeSeite_GESCHLOSSEN_19122018:21h29m44s333ms";
+        string VerificationTelegramm_2  = "Schlafzimmer_FENSTERINFORMATION_FensterWestSeite_GESCHLOSSEN_19122018:21h29m44s333ms_MansardenFensterLinkeSeite_OFFEN_19122018:21h35m44s333ms";
+
+        int TelegrammIndexForRoom          = 0;
+        int TelegrammIndexForTelegrammType = 1;
+        int TelegrammIndexForDevice        = 2;
+        int TelegrammIndexForStatus        = 3;
+        int TelegrammIndexForTimestamp     = 4;
 
         void SetupMockedTimestamp()
         {
@@ -56,11 +62,11 @@ namespace Telegramm_UnitTests
 
             TestBuilder.GotIoChange( WrongIndexForTesting, false );
 
-            Assert.AreEqual( TelegrammStatus.TelegramConfigurationMismatch, TestTelgrammElements[0] );
+            Assert.AreEqual( TelegrammStatus.TelegramConfigurationMismatch, TestTelgrammElements[TelegrammIndexForRoom] );
         }
 
         [Test]
-        public void Test_FirstTelegramm_Element_RoomIdentification()
+        public void Test_Telegramm_Element_Type()
         {
             CleanUp( );
 
@@ -73,11 +79,11 @@ namespace Telegramm_UnitTests
 
             TestBuilder.GotIoChange( SleepingRoomIODeviceIndices.indDigitalInputWindowWest, false );
 
-            Assert.AreEqual( SleepingRoomDeviceNames.RoomName, TestTelgrammElements[0] );
+            Assert.AreEqual( TelegrammTypes.WindowInformation, TestTelgrammElements[TelegrammIndexForTelegrammType]);
         }
 
         [Test]
-        public void Test_NextTelegramm_Element_FurnitureType()
+        public void Test_Telegramm_Element_RoomIdentification()
         {
             CleanUp( );
 
@@ -90,7 +96,24 @@ namespace Telegramm_UnitTests
 
             TestBuilder.GotIoChange( SleepingRoomIODeviceIndices.indDigitalInputWindowWest, false );
 
-            Assert.AreEqual( SleepingRoomDeviceNames.WindowWest_, TestTelgrammElements[1] );
+            Assert.AreEqual( SleepingRoomDeviceNames.RoomName, TestTelgrammElements[TelegrammIndexForRoom] );
+        }
+
+        [Test]
+        public void Test_NextTelegramm_Element_DeviceType()
+        {
+            CleanUp( );
+
+            SetupTelegrammBuilder( );
+
+            TestBuilder.ENewTelegramm += ( sender, e ) =>
+            {
+                TestTelgrammElements = e.MsgTelegramm.Split( Seperators.TelegrammSeperator );
+            };
+
+            TestBuilder.GotIoChange( SleepingRoomIODeviceIndices.indDigitalInputWindowWest, false );
+
+            Assert.AreEqual( SleepingRoomDeviceNames.WindowWest_, TestTelgrammElements[TelegrammIndexForDevice] );
         }
 
         [Test]
@@ -107,7 +130,7 @@ namespace Telegramm_UnitTests
 
             TestBuilder.GotIoChange( SleepingRoomIODeviceIndices.indDigitalInputWindowWest, false );
 
-            Assert.AreEqual( TestTimeStamp, TestTelgrammElements[3] );
+            Assert.AreEqual( TestTimeStamp, TestTelgrammElements[TelegrammIndexForTimestamp] );
         }
 
         [Test]
@@ -124,7 +147,7 @@ namespace Telegramm_UnitTests
 
             TestBuilder.GotIoChange( SleepingRoomIODeviceIndices.indDigitalInputWindowWest, false );
 
-            Assert.AreEqual( DeviceStatus.Closed, TestTelgrammElements[2] );
+            Assert.AreEqual( DeviceStatus.Closed, TestTelgrammElements[TelegrammIndexForStatus] );
         }
 
         [Test]
@@ -141,7 +164,7 @@ namespace Telegramm_UnitTests
 
             TestBuilder.GotIoChange( SleepingRoomIODeviceIndices.indDigitalInputWindowWest, true  );
 
-            Assert.AreEqual( DeviceStatus.Open, TestTelgrammElements[2] );
+            Assert.AreEqual( DeviceStatus.Open, TestTelgrammElements[TelegrammIndexForStatus] );
         }
 
         [Test]

@@ -1,12 +1,12 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AB0386B7-A989-4D8E-997B-ACA7A3C03170}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>LibraryTestRunner</RootNamespace>
-    <AssemblyName>LibraryTestRunner</AssemblyName>
+    <ProjectGuid>{7C0B3545-F39B-40A5-B957-829ADB323E81}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>TelegrammEvaluator</RootNamespace>
+    <AssemblyName>TelegrammEvaluator</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -17,51 +17,39 @@
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ExternalConsole>true</ExternalConsole>
+    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ExternalConsole>true</ExternalConsole>
+    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="TelegrammEvaluator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="INTERFACE\ITelegrammEvaluator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LibUdp\LibUdp.csproj">
-      <Project>{04B6D081-6952-4F0D-8402-DF169E0DFB51}</Project>
-      <Name>LibUdp</Name>
+    <ProjectReference Include="..\HardConfig\HardConfig.csproj">
+      <Project>{5D49F2EA-7A48-4D68-BADC-A40414FF7FD7}</Project>
+      <Name>HardConfig</Name>
     </ProjectReference>
     <ProjectReference Include="..\SystemServices\SystemServices.csproj">
-      <Project>{2eefd039-02a7-4dc4-940e-58b76074eb88}</Project>
+      <Project>{2EEFD039-02A7-4DC4-940E-58B76074EB88}</Project>
       <Name>SystemServices</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TimerMockable\TimerMockable.csproj">
-      <Project>{323A5AA7-F7EB-4990-9B0E-540D75837716}</Project>
-      <Name>TimerMockable</Name>
+    <ProjectReference Include="..\TelegrammBuilder\TelegrammBuilder.csproj">
+      <Project>{921FDDE8-85C6-4AB4-8757-2345FA18AD59}</Project>
+      <Name>TelegrammBuilder</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Connected Services\" />
+    <Folder Include="INTERFACE\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ProjectExtensions>
-    <MonoDevelop>
-      <Properties>
-        <Policies>
-          <VersionControlPolicy>
-            <CommitMessageStyle Indent="&#x9;" LastFilePostfix=":&#xA;  " LineAlign="0" IncludeDirectoryPaths="True" />
-            <inheritsSet />
-            <inheritsScope />
-          </VersionControlPolicy>
-        </Policies>
-      </Properties>
-    </MonoDevelop>
-  </ProjectExtensions>
 </Project>
