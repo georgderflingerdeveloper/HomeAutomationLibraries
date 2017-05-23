@@ -31,10 +31,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Test.cs" />
+    <Compile Include="WindowTelegrammEvaluator_UnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TelegrammEvaluator\TelegrammEvaluator.csproj">
+      <Project>{7C0B3545-F39B-40A5-B957-829ADB323E81}</Project>
+      <Name>TelegrammEvaluator</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

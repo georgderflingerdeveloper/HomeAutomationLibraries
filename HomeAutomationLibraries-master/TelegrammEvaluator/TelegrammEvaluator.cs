@@ -7,12 +7,12 @@ using TelegrammBuilder;
 
 namespace TelegrammEvaluator
 {
- 
     public enum WindowState 
     {
         eUnknown,
         eOk,
-        eWindowIsOpen
+        eAnyWindowIsOpen,
+        eAllWindowsAreClosed
     }
 
     public enum DoorState 
@@ -31,6 +31,7 @@ namespace TelegrammEvaluator
     {
         public DoorState State { get; set; }
     }
+
     public delegate void Informer( object sender, EventArgs e );
      
     public abstract class TelegrammEvaluator : ITelegrammEvaluator
@@ -51,6 +52,7 @@ namespace TelegrammEvaluator
             set 
             {
                 _receivedTelegramm  = value;  
+                Evaluate( _receivedTelegramm );
 
             } 
         }
@@ -61,9 +63,17 @@ namespace TelegrammEvaluator
             {
                 if( telegramm.Contains( DeviceStatus.Open ) )
                 {
-                    WindowArgs.State = WindowState.eWindowIsOpen;
+                    WindowArgs.State = WindowState.eAnyWindowIsOpen;
                     EInformer?.Invoke( this, WindowArgs );
                 }
+                //else if()
+                //{
+                    
+                //}
+                //else
+                //{
+                    
+                //}
             }
                    
         }
