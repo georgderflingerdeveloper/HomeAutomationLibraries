@@ -16,7 +16,7 @@ namespace TelegrammBuilder
         public static string Open       = "OFFEN";
         public static string Closed     = "GESCHLOSSEN";
         public static string TippedOver = "GEKIPPT";
-        public static string Unknown    = "UNKNOWN";
+        public static string Unknown    = "UNBEKANNT";
     }
 
     public static class TelegrammTypes

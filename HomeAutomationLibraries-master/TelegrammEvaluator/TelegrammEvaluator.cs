@@ -7,15 +7,16 @@ using TelegrammBuilder;
 
 namespace TelegrammEvaluator
 {
-    public enum WindowState 
+    public enum WindowState
     {
         eUnknown,
         eOk,
         eAnyWindowIsOpen,
-        eAllWindowsAreClosed
+        eAllWindowsAreClosed,
+        eInvalid
     }
 
-    public enum DoorState 
+    public enum DoorState
     {
         eUnknown,
         eOk,
@@ -32,8 +33,8 @@ namespace TelegrammEvaluator
         public DoorState State { get; set; }
     }
 
-    public delegate void Informer( object sender, EventArgs e );
-     
+    public delegate void Informer(object sender, EventArgs e);
+
     public abstract class TelegrammEvaluator : ITelegrammEvaluator
     {
         protected string _receivedTelegramm;
@@ -44,87 +45,116 @@ namespace TelegrammEvaluator
     public class WindowTelegrammEvaluator : TelegrammEvaluator
     {
         EvaluatorEventArgsWindow WindowArgs = new EvaluatorEventArgsWindow();
-        public delegate void Informer( object sender, EvaluatorEventArgsWindow e );
+        public delegate void Informer(object sender, EvaluatorEventArgsWindow e);
 
         public new event Informer EInformer;
-        public override string ReceivedTelegramm 
-        { 
-            set 
+        public override string ReceivedTelegramm
+        {
+            set
             {
-                _receivedTelegramm  = value;  
-                Evaluate( _receivedTelegramm );
+                _receivedTelegramm = value;
+                Evaluate(_receivedTelegramm);
 
-            } 
+            }
         }
 
-        void Evaluate( string telegramm )
+        void Evaluate(string telegramm)
         {
-            if( telegramm.Contains( TelegrammTypes.WindowInformation ) )
+            if (telegramm.Contains(TelegrammTypes.WindowInformation))
             {
-                if( telegramm.Contains( DeviceStatus.Open ) )
+                if (telegramm.Contains(DeviceStatus.Unknown))
+                {
+                    WindowArgs.State = WindowState.eUnknown;
+                    EInformer?.Invoke(this, WindowArgs);
+                    return;
+                }
+
+                if (telegramm.Contains(DeviceStatus.Open))
                 {
                     WindowArgs.State = WindowState.eAnyWindowIsOpen;
-                    EInformer?.Invoke( this, WindowArgs );
+                    EInformer?.Invoke(this, WindowArgs);
+                    return;
                 }
-                //else if()
-                //{
-                    
-                //}
-                //else
-                //{
-                    
-                //}
+
+                WindowArgs.State = WindowState.eAllWindowsAreClosed;
+                EInformer?.Invoke(this, WindowArgs);
             }
-                   
         }
     }
 
     public class DoorTelegrammEvaluator : TelegrammEvaluator
     {
-        public delegate void Informer( object sender, EvaluatorEventArgsDoor e );
+        public delegate void Informer(object sender, EvaluatorEventArgsDoor e);
+        EvaluatorEventArgsDoor DoorArgs = new EvaluatorEventArgsDoor();
+        public new event Informer EInformer;
+
+        public override string ReceivedTelegramm
+        {
+            set
+            {
+                _receivedTelegramm = value;
+                Evaluate(_receivedTelegramm);
+            }
+        }
+
+        void Evaluate(string telegramm)
+        {
+            // Test 
+            EInformer?.Invoke(this, DoorArgs);
+        }
+    }
+
+
+
+    public class EvaluatorCollection
+    {
+        List<TelegrammEvaluator> _Collection = new List<TelegrammEvaluator>()
+        {
+            new WindowTelegrammEvaluator(),
+            new DoorTelegrammEvaluator()
+        };
+
+        public List<TelegrammEvaluator> Collection { get => _Collection; set => _Collection = value; }
     }
 
     public class TelegrammBrocker
     {
-        
-        public TelegrammBrocker()
+        EvaluatorCollection _Evaluators;
+
+        public TelegrammBrocker( EvaluatorCollection Evaluators )
         {
-            foreach( var item in Evaluators )
+            _Evaluators = Evaluators;
+            foreach (var item in Evaluators.Collection)
             {
-                item.EInformer += (sender, e) => 
+                item.EInformer += (sender, e) =>
                 {
-                    EInformer?.Invoke( sender, e );
+                    EInformer?.Invoke(sender, e);
                 };
             }
         }
 
         public event Informer EInformer;
 
-        List<TelegrammEvaluator> Evaluators = new List<TelegrammEvaluator>()
-        {
-            new WindowTelegrammEvaluator(),
-            new DoorTelegrammEvaluator()
-        };
 
-        public delegate void Informer( object sender, EventArgs e );
+        public delegate void Informer(object sender, EventArgs e);
 
         string _receivedTelegramm;
-        public string ReceivedTelegramm 
-        { 
-            set 
+        public string ReceivedTelegramm
+        {
+            set
             {
-                _receivedTelegramm  = value;  
-                PassTelegramm( _receivedTelegramm );
-            } 
+                _receivedTelegramm = value;
+                PassTelegramm(_receivedTelegramm);
+            }
         }
 
-        void PassTelegramm( string telegramm )
+        void PassTelegramm(string telegramm)
         {
-           foreach( var item in Evaluators )
-           {
+            foreach (var item in _Evaluators.Collection )
+            {
                 item.ReceivedTelegramm = telegramm;
-           }
+            }
         }
-        
+
     }
 }
