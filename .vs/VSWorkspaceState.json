@@ -1,17 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\HardConfig",
-    "\\HardConfig\\ANTEROOM",
-    "\\HardConfig\\ANTEROOM\\BATHROOM",
-    "\\HardConfig\\ANTEROOM\\WASHROOM",
-    "\\HardConfig\\LIVINGROOM",
-    "\\HardConfig\\LIVINGROOM\\EAST",
-    "\\HardConfig\\LIVINGROOM\\WEST",
-    "\\LibUdp",
-    "\\LibUdp\\Udp_UnitTest",
-    "\\Telegramm_UnitTests"
+    "\\HomeAutomationLibraries-master"
   ],
-  "SelectedNode": "\\TestRunnerUdpSendPeriodicStartStop\\TestRunnerUdpSendPeriodicStartStop.csproj",
+  "SelectedNode": "\\HomeAutomationLibraries-master\\HomeAutomationLibraryCollection.sln",
   "PreviewInSolutionExplorer": false
 }

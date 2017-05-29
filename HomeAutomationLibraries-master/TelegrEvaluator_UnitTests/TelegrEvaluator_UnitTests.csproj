@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{25AA4403-ED03-4FA5-B70B-1A078E635381}</ProjectGuid>
+    <ProjectGuid>{61735C11-B5C4-4530-B917-5F15200281AF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Telegramm_UnitTests</RootNamespace>
-    <AssemblyName>Telegramm_UnitTests</AssemblyName>
+    <RootNamespace>TelegrEvaluator_UnitTests</RootNamespace>
+    <AssemblyName>TelegrEvaluator_UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -31,38 +31,30 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Castle.Core.4.0.0\lib\net45\Castle.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Moq, Version=4.7.10.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <HintPath>..\packages\Moq.4.7.10\lib\net45\Moq.dll</HintPath>
-    </Reference>
     <Reference Include="nunit.framework, Version=3.6.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.6.1\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TelegrammBuilder_UnitTests.cs" />
+    <Compile Include="TelegrammEvaluator_UnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\TelegrammEvaluator\TelegrammEvaluator.csproj">
+      <Project>{7c0b3545-f39b-40a5-b957-829adb323e81}</Project>
+      <Name>TelegrammEvaluator</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HardConfig\HardConfig.csproj">
-      <Project>{5d49f2ea-7a48-4d68-badc-a40414ff7fd7}</Project>
-      <Name>HardConfig</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SystemServices\SystemServices.csproj">
-      <Project>{2eefd039-02a7-4dc4-940e-58b76074eb88}</Project>
-      <Name>SystemServices</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TelegrammBuilder\TelegrammBuilder.csproj">
-      <Project>{921fdde8-85c6-4ab4-8757-2345fa18ad59}</Project>
-      <Name>TelegrammBuilder</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
