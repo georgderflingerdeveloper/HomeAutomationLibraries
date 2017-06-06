@@ -12,11 +12,17 @@ namespace TelegrammEvaluator
             _Evaluators = Evaluators;
             foreach ( var item in Evaluators.Collection )
             {
-                item.EInformer += ( sender, e ) =>
-                {
-                    EInformer?.Invoke( sender, e );
-                };
+                item.EInformer += TelegrammBrocker_EInformer;
+               //item.EInformer += ( sender, e ) =>
+                //{
+                //    EInformer?.Invoke( sender, e );
+                //};
             }
+        }
+
+        private void TelegrammBrocker_EInformer( object sender, EventArgs e )
+        {
+            EInformer?.Invoke( sender, e );
         }
 
         public event Informer EInformer;
