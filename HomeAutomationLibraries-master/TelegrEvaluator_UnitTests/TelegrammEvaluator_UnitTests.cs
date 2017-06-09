@@ -65,5 +65,33 @@ namespace TelegrEvaluator_UnitTests
 
             Assert.AreEqual( WindowState.eUnknown, TestState );
         }
+    } 
+
+    [TestFixture]
+    public class DoorTelegrammEvaluator_UnitTests
+    {
+        DoorTelegrammEvaluator TestDoorEvaluator;
+
+        void Setup()
+        {
+            TestDoorEvaluator = new DoorTelegrammEvaluator( );
+        }
+
+        [Test]
+        public void TestEvaluate_AnyDoorIsOpen()
+        {
+            Setup( );
+
+            DoorState TestState = DoorState.eUnknown;
+
+            TestDoorEvaluator.EInformer += ( sender, e ) =>
+            {
+                TestState = (e as EvaluatorEventArgsDoor).State;
+            };
+
+            TestDoorEvaluator.ReceivedTelegramm = VerificationTelegramms.TelegrammDoor;
+
+            Assert.AreEqual( DoorState.eDoorIsOpen, TestState );
+        }
     }
 }

@@ -22,6 +22,7 @@ namespace TelegrammBuilder
     public static class TelegrammTypes
     {
         public static string WindowInformation = "FENSTERINFORMATION";
+        public static string DoorInformation   = "TÜRINFORMATION";
     }
 
     public static class TelegrammStatus
@@ -78,6 +79,8 @@ namespace TelegrammBuilder
         Telegramm _TelegrammTemplate;
         string TelegrammTrailer;
         string[] TelegrammContainer;
+        int StatusPosition = 1;
+        int TimestampPosition = 2;
 
         public MsgTelegrammBuilder( Telegramm TelegrammTemplate, ITimeUtil TimeStamp )
         {
@@ -132,9 +135,9 @@ namespace TelegrammBuilder
                     index++;
                 }
 
-                TelegrammContainer[index]     = _TelegrammTemplate.DeviceStatusInformation[numberAsKey].Name;
-                TelegrammContainer[index + 1] = _TelegrammTemplate.DeviceStatusInformation[numberAsKey].Status = value ? DeviceStatus.Open : DeviceStatus.Closed;
-                TelegrammContainer[index + 2] = _TelegrammTemplate.DeviceStatusInformation[numberAsKey].TimeStampWhenStatusChange = _TimeStamp.IGetTimeStamp( );
+                TelegrammContainer[index]                     = _TelegrammTemplate.DeviceStatusInformation[numberAsKey].Name;
+                TelegrammContainer[index + StatusPosition]    = _TelegrammTemplate.DeviceStatusInformation[numberAsKey].Status = value ? DeviceStatus.Open : DeviceStatus.Closed;
+                TelegrammContainer[index + TimestampPosition] = _TelegrammTemplate.DeviceStatusInformation[numberAsKey].TimeStampWhenStatusChange = _TimeStamp.IGetTimeStamp( );
 
                 TelEventArgs.MsgTelegramm = TelegrammTrailer + Seperators.TelegrammSeperator + String.Join( Seperators.TelegrammSeperatorStr, TelegrammContainer );
             }
