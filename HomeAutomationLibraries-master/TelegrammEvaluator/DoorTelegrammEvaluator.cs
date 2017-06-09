@@ -17,9 +17,8 @@ namespace TelegrammEvaluator
 
     public class DoorTelegrammEvaluator : TelegrammEvaluator
     {
-        public delegate void Informer( object sender, EvaluatorEventArgsDoor e );
         EvaluatorEventArgsDoor DoorArgs = new EvaluatorEventArgsDoor();
-        public new event Informer EInformer;
+        public override event Informer EInformer;
 
         public override string ReceivedTelegramm
         {

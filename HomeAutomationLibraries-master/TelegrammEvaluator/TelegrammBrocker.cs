@@ -1,33 +1,35 @@
 ﻿using System;
+using System.Collections.Generic;
 
 
 namespace TelegrammEvaluator
 {
     public class TelegrammBrocker
     {
-        EvaluatorCollection _Evaluators;
+        EvaluatorCollection _Evaluators = new EvaluatorCollection();
+        List<TelegrammEvaluator> TestList = new List<TelegrammEvaluator>() 
+        {
+            new WindowTelegrammEvaluator(),
+            new WindowTelegrammEvaluator()
+        };
 
         public TelegrammBrocker( EvaluatorCollection Evaluators )
         {
-            _Evaluators = Evaluators;
-            foreach ( var item in Evaluators.Collection )
+
+            foreach ( TelegrammEvaluator Evaluator in _Evaluators.Collection )
             {
-                item.EInformer += TelegrammBrocker_EInformer;
-               //item.EInformer += ( sender, e ) =>
-                //{
-                //    EInformer?.Invoke( sender, e );
-                //};
+                Evaluator.EInformer += TelegrammBrocker_EInformer;
             }
         }
 
-        private void TelegrammBrocker_EInformer( object sender, EventArgs e )
+        private void TelegrammBrocker_EInformer( object sender, object e )
         {
-            EInformer?.Invoke( sender, e );
+            BEInformer?.Invoke( sender, e );
         }
 
-        public event Informer EInformer;
+        public event Informer BEInformer;
 
-        public delegate void Informer( object sender, EventArgs e );
+        public delegate void Informer( object sender, object e );
 
         string _receivedTelegramm;
         public string ReceivedTelegramm
@@ -35,15 +37,15 @@ namespace TelegrammEvaluator
             set
             {
                 _receivedTelegramm = value;
-                PassTelegramm( _receivedTelegramm );
+               PassTelegramm( _receivedTelegramm );
             }
         }
 
         void PassTelegramm( string telegramm )
         {
-            foreach ( var item in _Evaluators.Collection )
+            foreach ( TelegrammEvaluator Evaluator in _Evaluators.Collection )
             {
-                item.ReceivedTelegramm = telegramm;
+                Evaluator.ReceivedTelegramm = telegramm;
             }
         }
 
