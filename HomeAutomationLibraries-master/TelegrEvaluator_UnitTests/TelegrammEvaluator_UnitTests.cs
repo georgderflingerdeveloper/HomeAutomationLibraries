@@ -2,16 +2,13 @@
 using TelegrammEvaluator;
 
 
+
 namespace TelegrEvaluator_UnitTests
 {
     [TestFixture]
     public class WindowTelegrammEvaluator_UnitTests
     {
         WindowTelegrammEvaluator TestWindowEvaluator;
-        string VerificationTelegramm_1 = "Schlafzimmer_FENSTERINFORMATION_FensterWestSeite_OFFEN_15052017:20h16m33s520ms_MansardenFensterLinkeSeite_GESCHLOSSEN_19122018:21h29m44s333ms";
-        string VerificationTelegramm_2 = "Schlafzimmer_FENSTERINFORMATION_FensterWestSeite_GESCHLOSSEN_19122018:21h29m44s333ms_MansardenFensterLinkeSeite_OFFEN_19122018:21h35m44s333ms";
-        string VerificationTelegrammAllClosed = "Schlafzimmer_FENSTERINFORMATION_FensterWestSeite_GESCHLOSSEN_19122018:21h29m44s333ms_MansardenFensterLinkeSeite_GESCHLOSSEN_19122018:21h35m44s333ms";
-        string VerificationTelegrammUnknown = "Schlafzimmer_FENSTERINFORMATION_FensterWestSeite_UNBEKANNT_19122018:21h29m44s333ms_MansardenFensterLinkeSeite_OFFEN_19122018:21h35m44s333ms";
 
         void Setup()
         {
@@ -27,10 +24,10 @@ namespace TelegrEvaluator_UnitTests
 
             TestWindowEvaluator.EInformer += ( sender, e ) =>
             {
-                TestState = e.State;
+                TestState = (e as EvaluatorEventArgsWindow).State;
             };
 
-            TestWindowEvaluator.ReceivedTelegramm = VerificationTelegramm_1;
+            TestWindowEvaluator.ReceivedTelegramm = VerificationTelegramms.Telegramm_1;
 
             Assert.AreEqual( WindowState.eAnyWindowIsOpen, TestState );
         }
@@ -44,10 +41,10 @@ namespace TelegrEvaluator_UnitTests
 
             TestWindowEvaluator.EInformer += ( sender, e ) =>
             {
-                TestState = e.State;
+                TestState = (e as EvaluatorEventArgsWindow).State;
             };
 
-            TestWindowEvaluator.ReceivedTelegramm = VerificationTelegrammAllClosed;
+            TestWindowEvaluator.ReceivedTelegramm = VerificationTelegramms.TelegrammAllClosed;
 
             Assert.AreEqual( WindowState.eAllWindowsAreClosed, TestState );
         }
@@ -61,12 +58,40 @@ namespace TelegrEvaluator_UnitTests
 
             TestWindowEvaluator.EInformer += ( sender, e ) =>
             {
-                TestState = e.State;
+                TestState = (e as EvaluatorEventArgsWindow).State;
             };
 
-            TestWindowEvaluator.ReceivedTelegramm = VerificationTelegrammUnknown;
+            TestWindowEvaluator.ReceivedTelegramm = VerificationTelegramms.TelegrammUnknown;
 
             Assert.AreEqual( WindowState.eUnknown, TestState );
+        }
+    } 
+
+    [TestFixture]
+    public class DoorTelegrammEvaluator_UnitTests
+    {
+        DoorTelegrammEvaluator TestDoorEvaluator;
+
+        void Setup()
+        {
+            TestDoorEvaluator = new DoorTelegrammEvaluator( );
+        }
+
+        [Test]
+        public void TestEvaluate_AnyDoorIsOpen()
+        {
+            Setup( );
+
+            DoorState TestState = DoorState.eUnknown;
+
+            TestDoorEvaluator.EInformer += ( sender, e ) =>
+            {
+                TestState = (e as EvaluatorEventArgsDoor).State;
+            };
+
+            TestDoorEvaluator.ReceivedTelegramm = VerificationTelegramms.TelegrammDoor;
+
+            Assert.AreEqual( DoorState.eDoorIsOpen, TestState );
         }
     }
 }

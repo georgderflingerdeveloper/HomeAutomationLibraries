@@ -7,7 +7,8 @@ namespace TelegrammEvaluator
     {
         eUnknown,
         eOk,
-        eDoorIsOpen
+        eDoorIsOpen,
+        eDoorIsClosed
     }
 
     public class EvaluatorEventArgsDoor : EventArgs
@@ -17,9 +18,8 @@ namespace TelegrammEvaluator
 
     public class DoorTelegrammEvaluator : TelegrammEvaluator
     {
-        public delegate void Informer( object sender, EvaluatorEventArgsDoor e );
         EvaluatorEventArgsDoor DoorArgs = new EvaluatorEventArgsDoor();
-        public new event Informer EInformer;
+        public override event Informer EInformer;
 
         public override string ReceivedTelegramm
         {
@@ -32,8 +32,25 @@ namespace TelegrammEvaluator
 
         void Evaluate( string telegramm )
         {
-            // Test 
-            EInformer?.Invoke( this, DoorArgs );
+            if ( telegramm.Contains( TelegrammTypes.DoorInformation ) )
+            {
+                if ( telegramm.Contains( DeviceStatus.Unknown ) )
+                {
+                    DoorArgs.State = DoorState.eUnknown;
+                    EInformer?.Invoke( this, DoorArgs );
+                    return;
+                }
+
+                if ( telegramm.Contains( DeviceStatus.Open ) )
+                {
+                    DoorArgs.State = DoorState.eDoorIsOpen;
+                    EInformer?.Invoke( this, DoorArgs );
+                    return;
+                }
+
+                DoorArgs.State = DoorState.eDoorIsClosed;
+                EInformer?.Invoke( this, DoorArgs );
+            }
         }
     }
 }

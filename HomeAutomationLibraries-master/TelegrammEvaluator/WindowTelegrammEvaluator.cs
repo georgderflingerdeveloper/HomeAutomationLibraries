@@ -16,13 +16,13 @@ namespace TelegrammEvaluator
     {
         public WindowState State { get; set; }
     }
-
+ 
     public class WindowTelegrammEvaluator : TelegrammEvaluator
     {
         EvaluatorEventArgsWindow WindowArgs = new EvaluatorEventArgsWindow();
-        public delegate void Informer( object sender, EvaluatorEventArgsWindow e );
 
-        public new event Informer EInformer;
+        public override  event Informer EInformer;
+
         public override string ReceivedTelegramm
         {
             set
