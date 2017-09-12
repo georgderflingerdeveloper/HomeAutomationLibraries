@@ -26,7 +26,8 @@ namespace LibUdp.BASIC.SEND
             client = new UdpClient( );
         }
 
-        protected void sendMessage( string message )
+        
+        protected void AsynCsendMessage( string message )
         {
             if( String.IsNullOrWhiteSpace( message ) )
             {
@@ -36,9 +37,24 @@ namespace LibUdp.BASIC.SEND
             client?.SendAsync( data, data.Length, remoteEndPoint );
         }
 
+        protected void sendMessage( string message )
+        {
+            if ( String.IsNullOrWhiteSpace( message ) )
+            {
+                throw ( new Exception( BasicErrorMessage.InvalidSendString ) );
+            }
+            byte[] data = Encoding.UTF8.GetBytes( message );
+            client?.Send( data, data.Length, remoteEndPoint );
+        }
+
         public void SendString( string message )
         {
-           sendMessage( message );
+            AsynCsendMessage( message );
+        }
+
+        public void SyncSendString( string message )
+        {
+            sendMessage( message );
         }
     }
 }
