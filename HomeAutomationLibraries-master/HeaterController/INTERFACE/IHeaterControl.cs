@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HeaterController.INTERFACE
+namespace HomeAutomationHeater.INTERFACE
 {
     interface IHeaterControl
     {
@@ -12,6 +12,8 @@ namespace HeaterController.INTERFACE
         void Pause();
         void Resume();
         void Stop();
+        void Reset();
+        bool TimedStart { set; }
         event ActivityChanged EActivityChanged;
 
     }
