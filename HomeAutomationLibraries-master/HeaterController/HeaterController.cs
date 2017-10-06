@@ -120,12 +120,16 @@ namespace HomeAutomationHeater
 
         virtual protected void pause()
         {
-            Turn( GeneralConstants.OFF );
-            HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerIsPaused;
-            HeaterEvArgs.Status.ActualOperationState = HeaterStatus.OperationState.RegularOperation;
-            EActivityChanged?.Invoke( this, HeaterEvArgs );
+            if ( HeaterEvArgs.Status.ActualControllerState == HeaterStatus.ControllerState.ControllerIsOn )
+            {
+                Turn( GeneralConstants.OFF );
+                HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerIsPaused;
+                HeaterEvArgs.Status.ActualOperationState = HeaterStatus.OperationState.RegularOperation;
+                EActivityChanged?.Invoke( this, HeaterEvArgs );
+            }
         }
 
+ 
         #endregion
 
         #region INTERFACE_IMPLEMENTATION
@@ -140,6 +144,7 @@ namespace HomeAutomationHeater
 
         public void Pause()
         {
+            pause( );
         }
 
         public void Resume()
