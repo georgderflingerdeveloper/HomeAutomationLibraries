@@ -42,31 +42,77 @@ namespace HeaterControl_UnitTests
             MockedStartController = null;
             MockedStopController = null;
             TestController = null;
+            TestStatus = null;
+        }
+
+        [SetUp]
+        public void SetupTests()
+        {
+           SetupTest( );
         }
 
         [Test]
         public void TestCase_HeaterIsOff_StatusCheck()
         {
-           SetupTest( );
            FakeInitialStatusForTesting( );
+
+           bool IsOn = true;
 
            TestController.EActivityChanged += ( sender, e ) =>
            {
-                TestStatus = e.Status;
+               TestStatus = e.Status;
+               IsOn = e.TurnOn;
            };
 
            TestController.Stop( );
 
            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOff, TestStatus.ActualControllerState );
-           Assert.AreEqual( HeaterStatus.OperationState.Idle, TestStatus.ActualOperationState );
+           Assert.AreEqual( HeaterStatus.OperationState.Idle,             TestStatus.ActualOperationState );
+           Assert.IsFalse( IsOn );
         }
 
-        //[Test]
-        //public void TestCase_StartHeaterDirectly_StatusCheck()
-        //{
-        //}
+        [Test]
+        public void TestCase_HeaterIsOn_StatusCheck()
+        {
+            bool IsOn = false;
 
+            TestController.EActivityChanged += ( sender, e ) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.Start( );
+
+            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOn, TestStatus.ActualControllerState );
+            Assert.AreEqual( HeaterStatus.OperationState.RegularOperation, TestStatus.ActualOperationState );
+            Assert.IsTrue( IsOn );
+        }
+
+        [Test]
+        public void TestCase_HeaterIsPausedWhenStarted_StatusCheck()
+        {
+            bool IsOn = false;
+
+            TestController.EActivityChanged += ( sender, e ) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.Start( );
+            TestController.Pause( );
+
+            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsPaused, TestStatus.ActualControllerState );
+            Assert.AreEqual( HeaterStatus.OperationState.RegularOperation, TestStatus.ActualOperationState );
+            Assert.IsFalse( IsOn );
+        }
+
+
+        [TearDown]
+        public void TearDownTests()
+        {
+            CleanUpTest( );
+        }
     }
-
-
 }

@@ -2,6 +2,7 @@
 using System.Timers;
 using TimerMockable;
 using HomeAutomationHeater.INTERFACE;
+using HardConfig.COMMON;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -95,35 +96,69 @@ namespace HomeAutomationHeater
         }
         #endregion
 
-        #region PRIVATE
-        void stop()
+        #region PROTECTED
+        void Turn( bool value)
         {
-            _CommandTurnOn = false;
+            _CommandTurnOn = value;
             HeaterEvArgs.TurnOn = _CommandTurnOn;
+        }
+        protected void stop()
+        {
+            Turn( GeneralConstants.OFF );
             HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerIsOff;
             HeaterEvArgs.Status.ActualOperationState = HeaterStatus.OperationState.Idle;
             EActivityChanged?.Invoke( this, HeaterEvArgs );
         }
+
+        virtual protected void start()
+        {
+            Turn( GeneralConstants.ON );
+            HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerIsOn;
+            HeaterEvArgs.Status.ActualOperationState = HeaterStatus.OperationState.RegularOperation;
+            EActivityChanged?.Invoke( this, HeaterEvArgs );
+        }
+
+        virtual protected void pause()
+        {
+            Turn( GeneralConstants.OFF );
+            HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerIsPaused;
+            HeaterEvArgs.Status.ActualOperationState = HeaterStatus.OperationState.RegularOperation;
+            EActivityChanged?.Invoke( this, HeaterEvArgs );
+        }
+
         #endregion
 
         #region INTERFACE_IMPLEMENTATION
         public void Start()
         {
+            start( );
         }
+
+        public void Pause( TimeSpan delay )
+        {
+        }
+
         public void Pause()
         {
         }
+
         public void Resume()
         {
         }
+
         public void Stop()
         {
             stop( );
         }
+
         public void Reset()
         {
         }
-        public bool TimedStart { set => _TimedStart = value; }
+
+        public void Toggle( TimeSpan delay )
+        {
+
+        }
         public event ActivityChanged EActivityChanged;
         #endregion
     }

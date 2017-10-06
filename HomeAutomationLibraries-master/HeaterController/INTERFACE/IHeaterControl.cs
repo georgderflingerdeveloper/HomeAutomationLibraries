@@ -9,11 +9,12 @@ namespace HomeAutomationHeater.INTERFACE
     interface IHeaterControl
     {
         void Start();
+        void Pause( TimeSpan delay );
         void Pause();
         void Resume();
         void Stop();
+        void Toggle( TimeSpan delay );
         void Reset();
-        bool TimedStart { set; }
         event ActivityChanged EActivityChanged;
 
     }
