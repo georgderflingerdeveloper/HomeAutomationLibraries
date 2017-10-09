@@ -83,8 +83,8 @@ namespace HomeAutomationHeater
     public class HeaterController : IHeaterControl
     {
         #region DECLARATIONES
-        bool _TimedStart;
         bool _CommandTurnOn;
+        bool _ToggleController;
         HeaterControllerEventArgs HeaterEvArgs;
         #endregion
 
@@ -96,13 +96,58 @@ namespace HomeAutomationHeater
         }
         #endregion
 
+        #region INTERFACE_IMPLEMENTATION
+        public void Start()
+        {
+            ControllerStart( );
+        }
+
+        public void Pause( TimeSpan delay )
+        {
+        }
+
+        public void Pause()
+        {
+            ControllerPause( );
+        }
+
+        public void Resume()
+        {
+            if( HeaterEvArgs.Status.ActualControllerState == HeaterStatus.ControllerState.ControllerIsPaused )
+            {
+                ControllerStart( );
+            }
+        }
+
+        public void Stop()
+        {
+            ControllerStop( );
+        }
+
+        public void Reset()
+        {
+        }
+
+        public void Toggle()
+        {
+            ControllerToggleControlSignal( );
+        }
+
+        public void Toggle( TimeSpan delay )
+        {
+
+        }
+        public event ActivityChanged EActivityChanged;
+        #endregion
+
         #region PROTECTED
         void Turn( bool value)
         {
             _CommandTurnOn = value;
+            _ToggleController = value;
             HeaterEvArgs.TurnOn = _CommandTurnOn;
         }
-        protected void stop()
+        protected void ControllerStop()
         {
             Turn( GeneralConstants.OFF );
             HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerIsOff;
@@ -110,7 +155,7 @@ namespace HomeAutomationHeater
             EActivityChanged?.Invoke( this, HeaterEvArgs );
         }
 
-        virtual protected void start()
+        virtual protected void ControllerStart()
         {
             Turn( GeneralConstants.ON );
             HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerIsOn;
@@ -118,7 +163,7 @@ namespace HomeAutomationHeater
             EActivityChanged?.Invoke( this, HeaterEvArgs );
         }
 
-        virtual protected void pause()
+        virtual protected void ControllerPause()
         {
             if ( HeaterEvArgs.Status.ActualControllerState == HeaterStatus.ControllerState.ControllerIsOn )
             {
@@ -129,43 +174,20 @@ namespace HomeAutomationHeater
             }
         }
 
- 
+        void ControllerToggleControlSignal()
+        {
+            _ToggleController = !_CommandTurnOn;
+            if( _ToggleController )
+            {
+                ControllerStart( );
+            }
+            else
+            {
+                ControllerStop( );
+            }
+        }
         #endregion
 
-        #region INTERFACE_IMPLEMENTATION
-        public void Start()
-        {
-            start( );
-        }
-
-        public void Pause( TimeSpan delay )
-        {
-        }
-
-        public void Pause()
-        {
-            pause( );
-        }
-
-        public void Resume()
-        {
-        }
-
-        public void Stop()
-        {
-            stop( );
-        }
-
-        public void Reset()
-        {
-        }
-
-        public void Toggle( TimeSpan delay )
-        {
-
-        }
-        public event ActivityChanged EActivityChanged;
-        #endregion
     }
 
     public class HeaterControllerPermanent : HeaterController

@@ -108,6 +108,121 @@ namespace HeaterControl_UnitTests
             Assert.IsFalse( IsOn );
         }
 
+        [Test]
+        public void TestCase_HeaterIsResumed_StatusCheck()
+        {
+            bool IsOn = false;
+
+            TestController.EActivityChanged += ( sender, e ) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.Start( );
+            TestController.Pause( );
+            TestController.Resume( );
+
+            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOn, TestStatus.ActualControllerState );
+            Assert.AreEqual( HeaterStatus.OperationState.RegularOperation, TestStatus.ActualOperationState );
+            Assert.IsTrue( IsOn );
+        }
+
+        [Test]
+        public void TestCase_InitialToggle_StatusCheck()
+        {
+            bool IsOn = false;
+
+            TestController.EActivityChanged += ( sender, e ) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.Toggle( );
+
+            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOn, TestStatus.ActualControllerState );
+            Assert.AreEqual( HeaterStatus.OperationState.RegularOperation, TestStatus.ActualOperationState );
+            Assert.IsTrue( IsOn );
+        }
+
+        [Test]
+        public void TestCase_ToggleAfterStarted_StatusCheck()
+        {
+            bool IsOn = false;
+
+            TestController.EActivityChanged += ( sender, e ) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.Start( );
+            TestController.Toggle( );
+
+            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOff, TestStatus.ActualControllerState );
+            Assert.AreEqual( HeaterStatus.OperationState.Idle, TestStatus.ActualOperationState );
+            Assert.IsFalse( IsOn );
+        }
+
+        [Test]
+        public void TestCase_ToggleAfterStopped_StatusCheck()
+        {
+            bool IsOn = false;
+
+            TestController.EActivityChanged += ( sender, e ) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.Stop( );
+            TestController.Toggle( );
+
+            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOn, TestStatus.ActualControllerState );
+            Assert.AreEqual( HeaterStatus.OperationState.RegularOperation, TestStatus.ActualOperationState );
+            Assert.IsTrue( IsOn );
+        }
+
+        [Test]
+        public void TestCase_ToggleStartStop_StatusCheck()
+        {
+            bool IsOn = false;
+
+            TestController.EActivityChanged += ( sender, e ) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.Toggle( ); // start
+            TestController.Toggle( ); // stop
+
+            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOff, TestStatus.ActualControllerState );
+            Assert.AreEqual( HeaterStatus.OperationState.Idle, TestStatus.ActualOperationState );
+            Assert.IsFalse( IsOn );
+        }
+
+        [Test]
+        public void TestCase_ToggleStartStopStart_StatusCheck()
+        {
+            bool IsOn = false;
+
+            TestController.EActivityChanged += ( sender, e ) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.Toggle( ); // start
+            TestController.Toggle( ); // stop
+            TestController.Toggle( ); // start
+
+            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOn, TestStatus.ActualControllerState );
+            Assert.AreEqual( HeaterStatus.OperationState.RegularOperation, TestStatus.ActualOperationState );
+            Assert.IsTrue( IsOn );
+        }
+
 
         [TearDown]
         public void TearDownTests()

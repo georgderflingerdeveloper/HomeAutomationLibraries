@@ -13,6 +13,7 @@ namespace HomeAutomationHeater.INTERFACE
         void Pause();
         void Resume();
         void Stop();
+        void Toggle();
         void Toggle( TimeSpan delay );
         void Reset();
         event ActivityChanged EActivityChanged;
