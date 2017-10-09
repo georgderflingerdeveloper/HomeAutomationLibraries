@@ -63,13 +63,20 @@ namespace HomeAutomationHeater
     [Serializable]
     public class HeaterParameters
     {
-        public float SetTemperatureDay                         { get; set; }
-        public float SetTemperatureNightLowering               { get; set; }
-        public float SetTemperatureEstimationTolerance         { get; set; }
-        public TimeSpan ControlSignalDurationForTurningOn      { get; set; }
-        public TimeSpan ControlSignalDurationForTurningOff     { get; set; }
-        public TimeSpan ControlSignalDurationForItensityChange { get; set; }
-
+        public  float SetTemperatureDay                         { get; set; }
+        public  float SetTemperatureNightLowering               { get; set; }
+        public  float SetTemperatureEstimationTolerance         { get; set; }
+        public  TimeSpan ControlSignalDurationForTurningOnOff   { get; set; }
+        public  TimeSpan ControlSignalDurationForItensityChange { get; set; }
+        public  TimeSpan SignalDurationLowOn                    { get; set; }
+        public  TimeSpan SignalDurationLowOff                   { get; set; }
+        public  TimeSpan SignalDurationMiddleOn                 { get; set; }
+        public  TimeSpan SignalDurationMiddleOff                { get; set; }
+        public  TimeSpan SignalDurationHighOn                   { get; set; }
+        public  TimeSpan SignalDurationHighOff                  { get; set; }
+        public  TimeSpan SignalDurationVariableOn               { get; set; }
+        public  TimeSpan SignalDurationVariableOff              { get; set; }
+        public  TimeSpan SignalDurationBoosting                 { get; set; }
     }
 
     public class HeaterControllerEventArgs : EventArgs
@@ -85,15 +92,31 @@ namespace HomeAutomationHeater
         #region DECLARATIONES
         bool _CommandTurnOn;
         bool _ToggleController;
+        HeaterParameters _Parameters;
         HeaterControllerEventArgs HeaterEvArgs;
+        ITimer _DelayToggelingController;
         #endregion
 
         #region CONSTRUCTOR
-        public HeaterController( ITimer StartController, ITimer StopController )
+        public HeaterController( HeaterParameters Parameters, ITimer StartController, ITimer StopController, ITimer DelayToggelingController )
         {
+            _Parameters = Parameters;
             HeaterEvArgs = new HeaterControllerEventArgs( );
             HeaterEvArgs.Status = new HeaterStatus( );
+            _DelayToggelingController = DelayToggelingController;
+            _DelayToggelingController.Elapsed += DelayToggelingControllerElapsed; 
         }
+
+        #endregion
+
+        #region EVENTHANDLERS
+        private void DelayToggelingControllerElapsed( object sender, ElapsedEventArgs e )
+        {
+            ToggleController( );
+        }
+        #endregion
+
+        #region PROPERTIES
         #endregion
 
         #region INTERFACE_IMPLEMENTATION
@@ -130,23 +153,53 @@ namespace HomeAutomationHeater
 
         public void Toggle()
         {
-            ControllerToggleControlSignal( );
+            ToggleController( );
         }
 
-        public void Toggle( TimeSpan delay )
+        public void DelayedToggle()
         {
-
+            ToggleController( _Parameters.ControlSignalDurationForTurningOnOff );
         }
+
+        public void UpdateParameters( HeaterParameters Parameters )
+        {
+            _Parameters = Parameters;
+        }
+
         public event ActivityChanged EActivityChanged;
         #endregion
 
-        #region PROTECTED
+        #region PRIVATE
+        void ToggleController()
+        {
+            _ToggleController = !_ToggleController;
+            if( _ToggleController )
+            {
+                ControllerStart( );
+            }
+            else
+            {
+                ControllerStop( );
+            }
+        }        
+
+        void ToggleController( TimeSpan delay )
+        {
+            _DelayToggelingController.SetTime( delay );
+            _DelayToggelingController.Stop( );
+            _DelayToggelingController.Start( );
+        }  
+        
         void Turn( bool value)
         {
             _CommandTurnOn = value;
             _ToggleController = value;
             HeaterEvArgs.TurnOn = _CommandTurnOn;
-        }
+        }       
+        #endregion 
+
+        #region PROTECTED
+ 
         protected void ControllerStop()
         {
             Turn( GeneralConstants.OFF );
@@ -174,25 +227,15 @@ namespace HomeAutomationHeater
             }
         }
 
-        void ControllerToggleControlSignal()
-        {
-            _ToggleController = !_CommandTurnOn;
-            if( _ToggleController )
-            {
-                ControllerStart( );
-            }
-            else
-            {
-                ControllerStop( );
-            }
-        }
+ 
         #endregion
 
     }
 
     public class HeaterControllerPermanent : HeaterController
     {
-        public HeaterControllerPermanent( ITimer StartController, ITimer StopController ) : base(  StartController,  StopController )
+        public HeaterControllerPermanent( HeaterParameters Parameters, ITimer StartController, ITimer StopController, ITimer DelayToggelingController ) 
+            : base( Parameters, StartController,  StopController, DelayToggelingController )
         {
 
         }
@@ -200,7 +243,8 @@ namespace HomeAutomationHeater
 
     public class HeaterControllerPulseWidhtModulation : HeaterController
     {
-        public HeaterControllerPulseWidhtModulation( ITimer StartController, ITimer StopController, ITimer TimedItensity ) : base(  StartController,  StopController )
+        public HeaterControllerPulseWidhtModulation( HeaterParameters Parameters, ITimer StartController, ITimer StopController, ITimer DelayToggelingController, ITimer TimedItensity ) 
+            : base( Parameters, StartController,  StopController, DelayToggelingController )
         {
 
         }
@@ -208,7 +252,8 @@ namespace HomeAutomationHeater
 
     public class HeaterControllerByTemperature : HeaterController
     {
-        public HeaterControllerByTemperature( ITimer StartController, ITimer StopController ) : base(  StartController,  StopController )
+        public HeaterControllerByTemperature( HeaterParameters Parameters, ITimer StartController, ITimer StopController, ITimer DelayToggelingController ) 
+            : base( Parameters, StartController,  StopController, DelayToggelingController )
         {
 
         }

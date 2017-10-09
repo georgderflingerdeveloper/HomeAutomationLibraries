@@ -1,4 +1,5 @@
 ﻿using System.Timers;
+using System;
 
 namespace TimerMockable
 {
@@ -19,6 +20,11 @@ namespace TimerMockable
         public void Stop()
         {
             timer.Stop();
+        }
+
+        public void SetTime( TimeSpan time )
+        {
+            timer.Interval = time.TotalMilliseconds;
         }
 
         public event ElapsedEventHandler Elapsed

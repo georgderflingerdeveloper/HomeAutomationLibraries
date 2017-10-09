@@ -14,8 +14,9 @@ namespace HomeAutomationHeater.INTERFACE
         void Resume();
         void Stop();
         void Toggle();
-        void Toggle( TimeSpan delay );
+        void DelayedToggle();
         void Reset();
+        void UpdateParameters( HeaterParameters Parameters );
         event ActivityChanged EActivityChanged;
 
     }
