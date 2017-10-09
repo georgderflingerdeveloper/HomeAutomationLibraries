@@ -9,7 +9,7 @@ namespace HomeAutomationHeater.INTERFACE
     interface IHeaterControl
     {
         void Start();
-        void Pause( TimeSpan delay );
+        void DelayedPause();
         void Pause();
         void Resume();
         void Stop();
@@ -17,6 +17,7 @@ namespace HomeAutomationHeater.INTERFACE
         void DelayedToggle();
         void Reset();
         void UpdateParameters( HeaterParameters Parameters );
+        HeaterStatus GetStatus();
         event ActivityChanged EActivityChanged;
 
     }

@@ -16,8 +16,8 @@ namespace HeaterControl_UnitTests
     {
         HeaterController TestController;
         HeaterStatus TestStatus;
-        Mock<ITimer> MockedStartController;
-        Mock<ITimer> MockedStopController;
+        Mock<ITimer> MockedStartStopController;
+        Mock<ITimer> MockedPauseController;
         Mock<ITimer> MockedToggeling;
 
         void FakeInitialStatusForTesting( )
@@ -31,20 +31,20 @@ namespace HeaterControl_UnitTests
 
         void SetupTest()
         {
-            MockedStartController = new Mock<ITimer>( );
-            MockedStopController  = new Mock<ITimer>( );
+            MockedStartStopController = new Mock<ITimer>( );
+            MockedPauseController  = new Mock<ITimer>( );
             MockedToggeling = new Mock<ITimer>( );
-            ITimer StartController = MockedStartController.Object;
-            ITimer StopController = MockedStopController.Object;
+            ITimer StartStopController = MockedStartStopController.Object;
+            ITimer PauseController = MockedPauseController.Object;
             ITimer TimerForToggeling = MockedToggeling.Object;
-            TestController = new HeaterController( new HeaterParameters(), StartController, StopController, TimerForToggeling );
+            TestController = new HeaterController( new HeaterParameters(), StartStopController, PauseController, TimerForToggeling );
             TestStatus = new HeaterStatus( );
         }
 
         void CleanUpTest()
         {
-            MockedStartController = null;
-            MockedStopController = null;
+            MockedStartStopController = null;
+            MockedPauseController = null;
             TestController = null;
             TestStatus = null;
         }
@@ -228,7 +228,25 @@ namespace HeaterControl_UnitTests
         }
 
         [Test]
-        public void TestCase_InitialToggleWithDelayTime_StatusCheck()
+        public void TestCase_InitialToggleWithDelayTimeTurningOn_StatusCheck()
+        {
+            bool IsOn = false;
+
+            TestController.EActivityChanged += ( sender, e ) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.DelayedToggle( );
+
+            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOff, TestStatus.ActualControllerState );
+            Assert.AreEqual( HeaterStatus.InformationAction.TurningOn, TestStatus.ActualActionInfo );
+            Assert.IsFalse( IsOn );
+        }
+
+        [Test]
+        public void TestCase_InitialToggleWithDelayTimeElapsed_StatusCheck()
         {
             bool IsOn = false;
 

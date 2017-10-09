@@ -28,6 +28,7 @@ namespace HomeAutomationHeater
             Idle,
             RegularOperation,
             PwmIsWorking,
+            TemperatureControl,
             Boosting,
             Defrosting,
             InvalidForTesting = 99
@@ -44,6 +45,8 @@ namespace HomeAutomationHeater
             Finished,
             InvalidForTesting = 99
         }
+        public InformationAction ActualActionInfo { get; set; }
+
     }
 
     [Serializable]
@@ -63,20 +66,21 @@ namespace HomeAutomationHeater
     [Serializable]
     public class HeaterParameters
     {
-        public  float SetTemperatureDay                         { get; set; }
-        public  float SetTemperatureNightLowering               { get; set; }
-        public  float SetTemperatureEstimationTolerance         { get; set; }
-        public  TimeSpan ControlSignalDurationForTurningOnOff   { get; set; }
-        public  TimeSpan ControlSignalDurationForItensityChange { get; set; }
-        public  TimeSpan SignalDurationLowOn                    { get; set; }
-        public  TimeSpan SignalDurationLowOff                   { get; set; }
-        public  TimeSpan SignalDurationMiddleOn                 { get; set; }
-        public  TimeSpan SignalDurationMiddleOff                { get; set; }
-        public  TimeSpan SignalDurationHighOn                   { get; set; }
-        public  TimeSpan SignalDurationHighOff                  { get; set; }
-        public  TimeSpan SignalDurationVariableOn               { get; set; }
-        public  TimeSpan SignalDurationVariableOff              { get; set; }
-        public  TimeSpan SignalDurationBoosting                 { get; set; }
+        public  float SetTemperatureDay                          { get; set; }
+        public  float SetTemperatureNightLowering                { get; set; }
+        public  float SetTemperatureEstimationTolerance          { get; set; }
+        public  TimeSpan CmdDurationForTurningStartingStopping   { get; set; }
+        public  TimeSpan CmdDurationForItensityChange            { get; set; }
+        public  TimeSpan CmdDurationForActivatingPause           { get; set; }
+        public  TimeSpan SignalDurationLowOn                     { get; set; }
+        public  TimeSpan SignalDurationLowOff                    { get; set; }
+        public  TimeSpan SignalDurationMiddleOn                  { get; set; }
+        public  TimeSpan SignalDurationMiddleOff                 { get; set; }
+        public  TimeSpan SignalDurationHighOn                    { get; set; }
+        public  TimeSpan SignalDurationHighOff                   { get; set; }
+        public  TimeSpan SignalDurationVariableOn                { get; set; }
+        public  TimeSpan SignalDurationVariableOff               { get; set; }
+        public  TimeSpan SignalDurationBoosting                  { get; set; }
     }
 
     public class HeaterControllerEventArgs : EventArgs
@@ -94,15 +98,17 @@ namespace HomeAutomationHeater
         bool _ToggleController;
         HeaterParameters _Parameters;
         HeaterControllerEventArgs HeaterEvArgs;
+        HeaterStatus _Status;
         ITimer _DelayToggelingController;
         #endregion
 
         #region CONSTRUCTOR
-        public HeaterController( HeaterParameters Parameters, ITimer StartController, ITimer StopController, ITimer DelayToggelingController )
+        public HeaterController( HeaterParameters Parameters, ITimer StartStopController, ITimer PauseController, ITimer DelayToggelingController )
         {
             _Parameters = Parameters;
-            HeaterEvArgs = new HeaterControllerEventArgs( );
+            HeaterEvArgs        = new HeaterControllerEventArgs( );
             HeaterEvArgs.Status = new HeaterStatus( );
+            _Status = HeaterEvArgs.Status;
             _DelayToggelingController = DelayToggelingController;
             _DelayToggelingController.Elapsed += DelayToggelingControllerElapsed; 
         }
@@ -125,7 +131,7 @@ namespace HomeAutomationHeater
             ControllerStart( );
         }
 
-        public void Pause( TimeSpan delay )
+        public void DelayedPause()
         {
         }
 
@@ -158,12 +164,17 @@ namespace HomeAutomationHeater
 
         public void DelayedToggle()
         {
-            ToggleController( _Parameters.ControlSignalDurationForTurningOnOff );
+            ToggleController( _Parameters.CmdDurationForTurningStartingStopping );
         }
 
         public void UpdateParameters( HeaterParameters Parameters )
         {
             _Parameters = Parameters;
+        }
+
+        public HeaterStatus GetStatus()
+        {
+            return _Status;
         }
 
         public event ActivityChanged EActivityChanged;
@@ -205,6 +216,7 @@ namespace HomeAutomationHeater
             Turn( GeneralConstants.OFF );
             HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerIsOff;
             HeaterEvArgs.Status.ActualOperationState = HeaterStatus.OperationState.Idle;
+            _Status = HeaterEvArgs.Status;
             EActivityChanged?.Invoke( this, HeaterEvArgs );
         }
 
@@ -213,6 +225,7 @@ namespace HomeAutomationHeater
             Turn( GeneralConstants.ON );
             HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerIsOn;
             HeaterEvArgs.Status.ActualOperationState = HeaterStatus.OperationState.RegularOperation;
+            _Status = HeaterEvArgs.Status;
             EActivityChanged?.Invoke( this, HeaterEvArgs );
         }
 
@@ -223,6 +236,7 @@ namespace HomeAutomationHeater
                 Turn( GeneralConstants.OFF );
                 HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerIsPaused;
                 HeaterEvArgs.Status.ActualOperationState = HeaterStatus.OperationState.RegularOperation;
+                _Status = HeaterEvArgs.Status;
                 EActivityChanged?.Invoke( this, HeaterEvArgs );
             }
         }
@@ -234,17 +248,16 @@ namespace HomeAutomationHeater
 
     public class HeaterControllerPermanent : HeaterController
     {
-        public HeaterControllerPermanent( HeaterParameters Parameters, ITimer StartController, ITimer StopController, ITimer DelayToggelingController ) 
-            : base( Parameters, StartController,  StopController, DelayToggelingController )
+        public HeaterControllerPermanent( HeaterParameters Parameters, ITimer StartStopController, ITimer PauseController, ITimer DelayToggelingController ) 
+            : base( Parameters, StartStopController,  PauseController, DelayToggelingController )
         {
-
         }
     }
 
     public class HeaterControllerPulseWidhtModulation : HeaterController
     {
-        public HeaterControllerPulseWidhtModulation( HeaterParameters Parameters, ITimer StartController, ITimer StopController, ITimer DelayToggelingController, ITimer TimedItensity ) 
-            : base( Parameters, StartController,  StopController, DelayToggelingController )
+        public HeaterControllerPulseWidhtModulation( HeaterParameters Parameters, ITimer StartStopController, ITimer PauseController, ITimer DelayToggelingController, ITimer TimedItensity ) 
+            : base( Parameters, StartStopController,  PauseController, DelayToggelingController )
         {
 
         }
@@ -252,8 +265,8 @@ namespace HomeAutomationHeater
 
     public class HeaterControllerByTemperature : HeaterController
     {
-        public HeaterControllerByTemperature( HeaterParameters Parameters, ITimer StartController, ITimer StopController, ITimer DelayToggelingController ) 
-            : base( Parameters, StartController,  StopController, DelayToggelingController )
+        public HeaterControllerByTemperature( HeaterParameters Parameters, ITimer StartStopController, ITimer PauseController, ITimer DelayToggelingController ) 
+            : base( Parameters, StartStopController,  PauseController, DelayToggelingController )
         {
 
         }
