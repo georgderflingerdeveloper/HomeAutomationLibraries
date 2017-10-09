@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="TelegrammEvaluator_UnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VerificationTelegramms.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TelegrammEvaluator\TelegrammEvaluator.csproj">
