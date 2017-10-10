@@ -1,12 +1,8 @@
-﻿using System;
+﻿using HardConfig.COMMON;
+using HomeAutomationHeater.INTERFACE;
+using System;
 using System.Timers;
 using TimerMockable;
-using HomeAutomationHeater.INTERFACE;
-using HardConfig.COMMON;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HomeAutomationHeater
 {
