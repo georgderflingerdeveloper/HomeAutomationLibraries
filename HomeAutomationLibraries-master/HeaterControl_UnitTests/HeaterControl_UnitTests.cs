@@ -70,6 +70,10 @@ namespace HeaterControl_UnitTests
 
            TestController.Stop( );
 
+           HeaterStatus ReturnedTestedStatus = TestController.GetStatus( );
+           Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOff, ReturnedTestedStatus.ActualControllerState );
+           Assert.AreEqual( HeaterStatus.OperationState.Idle, ReturnedTestedStatus.ActualOperationState );
+
            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOff, TestStatus.ActualControllerState );
            Assert.AreEqual( HeaterStatus.OperationState.Idle,             TestStatus.ActualOperationState );
            Assert.IsFalse( IsOn );
