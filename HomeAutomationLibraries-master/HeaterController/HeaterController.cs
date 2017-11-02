@@ -79,6 +79,7 @@ namespace HomeAutomationHeater
         public TimeSpan SignalDurationVariableOn { get; set; }
         public TimeSpan SignalDurationVariableOff { get; set; }
         public TimeSpan SignalDurationBoosting { get; set; }
+        public TimeSpan DurationDelayPause { get; set; }
     }
 
     public class HeaterControllerEventArgs : EventArgs
@@ -142,10 +143,8 @@ namespace HomeAutomationHeater
 
         public void DelayedPause()
         {
-            HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerIsExpectingPause;
-            HeaterEvArgs.Status.ActualOperationState = HeaterStatus.OperationState.RegularOperation;
-            _Status = HeaterEvArgs.Status;
-            EActivityChanged?.Invoke( this, HeaterEvArgs );
+            InformerExpectingPause( );
+            ActivateTimer( _Parameters.DurationDelayPause, _DelayPause );
         }
 
         public void Pause()
@@ -230,6 +229,14 @@ namespace HomeAutomationHeater
             _Status = HeaterEvArgs.Status;
             EActivityChanged?.Invoke( this, HeaterEvArgs );
         }
+
+        void InformerExpectingPause()
+        {
+            HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerIsExpectingPause;
+            HeaterEvArgs.Status.ActualOperationState = HeaterStatus.OperationState.RegularOperation;
+            _Status = HeaterEvArgs.Status;
+            EActivityChanged?.Invoke( this, HeaterEvArgs );
+        }
         #endregion
 
         #region PROTECTED
@@ -254,7 +261,8 @@ namespace HomeAutomationHeater
 
         virtual protected void ControllerPause()
         {
-            if (HeaterEvArgs.Status.ActualControllerState == HeaterStatus.ControllerState.ControllerIsOn)
+            if ((HeaterEvArgs.Status.ActualControllerState == HeaterStatus.ControllerState.ControllerIsOn) ||
+                (HeaterEvArgs.Status.ActualControllerState == HeaterStatus.ControllerState.ControllerIsExpectingPause))
             {
                 Turn( GeneralConstants.OFF );
                 HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerIsPaused;
