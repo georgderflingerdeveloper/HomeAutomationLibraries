@@ -93,12 +93,12 @@ namespace HomeAutomationHeater
     public class HeaterController : IHeaterControl
     {
         #region DECLARATIONES
-        bool _CommandTurnOn;
-        bool _ToggleController;
-        ITimer _DelayToggelingController;
-        ITimer _DelayPause;
-        HeaterParameters _Parameters;
-        HeaterStatus _Status;
+        bool                      _CommandTurnOn;
+        bool                      _ToggleController;
+        ITimer                    _DelayToggelingController;
+        ITimer                    _DelayPause;
+        HeaterParameters          _Parameters;
+        HeaterStatus              _Status;
         HeaterControllerEventArgs HeaterEvArgs;
         #endregion
 
@@ -110,11 +110,11 @@ namespace HomeAutomationHeater
             {
                 Status = new HeaterStatus( )
             };
-            _Status = HeaterEvArgs.Status;
-            _DelayToggelingController = DelayToggelingController;
+            _Status                            = HeaterEvArgs.Status;
+            _DelayToggelingController          = DelayToggelingController;
             _DelayToggelingController.Elapsed += DelayToggelingControllerElapsed;
-            _DelayPause = DelayControllerPause;
-            _DelayPause.Elapsed += DelayPauseElapsed;
+            _DelayPause                        = DelayControllerPause;
+            _DelayPause.Elapsed               += DelayPauseElapsed;
         }
 
 
@@ -154,7 +154,8 @@ namespace HomeAutomationHeater
 
         public void Resume()
         {
-            if (HeaterEvArgs.Status.ActualControllerState == HeaterStatus.ControllerState.ControllerIsPaused)
+            if ((HeaterEvArgs.Status.ActualControllerState == HeaterStatus.ControllerState.ControllerIsPaused)  ||
+                (HeaterEvArgs.Status.ActualControllerState == HeaterStatus.ControllerState.ControllerIsExpectingPause) )
             {
                 ControllerStart( );
             }

@@ -305,12 +305,33 @@ namespace HeaterControl_UnitTests
 
             MockedDelayControllerPause.Verify( obj => obj.SetTime( new TimeSpan( ) ) );
             MockedDelayControllerPause.Verify( obj => obj.Start( ) );
+
             MockedDelayControllerPause.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
 
 
             Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsPaused, TestStatus.ActualControllerState );
             Assert.AreEqual( HeaterStatus.OperationState.RegularOperation, TestStatus.ActualOperationState );
             Assert.IsFalse( IsOn );
+        }
+
+        [Test]
+        public void TestCase_HeaterIsExpectingPause_ButResuming_StatusCheck()
+        {
+            bool IsOn = false;
+
+            TestController.EActivityChanged += ( sender, e ) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.Start( );
+            TestController.DelayedPause( );
+            TestController.Resume( );
+
+            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOn, TestStatus.ActualControllerState );
+            Assert.AreEqual( HeaterStatus.OperationState.RegularOperation, TestStatus.ActualOperationState );
+            Assert.IsTrue( IsOn );
         }
 
 
