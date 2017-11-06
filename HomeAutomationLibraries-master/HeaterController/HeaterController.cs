@@ -3,6 +3,7 @@ using HomeAutomationHeater.INTERFACE;
 using System;
 using System.Timers;
 using TimerMockable;
+using Signalsequencer;
 
 namespace HomeAutomationHeater
 {
@@ -116,8 +117,6 @@ namespace HomeAutomationHeater
             _DelayPause                        = DelayControllerPause;
             _DelayPause.Elapsed               += DelayPauseElapsed;
         }
-
-
         #endregion
 
         #region EVENTHANDLERS
