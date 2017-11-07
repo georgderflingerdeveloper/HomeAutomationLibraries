@@ -37,7 +37,7 @@ namespace HeaterControl_UnitTests
             ITimer StartStopController = MockedStartStopController.Object;
             ITimer PauseController = MockedDelayControllerPause.Object;
             ITimer TimerForToggeling = MockedToggeling.Object;
-            TestController = new HeaterController( new HeaterParameters( ), StartStopController, PauseController, TimerForToggeling );
+            TestController = new HeaterController( new HeaterParameters( ),  PauseController, TimerForToggeling );
             TestStatus = new HeaterStatus( );
         }
 
@@ -340,6 +340,118 @@ namespace HeaterControl_UnitTests
         public void TearDownTests()
         {
             CleanUpTest( );
+        }
+    }
+
+    [TestFixture]
+    public class HeaterControlPwm_UnitTests
+    {
+        HeaterControllerPulseWidhtModulation TestController;
+        HeaterStatus                         TestStatus;
+        Mock<ITimer>                         MockedDelayControllerPause;
+        Mock<ITimer>                         MockedToggeling;
+        Mock<ITimer>                         MockControlOn;
+        Mock<ITimer>                         MockControlLow;
+        Mock<ITimer>                         MockControlMiddle;
+        Mock<ITimer>                         MockControlHigh;
+        Mock<ControlTimers>                  MockedHeaterControlTimers;
+
+        void FakeInitialStatusForTesting()
+        {
+            if (TestStatus != null)
+            {
+                TestStatus.ActualControllerState = HeaterStatus.ControllerState.InvalidForTesting;
+                TestStatus.ActualOperationState = HeaterStatus.OperationState.InvalidForTesting;
+            }
+        }
+
+        void SetupTest()
+        {
+            MockedDelayControllerPause                 = new Mock<ITimer>( );
+            MockedToggeling                            = new Mock<ITimer>( );
+            MockControlOn                              = new Mock<ITimer>( );
+            MockControlLow                             = new Mock<ITimer>( );
+            MockControlMiddle                          = new Mock<ITimer>( );
+            MockControlHigh                            = new Mock<ITimer>( );
+            MockedHeaterControlTimers                  = new Mock<ControlTimers>( );
+            ITimer PauseController                     = MockedDelayControllerPause.Object;
+            ITimer TimerForToggeling                   = MockedToggeling.Object;
+            ControlTimers HeaterControlTimers          = MockedHeaterControlTimers.Object;
+            HeaterControlTimers.TimerOn                = MockControlOn.Object;
+            HeaterControlTimers.TimerLow               = MockControlLow.Object;
+            HeaterControlTimers.TimerMiddle            = MockControlMiddle.Object;
+            HeaterControlTimers.TimerHigh              = MockControlHigh.Object;
+
+            TestController = new HeaterControllerPulseWidhtModulation( new HeaterParameters( ), HeaterControlTimers, PauseController, TimerForToggeling );
+            TestStatus = new HeaterStatus( );
+        }
+
+        void CleanUpTest()
+        {
+            MockedDelayControllerPause = null;
+            TestController = null;
+            TestStatus = null;
+        }
+
+        [SetUp]
+        public void SetupTests()
+        {
+            SetupTest( );
+        }
+
+
+        [TearDown]
+        public void TearDownTests()
+        {
+            CleanUpTest( );
+        }
+
+        [Test]
+        public void TestCase_Pwm_Off_StatusCheck()
+        {
+            FakeInitialStatusForTesting( );
+
+            bool IsOn = true;
+
+            TestController.EActivityChanged += ( sender, e ) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.Start( );
+
+            HeaterStatus ReturnedTestedStatus = TestController.GetStatus( );
+
+            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOff, ReturnedTestedStatus.ActualControllerState );
+            Assert.AreEqual( HeaterStatus.OperationState.Idle, ReturnedTestedStatus.ActualOperationState );
+        }
+
+        [Test]
+        public void TestCase_PwmOff_To_On_StatusCheck()
+        {
+            FakeInitialStatusForTesting( );
+
+            bool IsOn = true;
+
+            TestController.EActivityChanged += ( sender, e ) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.Start( );
+
+            MockControlOn.Verify( obj => obj.SetTime( new TimeSpan( ) ) );
+            MockControlOn.Verify( obj => obj.Start( ) );
+            MockControlOn.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
+
+
+            HeaterStatus ReturnedTestedStatus = TestController.GetStatus( );
+
+            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOn, ReturnedTestedStatus.ActualControllerState );
+            Assert.AreEqual( HeaterStatus.OperationState.RegularOperation, ReturnedTestedStatus.ActualOperationState );
+            Assert.IsTrue( IsOn );
         }
     }
 }

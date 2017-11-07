@@ -7,6 +7,14 @@ using Signalsequencer;
 
 namespace HomeAutomationHeater
 {
+    public class ControlTimers
+    {
+        public ITimer TimerOn     { get; set; }
+        public ITimer TimerLow    { get; set; }
+        public ITimer TimerMiddle { get; set; }
+        public ITimer TimerHigh   { get; set; }
+    }
+
     [Serializable]
     public class HeaterStatus
     {
@@ -71,6 +79,8 @@ namespace HomeAutomationHeater
         public TimeSpan CmdDurationForTurningStartingStopping { get; set; }
         public TimeSpan CmdDurationForItensityChange { get; set; }
         public TimeSpan CmdDurationForActivatingPause { get; set; }
+        public TimeSpan SignalDurationOn { get; set; }
+        public TimeSpan SignalDurationOff { get; set; }
         public TimeSpan SignalDurationLowOn { get; set; }
         public TimeSpan SignalDurationLowOff { get; set; }
         public TimeSpan SignalDurationMiddleOn { get; set; }
@@ -100,11 +110,11 @@ namespace HomeAutomationHeater
         ITimer                    _DelayPause;
         HeaterParameters          _Parameters;
         HeaterStatus              _Status;
-        HeaterControllerEventArgs HeaterEvArgs;
+        protected HeaterControllerEventArgs HeaterEvArgs;
         #endregion
 
         #region CONSTRUCTOR
-        public HeaterController( HeaterParameters Parameters, ITimer StartStopController, ITimer DelayControllerPause, ITimer DelayToggelingController )
+        public HeaterController( HeaterParameters Parameters,  ITimer DelayControllerPause, ITimer DelayToggelingController )
         {
             _Parameters = Parameters;
             HeaterEvArgs = new HeaterControllerEventArgs
@@ -214,13 +224,6 @@ namespace HomeAutomationHeater
             Timer_.Start( );
         }
 
-        void Turn( bool value )
-        {
-            _CommandTurnOn = value;
-            _ToggleController = value;
-            HeaterEvArgs.TurnOn = _CommandTurnOn;
-        }
-
         void InformerTurningOn()
         {
             HeaterEvArgs.Status.ActualActionInfo = HeaterStatus.InformationAction.TurningOn;
@@ -240,6 +243,13 @@ namespace HomeAutomationHeater
         #endregion
 
         #region PROTECTED
+        protected void Turn( bool value )
+        {
+            _CommandTurnOn      = value;
+            _ToggleController   = value;
+            HeaterEvArgs.TurnOn = _CommandTurnOn;
+        }
+
         protected void ControllerStop()
         {
             Turn( GeneralConstants.OFF );
@@ -277,25 +287,51 @@ namespace HomeAutomationHeater
 
     public class HeaterControllerPermanent : HeaterController
     {
-        public HeaterControllerPermanent( HeaterParameters Parameters, ITimer StartStopController, ITimer PauseController, ITimer DelayToggelingController )
-            : base( Parameters, StartStopController, PauseController, DelayToggelingController )
+        public HeaterControllerPermanent( HeaterParameters Parameters, ITimer PauseController, ITimer DelayToggelingController )
+            : base( Parameters,  PauseController, DelayToggelingController )
         {
         }
     }
 
     public class HeaterControllerPulseWidhtModulation : HeaterController
     {
-        public HeaterControllerPulseWidhtModulation( HeaterParameters Parameters, ITimer StartStopController, ITimer PauseController, ITimer DelayToggelingController, ITimer TimedItensity )
-            : base( Parameters, StartStopController, PauseController, DelayToggelingController )
+        ControlTimers _HeaterControlTimers;
+        public HeaterControllerPulseWidhtModulation( HeaterParameters Parameters, ControlTimers HeaterControlTimers, ITimer PauseController, ITimer DelayToggelingController )
+            : base( Parameters,  PauseController, DelayToggelingController )
         {
+            _HeaterControlTimers = HeaterControlTimers;
+            _HeaterControlTimers.TimerOn.Elapsed  += TimerOnElapsed;
+            _HeaterControlTimers.TimerOn.SetTime( Parameters.SignalDurationOn );
+            _HeaterControlTimers.TimerLow.Elapsed += ControlTimerLowElapsed;
+            _HeaterControlTimers.TimerLow.SetTime( Parameters.SignalDurationLowOn );
+        }
 
+        private void TimerOnElapsed( object sender, ElapsedEventArgs e )
+        {
+            HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerIsOn;
+            Turn( GeneralConstants.ON );
+        }
+
+        private void ControlTimerLowElapsed( object sender, ElapsedEventArgs e )
+        {
+            throw new NotImplementedException( );
+        }
+
+        override protected void ControllerStart()
+        {
+            HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerIsOff;
+            _HeaterControlTimers.TimerOn.Start( );
+            HeaterEvArgs.Status.ActualOperationState = HeaterStatus.OperationState.RegularOperation;
+            //HeaterEvArgs.Status.ActualActionInfo = HeaterStatus.InformationAction.Finished;
+            //_Status = HeaterEvArgs.Status;
+            //EActivityChanged?.Invoke( this, HeaterEvArgs );
         }
     }
 
     public class HeaterControllerByTemperature : HeaterController
     {
-        public HeaterControllerByTemperature( HeaterParameters Parameters, ITimer StartStopController, ITimer PauseController, ITimer DelayToggelingController )
-            : base( Parameters, StartStopController, PauseController, DelayToggelingController )
+        public HeaterControllerByTemperature( HeaterParameters Parameters, ITimer PauseController, ITimer DelayToggelingController )
+            : base( Parameters,  PauseController, DelayToggelingController )
         {
 
         }
