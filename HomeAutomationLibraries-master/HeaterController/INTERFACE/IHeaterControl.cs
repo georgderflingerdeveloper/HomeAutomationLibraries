@@ -9,6 +9,7 @@ namespace HomeAutomationHeater.INTERFACE
     interface IHeaterControl
     {
         void Start();
+        void Confirm();
         void DelayedPause();
         void Pause();
         void Resume();

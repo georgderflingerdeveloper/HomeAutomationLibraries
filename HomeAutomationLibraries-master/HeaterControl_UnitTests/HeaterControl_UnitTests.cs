@@ -362,7 +362,16 @@ namespace HeaterControl_UnitTests
             {
                 TestStatus.ActualControllerState = HeaterStatus.ControllerState.InvalidForTesting;
                 TestStatus.ActualOperationState = HeaterStatus.OperationState.InvalidForTesting;
+                TestStatus.ActualActionInfo = HeaterStatus.InformationAction.InvalidForTesting;
+                TestController.SetStatus( TestStatus );
             }
+        }
+
+        void MakeAndVerifyControllerOn()
+        {
+            MockControlOn.Verify( obj => obj.SetTime( new TimeSpan( ) ) );
+            MockControlOn.Verify( obj => obj.Start( ) );
+            MockControlOn.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
         }
 
         void SetupTest()
@@ -442,16 +451,40 @@ namespace HeaterControl_UnitTests
 
             TestController.Start( );
 
-            MockControlOn.Verify( obj => obj.SetTime( new TimeSpan( ) ) );
-            MockControlOn.Verify( obj => obj.Start( ) );
-            MockControlOn.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
-
+            MakeAndVerifyControllerOn( );
 
             HeaterStatus ReturnedTestedStatus = TestController.GetStatus( );
 
             Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOn, ReturnedTestedStatus.ActualControllerState );
             Assert.AreEqual( HeaterStatus.OperationState.RegularOperation, ReturnedTestedStatus.ActualOperationState );
+            Assert.AreEqual( HeaterStatus.InformationAction.ItensityChanging, ReturnedTestedStatus.ActualActionInfo );
             Assert.IsTrue( IsOn );
+        }
+
+        [Test]
+        public void TestCase_Start_To_Confirm_Without_Start_StatusCheck()
+        {
+            FakeInitialStatusForTesting( );
+
+            bool IsOn = true;
+
+            TestController.EActivityChanged += ( sender, e ) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.Start( );
+
+            TestController.Confirm( );
+
+            MockControlOn.Verify( obj => obj.Start( ) );
+
+            HeaterStatus ReturnedTestedStatus = TestController.GetStatus( );
+
+            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOff, ReturnedTestedStatus.ActualControllerState );
+            Assert.AreEqual( HeaterStatus.OperationState.Idle, ReturnedTestedStatus.ActualOperationState );
+            Assert.IsFalse( IsOn );
         }
     }
 }
