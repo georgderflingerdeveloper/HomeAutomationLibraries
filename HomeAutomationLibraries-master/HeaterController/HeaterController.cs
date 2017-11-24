@@ -9,12 +9,12 @@ namespace HomeAutomationHeater
 {
     public class ControlTimers
     {
-        public ITimer TimerOn     { get; set; }
-        public ITimer TimerLow    { get; set; }
+        public ITimer TimerOn     { get; set; } // timer for turning heating system on
+        public ITimer TimerLow    { get; set; } // timer for changing itensity
         public ITimer TimerMiddle { get; set; }
         public ITimer TimerHigh   { get; set; }
-        public ITimer TimerPwm    { get; set; }
-        public ITimer TimerSignal { get; set; }
+        public ITimer TimerPwm    { get; set; } // worker timer for pwm job
+        public ITimer TimerSignal { get; set; } // timer for indication signal
     }
 
     [Serializable]
@@ -31,6 +31,8 @@ namespace HomeAutomationHeater
 
         public ControllerState ActualControllerState { get; set; }
 
+        public  int ActualSignalisationCounts { get; set; }
+
         public enum OperationState
         {
             Idle,
@@ -43,6 +45,18 @@ namespace HomeAutomationHeater
         }
 
         public OperationState ActualOperationState { get; set; }
+
+        public enum PwmState
+        {
+            Idle,
+            Low,
+            Medium,
+            High,
+            PwmInvalidForTesting = 99
+        }
+
+        public PwmState ActualPwmState { get; set; }
+
 
         public enum InformationAction
         {
@@ -81,6 +95,7 @@ namespace HomeAutomationHeater
         public TimeSpan CmdDurationForTurningStartingStopping { get; set; }
         public TimeSpan CmdDurationForItensityChange { get; set; }
         public TimeSpan CmdDurationForActivatingPause { get; set; }
+        public TimeSpan SignalDurationSignalisation { get; set; }
         public TimeSpan SignalDurationOn { get; set; }
         public TimeSpan SignalDurationOff { get; set; }
         public TimeSpan SignalDurationLowOn { get; set; }
@@ -306,6 +321,14 @@ namespace HomeAutomationHeater
         }
     }
 
+
+    public static class Settings
+    {
+        public static int SignalCountsForPwmLow    = 2;
+        public static int SignalCountsForPwmMedium = 3;
+        public static int SignalCountsForPwmHigh   = 4;
+    }
+
     public class HeaterControllerPulseWidhtModulation : HeaterController
     {
         ControlTimers _HeaterControlTimers;
@@ -318,6 +341,8 @@ namespace HomeAutomationHeater
             _HeaterControlTimers.TimerOn.SetTime( Parameters.SignalDurationOn );
             _HeaterControlTimers.TimerLow.Elapsed += ControlTimerLowElapsed;
             _HeaterControlTimers.TimerLow.SetTime( Parameters.SignalDurationLowOn );
+            _HeaterControlTimers.TimerSignal.Elapsed += TimerSignalElapsed;
+            _HeaterControlTimers.TimerSignal.SetTime( Parameters.SignalDurationSignalisation );
         }
 
         void UpdateStatusAndEventArgs( )
@@ -328,16 +353,28 @@ namespace HomeAutomationHeater
 
         private void TimerOnElapsed( object sender, ElapsedEventArgs e )
         {
-            HeaterEvArgs.Status.ActualOperationState = HeaterStatus.OperationState.RegularOperation;
+            HeaterEvArgs.Status.ActualOperationState  = HeaterStatus.OperationState.RegularOperation;
             HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerIsOn;
-            HeaterEvArgs.Status.ActualActionInfo = HeaterStatus.InformationAction.ItensityChanging;
+            HeaterEvArgs.Status.ActualActionInfo      = HeaterStatus.InformationAction.ItensityChanging;
+            HeaterEvArgs.Status.ActualPwmState        = HeaterStatus.PwmState.Idle;
             Turn( GeneralConstants.ON );
+            _HeaterControlTimers.TimerLow.Start( );
             UpdateStatusAndEventArgs( );
         }
 
         private void ControlTimerLowElapsed( object sender, ElapsedEventArgs e )
         {
-            throw new NotImplementedException( );
+            HeaterEvArgs.Status.ActualOperationState  = HeaterStatus.OperationState.PwmIsWorking;
+            HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerIsOn;
+            HeaterEvArgs.Status.ActualActionInfo      = HeaterStatus.InformationAction.ItensityChanging;
+            HeaterEvArgs.Status.ActualPwmState        = HeaterStatus.PwmState.Low;
+            _HeaterControlTimers.TimerSignal.Start( );
+            UpdateStatusAndEventArgs( );
+        }
+
+        private void TimerSignalElapsed( object sender, ElapsedEventArgs e )
+        {
+            Turn( GeneralConstants.OFF );
         }
 
         override protected void ControllerStart()

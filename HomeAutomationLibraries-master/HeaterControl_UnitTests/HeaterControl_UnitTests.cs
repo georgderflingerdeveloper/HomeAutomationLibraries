@@ -354,6 +354,7 @@ namespace HeaterControl_UnitTests
         Mock<ITimer>                         MockControlLow;
         Mock<ITimer>                         MockControlMiddle;
         Mock<ITimer>                         MockControlHigh;
+        Mock<ITimer>                         MockSignal;
         Mock<ControlTimers>                  MockedHeaterControlTimers;
 
         void FakeInitialStatusForTesting()
@@ -367,11 +368,22 @@ namespace HeaterControl_UnitTests
             }
         }
 
-        void MakeAndVerifyControllerOn()
+        void MakeAndVerifyControllerTimer( Mock<ITimer> MockedTestTimer )
         {
-            MockControlOn.Verify( obj => obj.SetTime( new TimeSpan( ) ) );
-            MockControlOn.Verify( obj => obj.Start( ) );
-            MockControlOn.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
+            MockedTestTimer.Verify( obj => obj.SetTime( new TimeSpan( ) ) );
+            MockedTestTimer.Verify( obj => obj.Start( ) );
+            MockedTestTimer.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
+        }
+
+        void MakeAndVerifyControllerOn( )
+        {
+            MakeAndVerifyControllerTimer( MockControlOn );
+        }
+
+        void MakeAndVerifyControllerPwmLow( )
+        {
+            MakeAndVerifyControllerOn( );
+            MakeAndVerifyControllerTimer( MockControlLow );
         }
 
         void SetupTest()
@@ -382,6 +394,7 @@ namespace HeaterControl_UnitTests
             MockControlLow                             = new Mock<ITimer>( );
             MockControlMiddle                          = new Mock<ITimer>( );
             MockControlHigh                            = new Mock<ITimer>( );
+            MockSignal                                 = new Mock<ITimer>( );
             MockedHeaterControlTimers                  = new Mock<ControlTimers>( );
             ITimer PauseController                     = MockedDelayControllerPause.Object;
             ITimer TimerForToggeling                   = MockedToggeling.Object;
@@ -390,6 +403,7 @@ namespace HeaterControl_UnitTests
             HeaterControlTimers.TimerLow               = MockControlLow.Object;
             HeaterControlTimers.TimerMiddle            = MockControlMiddle.Object;
             HeaterControlTimers.TimerHigh              = MockControlHigh.Object;
+            HeaterControlTimers.TimerSignal            = MockSignal.Object;
 
             TestController = new HeaterControllerPulseWidhtModulation( new HeaterParameters( ), HeaterControlTimers, PauseController, TimerForToggeling );
             TestStatus = new HeaterStatus( );
@@ -486,5 +500,56 @@ namespace HeaterControl_UnitTests
             Assert.AreEqual( HeaterStatus.OperationState.Idle, ReturnedTestedStatus.ActualOperationState );
             Assert.IsFalse( IsOn );
         }
+
+        [Test]
+        public void TestCase_PwmOff_To_Low_StatusCheck()
+        {
+            FakeInitialStatusForTesting( );
+
+            bool IsOn = true;
+
+            TestController.EActivityChanged += ( sender, e ) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.Start( );
+
+            MakeAndVerifyControllerPwmLow( );
+
+            HeaterStatus ReturnedTestedStatus = TestController.GetStatus( );
+
+            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOn, ReturnedTestedStatus.ActualControllerState );
+            Assert.AreEqual( HeaterStatus.OperationState.PwmIsWorking, ReturnedTestedStatus.ActualOperationState );
+            Assert.AreEqual( HeaterStatus.PwmState.Low, ReturnedTestedStatus.ActualPwmState );
+            Assert.AreEqual( HeaterStatus.InformationAction.ItensityChanging, ReturnedTestedStatus.ActualActionInfo );
+            Assert.IsTrue( IsOn );
+        }
+
+        [Test]
+        public void TestCase_PwmOff_To_Low_InitialSignalisation()
+        {
+            FakeInitialStatusForTesting( );
+
+            bool IsOn = true;
+
+            TestController.EActivityChanged += ( sender, e ) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.Start( );
+
+            MakeAndVerifyControllerPwmLow( );
+            MakeAndVerifyControllerTimer( MockSignal );
+
+            HeaterStatus ReturnedTestedStatus = TestController.GetStatus( );
+
+            Assert.AreEqual( Settings.SignalCountsForPwmLow, ReturnedTestedStatus.ActualSignalisationCounts );
+            Assert.IsFalse( IsOn );
+        }
+
     }
 }
