@@ -399,7 +399,7 @@ namespace HeaterControl_UnitTests
             ITimer PauseController                     = MockedDelayControllerPause.Object;
             ITimer TimerForToggeling                   = MockedToggeling.Object;
             ControlTimers HeaterControlTimers          = MockedHeaterControlTimers.Object;
-            HeaterControlTimers.TimerOn                = MockControlOn.Object;
+            HeaterControlTimers.TimerOnOff                = MockControlOn.Object;
             HeaterControlTimers.TimerLow               = MockControlLow.Object;
             HeaterControlTimers.TimerMiddle            = MockControlMiddle.Object;
             HeaterControlTimers.TimerHigh              = MockControlHigh.Object;
@@ -547,8 +547,49 @@ namespace HeaterControl_UnitTests
 
             HeaterStatus ReturnedTestedStatus = TestController.GetStatus( );
 
-            Assert.AreEqual( Settings.SignalCountsForPwmLow, ReturnedTestedStatus.ActualSignalisationCounts );
             Assert.IsFalse( IsOn );
+        }
+
+        [Test]
+        public void TestCase_PwmOff_To_Low_SignalisationSequence()
+        {
+            FakeInitialStatusForTesting( );
+
+            bool IsOn = true;
+
+            TestController.EActivityChanged += ( sender, e ) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.Start( );
+
+            MakeAndVerifyControllerPwmLow( );
+            MakeAndVerifyControllerTimer( MockSignal );
+
+            for (int i = 1; i <= Settings.SignalCountsForPwmLow; i++)
+            {
+                MockSignal.Verify( obj => obj.Stop( ), Times.Exactly(i) );
+                MockSignal.Verify( obj => obj.Start( ) , Times.Exactly(i+1) );
+                MockSignal.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
+
+                bool EverySecondTime = ( i % 2 ) == 0;
+
+                if ( EverySecondTime )
+                {
+                    Assert.IsFalse( IsOn );
+                }
+                else
+                {
+                    Assert.IsTrue( IsOn );
+                }
+            }
+
+            HeaterStatus ReturnedTestedStatus = TestController.GetStatus( );
+
+            Assert.AreEqual( 0, ReturnedTestedStatus.ActualSignalisationCounts );
+            Assert.IsTrue( IsOn );
         }
 
     }
