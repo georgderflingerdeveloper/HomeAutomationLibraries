@@ -1,9 +1,9 @@
 ﻿using NUnit.Framework;
-using HomeAutomationHeater;
 using TimerMockable;
 using Moq;
 using System;
 using System.Timers;
+using HomeAutomationHeater;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -355,6 +355,7 @@ namespace HeaterControl_UnitTests
         Mock<ITimer>                         MockControlMiddle;
         Mock<ITimer>                         MockControlHigh;
         Mock<ITimer>                         MockSignal;
+        Mock<ITimer>                         MockPwm;
         Mock<ControlTimers>                  MockedHeaterControlTimers;
 
         void FakeInitialStatusForTesting()
@@ -395,15 +396,17 @@ namespace HeaterControl_UnitTests
             MockControlMiddle                          = new Mock<ITimer>( );
             MockControlHigh                            = new Mock<ITimer>( );
             MockSignal                                 = new Mock<ITimer>( );
-            MockedHeaterControlTimers                  = new Mock<ControlTimers>( );
+            MockPwm                                    = new Mock<ITimer>( );
+            MockedHeaterControlTimers = new Mock<ControlTimers>( );
             ITimer PauseController                     = MockedDelayControllerPause.Object;
             ITimer TimerForToggeling                   = MockedToggeling.Object;
             ControlTimers HeaterControlTimers          = MockedHeaterControlTimers.Object;
-            HeaterControlTimers.TimerOnOff                = MockControlOn.Object;
+            HeaterControlTimers.TimerOnOff               = MockControlOn.Object;
             HeaterControlTimers.TimerLow               = MockControlLow.Object;
             HeaterControlTimers.TimerMiddle            = MockControlMiddle.Object;
             HeaterControlTimers.TimerHigh              = MockControlHigh.Object;
             HeaterControlTimers.TimerSignal            = MockSignal.Object;
+            HeaterControlTimers.TimerPwm               = MockPwm.Object;
 
             TestController = new HeaterControllerPulseWidhtModulation( new HeaterParameters( ), HeaterControlTimers, PauseController, TimerForToggeling );
             TestStatus = new HeaterStatus( );
@@ -421,7 +424,6 @@ namespace HeaterControl_UnitTests
         {
             SetupTest( );
         }
-
 
         [TearDown]
         public void TearDownTests()
@@ -590,6 +592,29 @@ namespace HeaterControl_UnitTests
 
             Assert.AreEqual( 0, ReturnedTestedStatus.ActualSignalisationCounts );
             Assert.IsTrue( IsOn );
+        }
+
+        [Test]
+        public void TestCase_PwmOff_To_Low_StartWith_HIGH()
+        {
+            FakeInitialStatusForTesting( );
+
+            bool IsOn = true;
+
+            TestController.EActivityChanged += ( sender, e ) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.Start( );
+
+            MakeAndVerifyControllerPwmLow( );
+            MakeAndVerifyControllerTimer( MockPwm ); // PWM HIGH
+
+            HeaterStatus ReturnedTestedStatus = TestController.GetStatus( );
+
+            Assert.IsFalse( IsOn );
         }
 
     }
