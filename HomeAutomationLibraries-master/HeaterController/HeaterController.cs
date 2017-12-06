@@ -332,11 +332,13 @@ namespace HomeAutomationHeater
     public class HeaterControllerPulseWidhtModulation : HeaterController
     {
         ControlTimers _HeaterControlTimers;
+        HeaterParameters _HeaterParameters;
         bool ToggleSignal = false;
         public new event ActivityChanged EActivityChanged;
         public HeaterControllerPulseWidhtModulation( HeaterParameters Parameters, ControlTimers HeaterControlTimers, ITimer PauseController, ITimer DelayToggelingController )
             : base( Parameters, PauseController, DelayToggelingController )
         {
+            _HeaterParameters = Parameters;
             _HeaterControlTimers = HeaterControlTimers;
             _HeaterControlTimers.TimerOnOff.Elapsed += TimerOnOffElapsed;
             _HeaterControlTimers.TimerOnOff.SetTime( Parameters.SignalDurationOn );
@@ -344,8 +346,10 @@ namespace HomeAutomationHeater
             _HeaterControlTimers.TimerLow.SetTime( Parameters.SignalDurationLowOn );
             _HeaterControlTimers.TimerSignal.Elapsed += TimerSignalElapsed;
             _HeaterControlTimers.TimerSignal.SetTime( Parameters.SignalDurationSignalisation );
+            _HeaterControlTimers.TimerPwm.Elapsed += TimerPwmElapsed;
+            _HeaterControlTimers.TimerPwm.SetTime( Parameters.SignalDurationLowOn );
         }
-
+ 
         void UpdateStatusAndEventArgs( )
         {
             _Status = HeaterEvArgs.Status;
@@ -370,9 +374,16 @@ namespace HomeAutomationHeater
             HeaterEvArgs.Status.ActualActionInfo          = HeaterStatus.InformationAction.ItensityChanging;
             HeaterEvArgs.Status.ActualPwmState            = HeaterStatus.PwmState.Low;
             HeaterEvArgs.Status.ActualSignalisationCounts = Settings.SignalCountsForPwmLow;
+            _HeaterControlTimers.TimerPwm.SetTime( _HeaterParameters.SignalDurationLowOn );
+            _HeaterControlTimers.TimerPwm.Start( );
             Turn( GeneralConstants.ON );
             _HeaterControlTimers.TimerSignal.Start( );
             UpdateStatusAndEventArgs( );
+        }
+
+        private void TimerPwmElapsed( object sender, ElapsedEventArgs e )
+        {
+            throw new NotImplementedException( );
         }
 
         private void TimerSignalElapsed( object sender, ElapsedEventArgs e )

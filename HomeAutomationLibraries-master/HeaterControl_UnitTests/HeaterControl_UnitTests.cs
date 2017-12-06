@@ -376,6 +376,24 @@ namespace HeaterControl_UnitTests
             MockedTestTimer.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
         }
 
+        void PwmStartedAndElapsed()
+        {
+            MockPwm.Verify( obj => obj.Start( ) );
+            MockPwm.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
+        }
+
+        void MakeAndVerifyPwmLowOff()
+        {
+            MockPwm.Verify( obj => obj.SetTime( new HeaterParameters().SignalDurationLowOff ));
+            PwmStartedAndElapsed( );
+        }
+
+        void MakeAndVerifyPwmLowOn()
+        {
+            MockPwm.Verify( obj => obj.Start( ) );
+            MockPwm.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
+        }
+
         void MakeAndVerifyControllerOn( )
         {
             MakeAndVerifyControllerTimer( MockControlOn );
@@ -401,7 +419,7 @@ namespace HeaterControl_UnitTests
             ITimer PauseController                     = MockedDelayControllerPause.Object;
             ITimer TimerForToggeling                   = MockedToggeling.Object;
             ControlTimers HeaterControlTimers          = MockedHeaterControlTimers.Object;
-            HeaterControlTimers.TimerOnOff               = MockControlOn.Object;
+            HeaterControlTimers.TimerOnOff             = MockControlOn.Object;
             HeaterControlTimers.TimerLow               = MockControlLow.Object;
             HeaterControlTimers.TimerMiddle            = MockControlMiddle.Object;
             HeaterControlTimers.TimerHigh              = MockControlHigh.Object;
@@ -595,27 +613,21 @@ namespace HeaterControl_UnitTests
         }
 
         [Test]
-        public void TestCase_PwmOff_To_Low_StartWith_HIGH()
+        public void TestCase_PwmOff_To_Low()
         {
-            FakeInitialStatusForTesting( );
+            MockControlLow.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
 
-            bool IsOn = true;
-
-            TestController.EActivityChanged += ( sender, e ) =>
-            {
-                TestStatus = e.Status;
-                IsOn = e.TurnOn;
-            };
-
-            TestController.Start( );
-
-            MakeAndVerifyControllerPwmLow( );
-            MakeAndVerifyControllerTimer( MockPwm ); // PWM HIGH
-
-            HeaterStatus ReturnedTestedStatus = TestController.GetStatus( );
-
-            Assert.IsFalse( IsOn );
+            MockPwm.Verify( obj => obj.Start( ) );
+            MockPwm.Verify( obj => obj.SetTime( new HeaterParameters().SignalDurationLowOn ) );
         }
 
+        [Test]
+        public void TestCase_PwmStartedWithLowParameters()
+        {
+            MockPwm.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
+
+            MockPwm.Verify( obj => obj.Stop( ) );
+            MockPwm.Verify( obj => obj.SetTime( new HeaterParameters( ).SignalDurationLowOff ) );
+        }
     }
 }
