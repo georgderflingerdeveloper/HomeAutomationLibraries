@@ -4,6 +4,7 @@ using System;
 using System.Timers;
 using TimerMockable;
 using Signalsequencer;
+using System.Runtime.Remoting.Messaging;
 
 namespace HomeAutomationHeater
 {
@@ -98,8 +99,11 @@ namespace HomeAutomationHeater
         public TimeSpan SignalDurationSignalisation { get; set; }
         public TimeSpan SignalDurationOn { get; set; }
         public TimeSpan SignalDurationOff { get; set; }
-        public TimeSpan SignalDurationLowOn { get; set; }
-        public TimeSpan SignalDurationLowOff { get; set; }
+        //public TimeSpan SignalDurationLowOn { get; set; }
+        //public TimeSpan SignalDurationLowOff { get; set; }
+
+        public TimeSpan SignalDurationLowOn { get=>SignalDurationLowOn = new TimeSpan(0,5,0); set => new TimeSpan(); }
+        public TimeSpan SignalDurationLowOff { get=>SignalDurationLowOff = new TimeSpan(0,15,0); set => new TimeSpan(); }
         public TimeSpan SignalDurationMiddleOn { get; set; }
         public TimeSpan SignalDurationMiddleOff { get; set; }
         public TimeSpan SignalDurationHighOn { get; set; }
@@ -334,6 +338,7 @@ namespace HomeAutomationHeater
         ControlTimers _HeaterControlTimers;
         HeaterParameters _HeaterParameters;
         bool ToggleSignal = false;
+        bool TogglePwm = false;
         public new event ActivityChanged EActivityChanged;
         public HeaterControllerPulseWidhtModulation( HeaterParameters Parameters, ControlTimers HeaterControlTimers, ITimer PauseController, ITimer DelayToggelingController )
             : base( Parameters, PauseController, DelayToggelingController )
@@ -383,7 +388,24 @@ namespace HomeAutomationHeater
 
         private void TimerPwmElapsed( object sender, ElapsedEventArgs e )
         {
-            throw new NotImplementedException( );
+            _HeaterControlTimers.TimerPwm.Stop();
+            if( !TogglePwm )
+            {
+                switch( HeaterEvArgs.Status.ActualPwmState )
+                {
+                    case HeaterStatus.PwmState.Low:
+                         _HeaterControlTimers.TimerPwm.SetTime( _HeaterParameters.SignalDurationLowOff );
+                         break;
+                }
+                Turn( GeneralConstants.OFF );
+                UpdateStatusAndEventArgs( );
+                TogglePwm = !TogglePwm;
+            }
+            else
+            {
+                // TODO
+            }
+            _HeaterControlTimers.TimerPwm.Start();
         }
 
         private void TimerSignalElapsed( object sender, ElapsedEventArgs e )
