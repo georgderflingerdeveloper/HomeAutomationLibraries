@@ -369,9 +369,9 @@ namespace HeaterControl_UnitTests
             }
         }
 
-        void MakeAndVerifyControllerTimer( Mock<ITimer> MockedTestTimer )
+        void MakeAndVerifyControllerTimer( Mock<ITimer> MockedTestTimer, TimeSpan ConfiguredTime )
         {
-            MockedTestTimer.Verify( obj => obj.SetTime( new TimeSpan( ) ) );
+            MockedTestTimer.Verify( obj => obj.SetTime( ConfiguredTime ) );
             MockedTestTimer.Verify( obj => obj.Start( ) );
             MockedTestTimer.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
         }
@@ -396,13 +396,13 @@ namespace HeaterControl_UnitTests
 
         void MakeAndVerifyControllerOn( )
         {
-            MakeAndVerifyControllerTimer( MockControlOn );
+            MakeAndVerifyControllerTimer( MockControlOn, new HeaterParameters().SignalDurationOn );
         }
 
         void MakeAndVerifyControllerPwmLow( )
         {
             MakeAndVerifyControllerOn( );
-            MakeAndVerifyControllerTimer( MockControlLow );
+            MakeAndVerifyControllerTimer( MockControlLow, new HeaterParameters( ).SignalDurationLowOn );
         }
 
         void SetupTest()
@@ -563,7 +563,7 @@ namespace HeaterControl_UnitTests
             TestController.Start( );
 
             MakeAndVerifyControllerPwmLow( );
-            MakeAndVerifyControllerTimer( MockSignal );
+            MakeAndVerifyControllerTimer( MockSignal, new HeaterParameters().SignalDurationSignalisation );
 
             HeaterStatus ReturnedTestedStatus = TestController.GetStatus( );
 
@@ -571,7 +571,7 @@ namespace HeaterControl_UnitTests
         }
 
         [Test]
-        public void TestCase_PwmOff_To_Low_SignalisationSequence()
+        public void TestCase_PwmOff_To_Low_SignalisationStart()
         {
             FakeInitialStatusForTesting( );
 
@@ -583,33 +583,41 @@ namespace HeaterControl_UnitTests
                 IsOn = e.TurnOn;
             };
 
-            TestController.Start( );
+ 
+            MockControlLow.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
+            MockSignal.Verify( obj => obj.Start( ) );
+        }
 
-            MakeAndVerifyControllerPwmLow( );
-            MakeAndVerifyControllerTimer( MockSignal );
+        [Test]
+        public void TestCase_PwmOff_To_Low_SignalisationSequence()
+        {
+            FakeInitialStatusForTesting( );
+
+            bool IsOn = false;
+
+            TestController.EActivityChanged += ( sender, e ) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
 
             for (int i = 1; i <= Settings.SignalCountsForPwmLow; i++)
             {
-                MockSignal.Verify( obj => obj.Stop( ), Times.Exactly(i) );
-                MockSignal.Verify( obj => obj.Start( ) , Times.Exactly(i+1) );
                 MockSignal.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
+                MockSignal.Verify( obj => obj.Stop( ), Times.Exactly( i ) );
+                MockSignal.Verify( obj => obj.Start( ), Times.Exactly( i ) );
 
                 bool EverySecondTime = ( i % 2 ) == 0;
 
-                if ( EverySecondTime )
-                {
-                    Assert.IsFalse( IsOn );
-                }
-                else
+                if (EverySecondTime)
                 {
                     Assert.IsTrue( IsOn );
                 }
+                else
+                {
+                    Assert.IsFalse( IsOn );
+                }
             }
-
-            HeaterStatus ReturnedTestedStatus = TestController.GetStatus( );
-
-            Assert.AreEqual( 0, ReturnedTestedStatus.ActualSignalisationCounts );
-            Assert.IsTrue( IsOn );
         }
 
         [Test]
