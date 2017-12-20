@@ -641,7 +641,7 @@ namespace HeaterControl_UnitTests
         }
 
         [Test]
-        public void TestCase_PwmStartedWithLowParametersIsNowLOW_CheckTurnOn()
+        public void TestCase_PwmStartedWithLowParametersIsNowLOW_CheckIfTurnedOff()
         {
             bool IsOn = true;
 
@@ -664,10 +664,35 @@ namespace HeaterControl_UnitTests
             MockPwm.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
             MockPwm.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
 
-            MockPwm.Verify( obj => obj.Stop( ),Times.Exactly(2) );
-            MockPwm.Verify( obj => obj.SetTime( new HeaterParameters( ).SignalDurationLowOff ) );
-            MockPwm.Verify( obj => obj.Start( ), Times.Exactly(3) );
-
+            // first time is creation
+            // second time is pwm low
+            // third time is pwm on again
+            MockPwm.Verify( obj => obj.SetTime( new HeaterParameters( ).SignalDurationLowOn ), Times.Exactly(3) );
         }
+
+        [Test]
+        public void TestCase_PwmStartedWithLowParametersIsNowHIGH_CheckIfTurnedOn()
+        {
+            bool IsOn = false;
+
+            TestController.EActivityChanged += ( sender, e ) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            MockControlLow.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
+            MockPwm.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
+            // check alternating turn on/off
+            Assert.IsFalse( IsOn );
+            MockPwm.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
+            Assert.IsTrue( IsOn );
+            MockPwm.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
+            Assert.IsFalse( IsOn );
+            MockPwm.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
+            Assert.IsTrue( IsOn );
+        }
+
+
     }
 }

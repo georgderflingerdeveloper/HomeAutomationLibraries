@@ -99,9 +99,6 @@ namespace HomeAutomationHeater
         public TimeSpan SignalDurationSignalisation { get; set; }
         public TimeSpan SignalDurationOn { get; set; }
         public TimeSpan SignalDurationOff { get; set; }
-        //public TimeSpan SignalDurationLowOn { get; set; }
-        //public TimeSpan SignalDurationLowOff { get; set; }
-
         public TimeSpan SignalDurationLowOn { get=>SignalDurationLowOn = new TimeSpan(0,5,0); set => new TimeSpan(); }
         public TimeSpan SignalDurationLowOff { get=>SignalDurationLowOff = new TimeSpan(0,15,0); set => new TimeSpan(); }
         public TimeSpan SignalDurationMiddleOn { get; set; }
@@ -368,7 +365,6 @@ namespace HomeAutomationHeater
             HeaterEvArgs.Status.ActualActionInfo      = HeaterStatus.InformationAction.ItensityChanging;
             HeaterEvArgs.Status.ActualPwmState        = HeaterStatus.PwmState.Idle;
             Turn( GeneralConstants.ON );
-            _HeaterControlTimers.TimerLow.Start( );
             UpdateStatusAndEventArgs( );
         }
 
@@ -399,13 +395,20 @@ namespace HomeAutomationHeater
                 }
                 Turn( GeneralConstants.OFF );
                 UpdateStatusAndEventArgs( );
-                TogglePwm = !TogglePwm;
-            }
+             }
             else
             {
-                // TODO
+                switch( HeaterEvArgs.Status.ActualPwmState )
+                {
+                    case HeaterStatus.PwmState.Low:
+                         _HeaterControlTimers.TimerPwm.SetTime( _HeaterParameters.SignalDurationLowOn );
+                         break;
+                }
+                Turn( GeneralConstants.ON );
+                UpdateStatusAndEventArgs( );
             }
             _HeaterControlTimers.TimerPwm.Start();
+            TogglePwm = !TogglePwm;
         }
 
         private void TimerSignalElapsed( object sender, ElapsedEventArgs e )
@@ -436,18 +439,19 @@ namespace HomeAutomationHeater
             EActivityChanged?.Invoke( this, HeaterEvArgs );
         }
 
-        override protected void ControllerStart()
+        override protected void ControllerStart( )
         {
             Turn( GeneralConstants.OFF );
             HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerIsOff;
             _HeaterControlTimers.TimerOnOff.Start( );
+            _HeaterControlTimers.TimerLow.Start( );
             HeaterEvArgs.Status.ActualOperationState = HeaterStatus.OperationState.Idle;
             HeaterEvArgs.Status.ActualActionInfo = HeaterStatus.InformationAction.TurningOn;
             _Status = HeaterEvArgs.Status;
             EActivityChanged?.Invoke( this, HeaterEvArgs );
         }
 
-        protected override void ConfirmCommand()
+        protected override void ConfirmCommand( )
         {
             _HeaterControlTimers.TimerOnOff.Stop( );
             switch( HeaterEvArgs.Status.ActualControllerState )
