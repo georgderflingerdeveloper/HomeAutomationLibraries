@@ -419,7 +419,7 @@ namespace HeaterControl_UnitTests
             ITimer PauseController                     = MockedDelayControllerPause.Object;
             ITimer TimerForToggeling                   = MockedToggeling.Object;
             ControlTimers HeaterControlTimers          = MockedHeaterControlTimers.Object;
-            HeaterControlTimers.TimerOnOff             = MockControlOn.Object;
+            HeaterControlTimers.TimerOn             = MockControlOn.Object;
             HeaterControlTimers.TimerLow               = MockControlLow.Object;
             HeaterControlTimers.TimerMiddle            = MockControlMiddle.Object;
             HeaterControlTimers.TimerHigh              = MockControlHigh.Object;
