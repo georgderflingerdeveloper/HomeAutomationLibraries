@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2009
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "COMPONENTS", "COMPONENTS", "{C3AEE8A0-4FB0-4ABC-B546-33CFF7B9155B}"
 EndProject
@@ -102,6 +102,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalSequencer", "SignalSe
 		{323A5AA7-F7EB-4990-9B0E-540D75837716} = {323A5AA7-F7EB-4990-9B0E-540D75837716}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyEventsAtConsole", "KeyEventsAtConsole\KeyEventsAtConsole.csproj", "{6FC3E203-9513-4F12-9966-B41F31A6396E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -168,6 +170,10 @@ Global
 		{C4730F40-64B6-49FC-A425-1582EF62D91D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4730F40-64B6-49FC-A425-1582EF62D91D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4730F40-64B6-49FC-A425-1582EF62D91D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FC3E203-9513-4F12-9966-B41F31A6396E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FC3E203-9513-4F12-9966-B41F31A6396E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FC3E203-9513-4F12-9966-B41F31A6396E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FC3E203-9513-4F12-9966-B41F31A6396E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -203,6 +209,7 @@ Global
 		{530F1719-BE6A-428B-89C5-311E4A1AC11F} = {708CE887-0229-407B-A64E-9130C64D18E6}
 		{48DB8749-462F-469F-AA70-55CC157146FF} = {C829C412-EE18-452A-BDF8-5D06C210266E}
 		{C4730F40-64B6-49FC-A425-1582EF62D91D} = {48DB8749-462F-469F-AA70-55CC157146FF}
+		{6FC3E203-9513-4F12-9966-B41F31A6396E} = {479D24D1-9321-4886-A3DC-25B697ACF871}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F2D5ECD2-3BFF-4757-85DF-DA4D75D9684D}
