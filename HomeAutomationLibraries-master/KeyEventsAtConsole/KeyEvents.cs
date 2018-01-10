@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading;
+using System.Timers;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System.Linq;
@@ -92,26 +94,59 @@ namespace KeyEventsAtConsole
         #endregion
     }
 
+
+
     class KeyEvents
     {
+        static int origRow;
+        static int origCol;
+
+        static System.Timers.Timer UpdateStopWatchTimer = new System.Timers.Timer( 100 );
+        static Stopwatch Watch = new Stopwatch( );
+
+        protected static void WriteAt( string s, int x, int y )
+        {
+            try
+            {
+                Console.SetCursorPosition( origCol + x, origRow + y );
+                Console.Write( s );
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                Console.Clear( );
+                Console.WriteLine( e.Message );
+            }
+        }
+
         static void Main( string[] args )
         {
-
             var kbInput = new KeyboardInput( ConsoleKey.Escape );
             kbInput.OnKeyDown += OnKeyDown;
             kbInput.OnKeyUp += OnKeyUp;
 
+            UpdateStopWatchTimer.Elapsed += ( sender, e ) =>
+            {
+                Console.Write( Watch.Elapsed.TotalMilliseconds.ToString() +  "\r");
+                UpdateStopWatchTimer.Stop( );
+                UpdateStopWatchTimer.Start( );
+            };
             kbInput.Run( );
         }
 
+
         private static void OnKeyDown( char key, short code )
         {
+            UpdateStopWatchTimer.Start( );
+            Watch.Start( );
             Console.WriteLine( $"Key pressed: {key} (virtual code: 0x{code:X})" );
         }
 
         private static void OnKeyUp( char key, short code )
         {
-            Console.WriteLine( $"Key released: {key} (virtual code: 0x{code:X})" );
-        }
+            UpdateStopWatchTimer.Stop( );
+            Watch.Stop( );
+            Console.WriteLine( $"Key released: {key} (virtual code: 0x{code:X}), Pressed milliseconds: " + Watch.Elapsed.TotalMilliseconds.ToString( ) );
+            Watch.Reset( );
+       }
     }
 }
