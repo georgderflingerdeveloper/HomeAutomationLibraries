@@ -693,6 +693,13 @@ namespace HeaterControl_UnitTests
             Assert.IsTrue( IsOn );
         }
 
+        [Test]
+        public void TestControllerIsInitialised()
+        {
+            //HeaterControllerPulseWidhtModulation Test_Controller = new HeaterControllerPulseWidhtModulation( new HeaterParameters(), new ControlTimers() , new Timer_(500), new Timer_(500) );
+        }
+
+
 
     }
 }

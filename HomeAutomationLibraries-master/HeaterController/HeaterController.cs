@@ -10,7 +10,7 @@ namespace HomeAutomationHeater
 {
     public class ControlTimers
     {
-        public ITimer TimerOn  { get; set; } // timer for turning heating system on
+        public ITimer TimerOn     { get; set; } // timer for turning heating system on
         public ITimer TimerLow    { get; set; } // timer for changing itensity
         public ITimer TimerMiddle { get; set; }
         public ITimer TimerHigh   { get; set; }
@@ -338,16 +338,21 @@ namespace HomeAutomationHeater
 
     public class HeaterControllerPulseWidhtModulation : HeaterController
     {
-        ControlTimers _HeaterControlTimers;
+        ControlTimers  _HeaterControlTimers;
         HeaterParameters _HeaterParameters;
         bool ToggleSignal = false;
         bool TogglePwm = false;
         public new event ActivityChanged EActivityChanged;
+        double DefaultTimerValue = 1000;
         public HeaterControllerPulseWidhtModulation( HeaterParameters Parameters, ControlTimers HeaterControlTimers, ITimer PauseController, ITimer DelayToggelingController )
             : base( Parameters, PauseController, DelayToggelingController )
         {
             _HeaterParameters = Parameters;
             _HeaterControlTimers = HeaterControlTimers;
+            _HeaterControlTimers.TimerOn = new Timer_(DefaultTimerValue);
+            _HeaterControlTimers.TimerLow = new Timer_(DefaultTimerValue);
+            _HeaterControlTimers.TimerSignal = new Timer_(DefaultTimerValue);
+            _HeaterControlTimers.TimerPwm = new Timer_(DefaultTimerValue);
             _HeaterControlTimers.TimerOn.Elapsed += TimerOnElapsed;
             _HeaterControlTimers.TimerOn.SetTime( Parameters.SignalDurationOn );
             _HeaterControlTimers.TimerLow.Elapsed += ControlTimerLowElapsed;

@@ -66,9 +66,7 @@
       <Properties>
         <Policies>
           <VersionControlPolicy>
-            <CommitMessageStyle Indent="	" LastFilePostfix=":&#xA;  " LineAlign="0" IncludeDirectoryPaths="True" />
-            <inheritsSet />
-            <inheritsScope />
+            <CommitMessageStyle Indent="&#x9;" LastFilePostfix=":&#xA;  " LineAlign="0" IncludeDirectoryPaths="True" />
           </VersionControlPolicy>
         </Policies>
       </Properties>

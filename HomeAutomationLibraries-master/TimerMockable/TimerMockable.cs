@@ -18,6 +18,8 @@ namespace TimerMockable
 
         private Timer timer = new Timer( );
 
+        public Timer_() {}
+
         public Timer_( double intervall )
         {
             if (intervall > 0)
