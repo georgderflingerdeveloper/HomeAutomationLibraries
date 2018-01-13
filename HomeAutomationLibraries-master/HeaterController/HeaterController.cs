@@ -93,18 +93,18 @@ namespace HomeAutomationHeater
         public float SetTemperatureDay { get; set; }
         public float SetTemperatureNightLowering { get; set; }
         public float SetTemperatureEstimationTolerance { get; set; }
-        public TimeSpan CmdDurationForTurningStartingStopping { get; set; }
-        public TimeSpan CmdDurationForItensityChange { get; set; }
-        public TimeSpan CmdDurationForActivatingPause { get; set; }
-        public TimeSpan SignalDurationSignalisation { get; set; }
-        public TimeSpan SignalDurationOn { get; set; }
-        public TimeSpan SignalDurationOff { get; set; }
-        public TimeSpan SignalDurationLowOn { get=>SignalDurationLowOn = new TimeSpan(0,5,0); set => new TimeSpan(); }
-        public TimeSpan SignalDurationLowOff { get=>SignalDurationLowOff = new TimeSpan(0,15,0); set => new TimeSpan(); }
-        public TimeSpan SignalDurationMiddleOn { get; set; }
-        public TimeSpan SignalDurationMiddleOff { get; set; }
-        public TimeSpan SignalDurationHighOn { get; set; }
-        public TimeSpan SignalDurationHighOff { get; set; }
+        public TimeSpan CmdDurationForTurningStartingStopping        { get=>SignalDurationLowOn  = new TimeSpan(0,0,1);       set => new TimeSpan(); }
+        public TimeSpan CmdDurationForItensityChange                 { get=>SignalDurationLowOn  = new TimeSpan(0,0,0,2,500); set => new TimeSpan(); }
+        public TimeSpan CmdDurationForActivatingPause                { get=>SignalDurationLowOn  = new TimeSpan(0,1,0);       set => new TimeSpan(); }
+        public TimeSpan SignalDurationSignalisation                  { get=>SignalDurationLowOn  = new TimeSpan(0,0,0,0,500); set => new TimeSpan(); }
+        public TimeSpan CmdDurationTurningOn                         { get=>SignalDurationLowOn  = new TimeSpan(0,0,0,2,500); set => new TimeSpan(); }
+        public TimeSpan SignalDurationOff                            { get=>SignalDurationLowOn  = new TimeSpan(0,0,0,2,500); set => new TimeSpan(); }
+        public TimeSpan SignalDurationLowOn                          { get=>SignalDurationLowOn  = new TimeSpan(0,5,0);       set => new TimeSpan(); }
+        public TimeSpan SignalDurationLowOff                         { get=>SignalDurationLowOff = new TimeSpan(0,30,0);      set => new TimeSpan(); }
+        public TimeSpan SignalDurationMiddleOn                       { get=>SignalDurationLowOn  = new TimeSpan(0,5,0);       set => new TimeSpan(); }
+        public TimeSpan SignalDurationMiddleOff                      { get=>SignalDurationLowOff = new TimeSpan(0,20,0);      set => new TimeSpan(); }
+        public TimeSpan SignalDurationHighOn                         { get=>SignalDurationLowOn  = new TimeSpan(0,10,0);      set => new TimeSpan(); }
+        public TimeSpan SignalDurationHighOff                        { get=>SignalDurationLowOff = new TimeSpan(0,20,0);      set => new TimeSpan(); }
         public TimeSpan SignalDurationVariableOn { get; set; }
         public TimeSpan SignalDurationVariableOff { get; set; }
         public TimeSpan SignalDurationBoosting { get; set; }
@@ -349,12 +349,12 @@ namespace HomeAutomationHeater
         {
             _HeaterParameters = Parameters;
             _HeaterControlTimers = HeaterControlTimers;
-            _HeaterControlTimers.TimerOn = new Timer_(DefaultTimerValue);
-            _HeaterControlTimers.TimerLow = new Timer_(DefaultTimerValue);
-            _HeaterControlTimers.TimerSignal = new Timer_(DefaultTimerValue);
-            _HeaterControlTimers.TimerPwm = new Timer_(DefaultTimerValue);
+            //_HeaterControlTimers.TimerOn = new Timer_(DefaultTimerValue);
+            //_HeaterControlTimers.TimerLow = new Timer_(DefaultTimerValue);
+            //_HeaterControlTimers.TimerSignal = new Timer_(DefaultTimerValue);
+            //_HeaterControlTimers.TimerPwm = new Timer_(DefaultTimerValue);
             _HeaterControlTimers.TimerOn.Elapsed += TimerOnElapsed;
-            _HeaterControlTimers.TimerOn.SetTime( Parameters.SignalDurationOn );
+            _HeaterControlTimers.TimerOn.SetTime( Parameters.CmdDurationTurningOn );
             _HeaterControlTimers.TimerLow.Elapsed += ControlTimerLowElapsed;
             _HeaterControlTimers.TimerLow.SetTime( Parameters.SignalDurationLowOn );
             _HeaterControlTimers.TimerSignal.Elapsed += TimerSignalElapsed;
