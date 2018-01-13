@@ -349,10 +349,6 @@ namespace HomeAutomationHeater
         {
             _HeaterParameters = Parameters;
             _HeaterControlTimers = HeaterControlTimers;
-            //_HeaterControlTimers.TimerOn = new Timer_(DefaultTimerValue);
-            //_HeaterControlTimers.TimerLow = new Timer_(DefaultTimerValue);
-            //_HeaterControlTimers.TimerSignal = new Timer_(DefaultTimerValue);
-            //_HeaterControlTimers.TimerPwm = new Timer_(DefaultTimerValue);
             _HeaterControlTimers.TimerOn.Elapsed += TimerOnElapsed;
             _HeaterControlTimers.TimerOn.SetTime( Parameters.CmdDurationTurningOn );
             _HeaterControlTimers.TimerLow.Elapsed += ControlTimerLowElapsed;

@@ -708,7 +708,7 @@ namespace HeaterControl_UnitTests
                 TimerMiddle = new Timer_(DefaultTestTimerValue),
                 TimerSignal = new Timer_(DefaultTestTimerValue)
             };
-            HeaterControllerPulseWidhtModulation Test_Controller = new HeaterControllerPulseWidhtModulation( new HeaterParameters(), new ControlTimers() , new Timer_(500), new Timer_(500) );
+            HeaterControllerPulseWidhtModulation Test_Controller = new HeaterControllerPulseWidhtModulation( new HeaterParameters(), TestTimers, new Timer_(500), new Timer_(500) );
         }
 
     }
