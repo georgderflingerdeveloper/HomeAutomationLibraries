@@ -1,4 +1,5 @@
 ﻿using System;
+
 using System.Threading;
 using System.Timers;
 using System.Diagnostics;
@@ -98,26 +99,10 @@ namespace KeyEventsAtConsole
 
     class KeyEvents
     {
-        static int origRow;
-        static int origCol;
-
         static System.Timers.Timer UpdateStopWatchTimer = new System.Timers.Timer( 100 );
         static Stopwatch Watch = new Stopwatch( );
 
-        protected static void WriteAt( string s, int x, int y )
-        {
-            try
-            {
-                Console.SetCursorPosition( origCol + x, origRow + y );
-                Console.Write( s );
-            }
-            catch (ArgumentOutOfRangeException e)
-            {
-                Console.Clear( );
-                Console.WriteLine( e.Message );
-            }
-        }
-
+  
         static void Main( string[] args )
         {
             var kbInput = new KeyboardInput( ConsoleKey.Escape );
