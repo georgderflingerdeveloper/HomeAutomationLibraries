@@ -378,19 +378,12 @@ namespace HomeAutomationHeater
             _HeaterControlTimers.TimerPwm.SetTime( Parameters.SignalDurationLowOn );
         }
 
-        // compacter
         public HeaterControllerPulseWidhtModulation( HeaterParameters Parameters, ControlTimers HeaterControlTimers )
              : base( Parameters, HeaterControlTimers.TimerPause, HeaterControlTimers.TimerToggelingDelay )
         {
             CreateTimers( Parameters, HeaterControlTimers );
         }
-
-        public HeaterControllerPulseWidhtModulation( HeaterParameters Parameters, ControlTimers HeaterControlTimers, ITimer PauseController, ITimer DelayToggelingController )
-            : base( Parameters, PauseController, DelayToggelingController )
-        {
-            CreateTimers( Parameters, HeaterControlTimers );
-        }
-
+ 
         void UpdateStatusAndEventArgs( )
         {
             _Status = HeaterEvArgs.Status;

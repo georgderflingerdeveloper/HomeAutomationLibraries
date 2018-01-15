@@ -9,7 +9,7 @@ namespace TestRunnerHeaterController
     {
         public static void Main(string[] args)
         {
-            HeaterControllerPulseWidhtModulation Controller = new HeaterControllerPulseWidhtModulation( new HeaterParameters(), new ControlTimers() , new Timer_(500), new Timer_(500) );
+            HeaterControllerPulseWidhtModulation Controller = new HeaterControllerPulseWidhtModulation( new HeaterParameters(), new ControlTimers() );
             Controller.EActivityChanged += (sender, e) => 
             {
                 Console.WriteLine( "Controller status = " + e.Status.ActualControllerState );

@@ -358,6 +358,8 @@ namespace HeaterControl_UnitTests
         Mock<ITimer>                         MockControlHigh;
         Mock<ITimer>                         MockSignal;
         Mock<ITimer>                         MockPwm;
+        Mock<ITimer>                         MockPause;
+        Mock<ITimer>                         MockDelayedToggeling;
         Mock<ControlTimers>                  MockedHeaterControlTimers;
 
         void FakeInitialStatusForTesting()
@@ -417,9 +419,9 @@ namespace HeaterControl_UnitTests
             MockControlHigh                            = new Mock<ITimer>( );
             MockSignal                                 = new Mock<ITimer>( );
             MockPwm                                    = new Mock<ITimer>( );
-            MockedHeaterControlTimers = new Mock<ControlTimers>( );
-            ITimer PauseController                     = MockedDelayControllerPause.Object;
-            ITimer TimerForToggeling                   = MockedToggeling.Object;
+            MockPause                                  = new Mock<ITimer>( );
+            MockDelayedToggeling                       = new Mock<ITimer>( );
+            MockedHeaterControlTimers                  = new Mock<ControlTimers>( );
             ControlTimers HeaterControlTimers          = MockedHeaterControlTimers.Object;
             HeaterControlTimers.TimerOn                = MockControlOn.Object;
             HeaterControlTimers.TimerLow               = MockControlLow.Object;
@@ -427,8 +429,10 @@ namespace HeaterControl_UnitTests
             HeaterControlTimers.TimerHigh              = MockControlHigh.Object;
             HeaterControlTimers.TimerSignal            = MockSignal.Object;
             HeaterControlTimers.TimerPwm               = MockPwm.Object;
+            HeaterControlTimers.TimerPause             = MockPause.Object;
+            HeaterControlTimers.TimerToggelingDelay    = MockDelayedToggeling.Object;
 
-            TestController = new HeaterControllerPulseWidhtModulation( new HeaterParameters( ), HeaterControlTimers, PauseController, TimerForToggeling );
+            TestController = new HeaterControllerPulseWidhtModulation( new HeaterParameters( ), HeaterControlTimers );
             TestStatus = new HeaterStatus( );
         }
 
@@ -698,7 +702,7 @@ namespace HeaterControl_UnitTests
         [Test]
         public void TestControllerIsInitialised()
         {
-             HeaterControllerPulseWidhtModulation Test_Controller = new HeaterControllerPulseWidhtModulation( new HeaterParameters(), new InialisedTimers().Timers, new Timer_(500), new Timer_(500) );
+             HeaterControllerPulseWidhtModulation Test_Controller = new HeaterControllerPulseWidhtModulation( new HeaterParameters(), new InialisedTimers().Timers );
         }
 
     }
