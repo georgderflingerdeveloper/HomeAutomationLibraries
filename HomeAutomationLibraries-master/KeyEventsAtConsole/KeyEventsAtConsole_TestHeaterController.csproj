@@ -48,5 +48,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HeaterController\HeaterController.csproj">
+      <Project>{cdc27552-2a35-4885-b458-868aa8f3dec1}</Project>
+      <Name>HeaterController</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

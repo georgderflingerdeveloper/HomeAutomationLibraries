@@ -10,12 +10,14 @@ namespace HomeAutomationHeater
 {
     public class ControlTimers
     {
-        public ITimer TimerOn     { get; set; } // timer for turning heating system on
-        public ITimer TimerLow    { get; set; } // timer for changing itensity
-        public ITimer TimerMiddle { get; set; }
-        public ITimer TimerHigh   { get; set; }
-        public ITimer TimerPwm    { get; set; } // worker timer for pwm job
-        public ITimer TimerSignal { get; set; } // timer for indication signal
+        public ITimer TimerOn             { get; set; } // timer for turning heating system on
+        public ITimer TimerLow            { get; set; } // timer for changing itensity
+        public ITimer TimerMiddle         { get; set; }
+        public ITimer TimerHigh           { get; set; }
+        public ITimer TimerPwm            { get; set; } // worker timer for pwm job
+        public ITimer TimerSignal         { get; set; } // timer for indication signal
+        public ITimer TimerPause          { get; set; }
+        public ITimer TimerToggelingDelay { get; set; }
     }
 
     [Serializable]
@@ -336,16 +338,33 @@ namespace HomeAutomationHeater
         public static int SignalCountsForPwmHigh   = (3 * Factor) - 2;
     }
 
+    public class InialisedTimers
+    {
+        public ControlTimers Timers = new ControlTimers
+        {
+            TimerOn             = new Timer_( ),
+            TimerPwm            = new Timer_( ),
+            TimerLow            = new Timer_( ),
+            TimerHigh           = new Timer_( ),
+            TimerMiddle         = new Timer_( ),
+            TimerSignal         = new Timer_( ),
+            TimerPause          = new Timer_( ),
+            TimerToggelingDelay = new Timer_( )
+
+        };
+    }
+
     public class HeaterControllerPulseWidhtModulation : HeaterController
     {
+ 
         ControlTimers  _HeaterControlTimers;
         HeaterParameters _HeaterParameters;
         bool ToggleSignal = false;
         bool TogglePwm = false;
         public new event ActivityChanged EActivityChanged;
         double DefaultTimerValue = 1000;
-        public HeaterControllerPulseWidhtModulation( HeaterParameters Parameters, ControlTimers HeaterControlTimers, ITimer PauseController, ITimer DelayToggelingController )
-            : base( Parameters, PauseController, DelayToggelingController )
+
+        void CreateTimers( HeaterParameters Parameters, ControlTimers HeaterControlTimers )
         {
             _HeaterParameters = Parameters;
             _HeaterControlTimers = HeaterControlTimers;
@@ -358,7 +377,20 @@ namespace HomeAutomationHeater
             _HeaterControlTimers.TimerPwm.Elapsed += TimerPwmElapsed;
             _HeaterControlTimers.TimerPwm.SetTime( Parameters.SignalDurationLowOn );
         }
- 
+
+        // compacter
+        public HeaterControllerPulseWidhtModulation( HeaterParameters Parameters, ControlTimers HeaterControlTimers )
+             : base( Parameters, HeaterControlTimers.TimerPause, HeaterControlTimers.TimerToggelingDelay )
+        {
+            CreateTimers( Parameters, HeaterControlTimers );
+        }
+
+        public HeaterControllerPulseWidhtModulation( HeaterParameters Parameters, ControlTimers HeaterControlTimers, ITimer PauseController, ITimer DelayToggelingController )
+            : base( Parameters, PauseController, DelayToggelingController )
+        {
+            CreateTimers( Parameters, HeaterControlTimers );
+        }
+
         void UpdateStatusAndEventArgs( )
         {
             _Status = HeaterEvArgs.Status;

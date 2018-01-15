@@ -698,17 +698,7 @@ namespace HeaterControl_UnitTests
         [Test]
         public void TestControllerIsInitialised()
         {
-            double DefaultTestTimerValue = 1;
-            ControlTimers TestTimers = new ControlTimers
-            {
-                TimerOn     = new Timer_(DefaultTestTimerValue),
-                TimerPwm    = new Timer_(DefaultTestTimerValue),
-                TimerLow    = new Timer_(DefaultTestTimerValue),
-                TimerHigh   = new Timer_(DefaultTestTimerValue),
-                TimerMiddle = new Timer_(DefaultTestTimerValue),
-                TimerSignal = new Timer_(DefaultTestTimerValue)
-            };
-            HeaterControllerPulseWidhtModulation Test_Controller = new HeaterControllerPulseWidhtModulation( new HeaterParameters(), TestTimers, new Timer_(500), new Timer_(500) );
+             HeaterControllerPulseWidhtModulation Test_Controller = new HeaterControllerPulseWidhtModulation( new HeaterParameters(), new InialisedTimers().Timers, new Timer_(500), new Timer_(500) );
         }
 
     }
