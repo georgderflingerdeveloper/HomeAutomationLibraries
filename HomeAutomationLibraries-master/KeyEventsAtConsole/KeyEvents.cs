@@ -122,6 +122,7 @@ namespace KeyEventsAtConsole
             TestSimpleHeater.EActivityChanged += ( sender, e ) =>
             {
                 Console.WriteLine( "Heater activity is now: " + e.Status.ActualControllerState.ToString() );
+                Console.WriteLine( "Actual planned action: " + e.Status.ActualActionInfo.ToString( ) );
                 Console.WriteLine( "Heater is: " + e.TurnOn.ToString( ) );
             };
 

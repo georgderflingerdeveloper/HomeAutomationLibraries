@@ -316,6 +316,7 @@ namespace HomeAutomationHeater
             Turn( GeneralConstants.OFF );
             HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerIsOff;
             HeaterEvArgs.Status.ActualOperationState = HeaterStatus.OperationState.Idle;
+            HeaterEvArgs.Status.ActualActionInfo    = HeaterStatus.InformationAction.Finished;
             _Status = HeaterEvArgs.Status;
             EActivityChanged?.Invoke( this, HeaterEvArgs );
         }

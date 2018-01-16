@@ -76,6 +76,7 @@ namespace HeaterControl_UnitTests
 
             Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOff, TestStatus.ActualControllerState );
             Assert.AreEqual( HeaterStatus.OperationState.Idle, TestStatus.ActualOperationState );
+            Assert.AreEqual( HeaterStatus.InformationAction.Finished, TestStatus.ActualActionInfo );
             Assert.IsFalse( IsOn );
         }
 
@@ -94,6 +95,8 @@ namespace HeaterControl_UnitTests
 
             Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOn, TestStatus.ActualControllerState );
             Assert.AreEqual( HeaterStatus.OperationState.RegularOperation, TestStatus.ActualOperationState );
+            Assert.AreEqual( HeaterStatus.InformationAction.Finished, TestStatus.ActualActionInfo );
+
             Assert.IsTrue( IsOn );
         }
 
