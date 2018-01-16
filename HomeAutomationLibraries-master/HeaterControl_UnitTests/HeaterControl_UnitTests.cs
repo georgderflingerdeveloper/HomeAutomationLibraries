@@ -236,17 +236,43 @@ namespace HeaterControl_UnitTests
         {
             bool IsOn = false;
 
+          HeaterStatus TestStatus = new HeaterStatus( );
+
+          TestController.EActivityChanged += ( sender, e ) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestStatus.ActualControllerState = HeaterStatus.ControllerState.ControllerIsOff;
+
+            TestController.SetStatus( TestStatus );
+
+            TestController.DelayedToggle( );
+
+            Assert.AreEqual( HeaterStatus.InformationAction.TurningOn, TestStatus.ActualActionInfo );
+        }
+
+        [Test]
+        public void TestCase_InitialToggleWithDelayTimeTurningOff_StatusCheck()
+        {
+            bool IsOn = false;
+
+            HeaterStatus TestStatus = new HeaterStatus( );
+
             TestController.EActivityChanged += ( sender, e ) =>
             {
                 TestStatus = e.Status;
                 IsOn = e.TurnOn;
             };
 
+            TestStatus.ActualControllerState = HeaterStatus.ControllerState.ControllerIsOn;
+
+            TestController.SetStatus( TestStatus );
+
             TestController.DelayedToggle( );
 
-            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOff, TestStatus.ActualControllerState );
-            Assert.AreEqual( HeaterStatus.InformationAction.TurningOn, TestStatus.ActualActionInfo );
-            Assert.IsFalse( IsOn );
+            Assert.AreEqual( HeaterStatus.InformationAction.TurningOff, TestStatus.ActualActionInfo );
         }
 
         [Test]

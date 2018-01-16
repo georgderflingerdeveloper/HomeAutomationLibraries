@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// so far this application only works in windows environment !
 namespace KeyEventsAtConsole
 {
     internal class KeyboardInput
@@ -97,8 +98,6 @@ namespace KeyEventsAtConsole
         #endregion
     }
 
-    
-
     class KeyEvents
     {
         static System.Timers.Timer UpdateStopWatchTimer = new System.Timers.Timer( 100 );
@@ -145,6 +144,9 @@ namespace KeyEventsAtConsole
                     break;
                 case '3':
                     TestSimpleHeater.DelayedToggle( );
+                    break;
+                case 'p':
+                    TestSimpleHeater.Pause( );
                     break;
             }
         }

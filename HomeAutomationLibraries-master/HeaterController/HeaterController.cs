@@ -212,7 +212,17 @@ namespace HomeAutomationHeater
 
         public void DelayedToggle( )
         {
-            InformerTurningOn( );
+            switch( _Status.ActualControllerState )
+            {
+                case HeaterStatus.ControllerState.ControllerIsOff:
+                    InformerTurningOn( );
+                    break;
+
+                case HeaterStatus.ControllerState.ControllerIsOn:
+                    InformerTurningOff( );
+                    break;
+            }
+
             ActivateTimer( _Parameters.CmdDurationForTurningStartingStopping, _DelayToggelingController );
         }
 
@@ -244,8 +254,17 @@ namespace HomeAutomationHeater
 
         void InformerTurningOn( )
         {
-            HeaterEvArgs.Status.ActualActionInfo = HeaterStatus.InformationAction.TurningOn;
+            HeaterEvArgs.Status.ActualActionInfo      = HeaterStatus.InformationAction.TurningOn;
             HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerIsOff;
+            HeaterEvArgs.Status.ActualOperationState  = HeaterStatus.OperationState.Idle;
+            _Status = HeaterEvArgs.Status;
+            EActivityChanged?.Invoke( this, HeaterEvArgs );
+        }
+
+        void InformerTurningOff()
+        {
+            HeaterEvArgs.Status.ActualActionInfo = HeaterStatus.InformationAction.TurningOff;
+            HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerIsOn;
             HeaterEvArgs.Status.ActualOperationState = HeaterStatus.OperationState.Idle;
             _Status = HeaterEvArgs.Status;
             EActivityChanged?.Invoke( this, HeaterEvArgs );
