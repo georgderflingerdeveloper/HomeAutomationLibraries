@@ -5,6 +5,7 @@ using System.Timers;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using HomeAutomationHeater;
+using TimerMockable;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -96,12 +97,14 @@ namespace KeyEventsAtConsole
         #endregion
     }
 
-
+    
 
     class KeyEvents
     {
         static System.Timers.Timer UpdateStopWatchTimer = new System.Timers.Timer( 100 );
         static Stopwatch Watch = new Stopwatch( );
+
+        static HeaterController TestSimpleHeater = new HeaterController( new HeaterParameters( ), new Timer_( 5000 ), new Timer_( 1000 ) );
 
   
         static void Main( string[] args )
@@ -116,6 +119,13 @@ namespace KeyEventsAtConsole
                 UpdateStopWatchTimer.Stop( );
                 UpdateStopWatchTimer.Start( );
             };
+
+            TestSimpleHeater.EActivityChanged += ( sender, e ) =>
+            {
+                Console.WriteLine( "Heater activity is now: " + e.Status.ActualControllerState.ToString() );
+                Console.WriteLine( "Heater is: " + e.TurnOn.ToString( ) );
+            };
+
             kbInput.Run( );
         }
 
@@ -124,14 +134,38 @@ namespace KeyEventsAtConsole
         {
             UpdateStopWatchTimer.Start( );
             Watch.Start( );
-            Console.WriteLine( $"Key pressed: {key} (virtual code: 0x{code:X})" );
+            Console.WriteLine( $"Key pressed: {key} " );
+            switch( key )
+            {
+                case '1':
+                    TestSimpleHeater.Start( );
+                    break;
+                case '2':
+                    TestSimpleHeater.Toggle( );
+                    break;
+                case '3':
+                    TestSimpleHeater.DelayedToggle( );
+                    break;
+            }
         }
 
         private static void OnKeyUp( char key, short code )
         {
             UpdateStopWatchTimer.Stop( );
             Watch.Stop( );
-            Console.WriteLine( $"Key released: {key} (virtual code: 0x{code:X}), Pressed milliseconds: " + Watch.Elapsed.TotalMilliseconds.ToString( ) );
+            Console.WriteLine( $"Key released: {key} Pressed milliseconds: " + Watch.Elapsed.TotalMilliseconds.ToString( ) );
+            switch (key)
+            {
+                case '1':
+                    TestSimpleHeater.Stop( );
+                    break;
+                case '2':
+                    break;
+                case '3':
+                    TestSimpleHeater.Confirm( );
+                    break;
+
+            }
             Watch.Reset( );
        }
     }

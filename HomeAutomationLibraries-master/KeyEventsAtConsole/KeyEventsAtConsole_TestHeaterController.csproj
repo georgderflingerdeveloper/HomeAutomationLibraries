@@ -53,6 +53,10 @@
       <Project>{cdc27552-2a35-4885-b458-868aa8f3dec1}</Project>
       <Name>HeaterController</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TimerMockable\TimerMockable.csproj">
+      <Project>{323a5aa7-f7eb-4990-9b0e-540d75837716}</Project>
+      <Name>TimerMockable</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

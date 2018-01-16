@@ -18,7 +18,7 @@ namespace HeaterControl_UnitTests
         HeaterStatus TestStatus;
         Mock<ITimer> MockedStartStopController;
         Mock<ITimer> MockedDelayControllerPause;
-        Mock<ITimer> MockedToggeling;
+        Mock<ITimer> MockedDelayedToggeling;
 
         void FakeInitialStatusForTesting()
         {
@@ -33,20 +33,20 @@ namespace HeaterControl_UnitTests
         {
             MockedStartStopController = new Mock<ITimer>( );
             MockedDelayControllerPause = new Mock<ITimer>( );
-            MockedToggeling = new Mock<ITimer>( );
+            MockedDelayedToggeling = new Mock<ITimer>( );
             ITimer StartStopController = MockedStartStopController.Object;
             ITimer PauseController = MockedDelayControllerPause.Object;
-            ITimer TimerForToggeling = MockedToggeling.Object;
+            ITimer TimerForToggeling = MockedDelayedToggeling.Object;
             TestController = new HeaterController( new HeaterParameters( ),  PauseController, TimerForToggeling );
             TestStatus = new HeaterStatus( );
         }
 
         void CleanUpTest()
         {
-            MockedStartStopController = null;
+            MockedStartStopController  = null;
             MockedDelayControllerPause = null;
-            TestController = null;
-            TestStatus = null;
+            TestController             = null;
+            TestStatus                 = null;
         }
 
         [SetUp]
@@ -262,10 +262,10 @@ namespace HeaterControl_UnitTests
 
             TestController.DelayedToggle( );
 
-            MockedToggeling.Verify( obj => obj.SetTime( new HeaterParameters().CmdDurationForTurningStartingStopping ) );
-            MockedToggeling.Verify( obj => obj.Start( ) );
-            MockedToggeling.Verify( obj => obj.Stop( ) );
-            MockedToggeling.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
+            MockedDelayedToggeling.Verify( obj => obj.SetTime( new HeaterParameters().CmdDurationForTurningStartingStopping ) );
+            MockedDelayedToggeling.Verify( obj => obj.Start( ) );
+            MockedDelayedToggeling.Verify( obj => obj.Stop( ) );
+            MockedDelayedToggeling.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
 
             Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOn, TestStatus.ActualControllerState );
             Assert.AreEqual( HeaterStatus.OperationState.RegularOperation, TestStatus.ActualOperationState );
@@ -336,7 +336,19 @@ namespace HeaterControl_UnitTests
             Assert.IsTrue( IsOn );
         }
 
+        [Test]
+        public void TestCase_ConfirmCommand()
+        {
+            TestController.Confirm( );
+            MockedDelayedToggeling.Verify( obj => obj.Stop() );
+        }
 
+        [Test]
+        public void TestCase_DelayedToggleElapsed()
+        {
+            MockedDelayedToggeling.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
+            MockedDelayedToggeling.Verify( obj => obj.Stop( ) );
+        }
 
         [TearDown]
         public void TearDownTests()

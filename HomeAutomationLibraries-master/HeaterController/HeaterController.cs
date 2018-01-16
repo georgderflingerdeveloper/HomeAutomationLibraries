@@ -153,6 +153,7 @@ namespace HomeAutomationHeater
         private void DelayToggelingControllerElapsed( object sender, ElapsedEventArgs e )
         {
             ToggleController( );
+            _DelayToggelingController.Stop( );
         }
 
         private void DelayPauseElapsed( object sender, ElapsedEventArgs e )
@@ -268,12 +269,16 @@ namespace HomeAutomationHeater
             else
             {
                 ControllerStop( );
+                _DelayToggelingController.Stop( );
             }
         }
         #endregion
 
         #region PROTECTED
-        virtual protected void ConfirmCommand( ) { }
+        virtual protected void ConfirmCommand( )
+        {
+            _DelayToggelingController.Stop( );
+        }
 
         virtual protected void ToggleController( )
         {
@@ -350,7 +355,6 @@ namespace HomeAutomationHeater
             TimerSignal         = new Timer_( ),
             TimerPause          = new Timer_( ),
             TimerToggelingDelay = new Timer_( )
-
         };
     }
 
