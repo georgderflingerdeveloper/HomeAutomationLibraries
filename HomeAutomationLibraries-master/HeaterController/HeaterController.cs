@@ -92,9 +92,9 @@ namespace HomeAutomationHeater
     [Serializable]
     public class HeaterParameters
     {
-        public float SetTemperatureDay { get; set; }
-        public float SetTemperatureNightLowering { get; set; }
-        public float SetTemperatureEstimationTolerance { get; set; }
+        public float SetTemperatureDay                               { get; set; }
+        public float SetTemperatureNightLowering                     { get; set; }
+        public float SetTemperatureEstimationTolerance               { get; set; }
         public TimeSpan CmdDurationForTurningStartingStopping        { get=>SignalDurationLowOn  = new TimeSpan(0,0,2);       set => new TimeSpan(); }
         public TimeSpan CmdDurationForItensityChange                 { get=>SignalDurationLowOn  = new TimeSpan(0,0,0,2,500); set => new TimeSpan(); }
         public TimeSpan CmdDurationForActivatingPause                { get=>SignalDurationLowOn  = new TimeSpan(0,1,0);       set => new TimeSpan(); }
@@ -107,10 +107,10 @@ namespace HomeAutomationHeater
         public TimeSpan SignalDurationMiddleOff                      { get=>SignalDurationLowOff = new TimeSpan(0,20,0);      set => new TimeSpan(); }
         public TimeSpan SignalDurationHighOn                         { get=>SignalDurationLowOn  = new TimeSpan(0,10,0);      set => new TimeSpan(); }
         public TimeSpan SignalDurationHighOff                        { get=>SignalDurationLowOff = new TimeSpan(0,20,0);      set => new TimeSpan(); }
-        public TimeSpan SignalDurationVariableOn { get; set; }
-        public TimeSpan SignalDurationVariableOff { get; set; }
-        public TimeSpan SignalDurationBoosting { get; set; }
-        public TimeSpan DurationDelayPause { get; set; }
+        public TimeSpan SignalDurationVariableOn                     { get; set; }
+        public TimeSpan SignalDurationVariableOff                    { get; set; }
+        public TimeSpan SignalDurationBoosting                       { get; set; }
+        public TimeSpan DurationDelayPause                           { get; set; }
     }
 
     public class HeaterControllerEventArgs : EventArgs
