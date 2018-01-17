@@ -115,7 +115,7 @@ namespace HomeAutomationHeater
 
     public class HeaterControllerEventArgs : EventArgs
     {
-        public bool TurnOn { get; set; }
+        public bool TurnOn         { get; set; }
         public HeaterStatus Status { get; set; }
     }
 
@@ -263,9 +263,9 @@ namespace HomeAutomationHeater
 
         void InformerTurningOff()
         {
-            HeaterEvArgs.Status.ActualActionInfo = HeaterStatus.InformationAction.TurningOff;
+            HeaterEvArgs.Status.ActualActionInfo      = HeaterStatus.InformationAction.TurningOff;
             HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerIsOn;
-            HeaterEvArgs.Status.ActualOperationState = HeaterStatus.OperationState.Idle;
+            HeaterEvArgs.Status.ActualOperationState  = HeaterStatus.OperationState.Idle;
             _Status = HeaterEvArgs.Status;
             EActivityChanged?.Invoke( this, HeaterEvArgs );
         }
@@ -273,7 +273,7 @@ namespace HomeAutomationHeater
         void InformerExpectingPause()
         {
             HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerIsExpectingPause;
-            HeaterEvArgs.Status.ActualOperationState = HeaterStatus.OperationState.RegularOperation;
+            HeaterEvArgs.Status.ActualOperationState  = HeaterStatus.OperationState.RegularOperation;
             _Status = HeaterEvArgs.Status;
             EActivityChanged?.Invoke( this, HeaterEvArgs );
         }
