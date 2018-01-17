@@ -103,7 +103,7 @@ namespace KeyEventsAtConsole
         static System.Timers.Timer UpdateStopWatchTimer = new System.Timers.Timer( 100 );
         static Stopwatch Watch = new Stopwatch( );
 
-        static HeaterController TestSimpleHeater = new HeaterController( new HeaterParameters( ), new Timer_( 5000 ), new Timer_( 1000 ) );
+        static HeaterController TestSimpleHeater = new HeaterController( new HeaterParameters( ), new Timer_(), new Timer_() );
 
   
         static void Main( string[] args )
