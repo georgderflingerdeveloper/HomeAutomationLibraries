@@ -95,7 +95,7 @@ namespace HomeAutomationHeater
         public float SetTemperatureDay { get; set; }
         public float SetTemperatureNightLowering { get; set; }
         public float SetTemperatureEstimationTolerance { get; set; }
-        public TimeSpan CmdDurationForTurningStartingStopping        { get=>SignalDurationLowOn  = new TimeSpan(0,0,1);       set => new TimeSpan(); }
+        public TimeSpan CmdDurationForTurningStartingStopping        { get=>SignalDurationLowOn  = new TimeSpan(0,0,2);       set => new TimeSpan(); }
         public TimeSpan CmdDurationForItensityChange                 { get=>SignalDurationLowOn  = new TimeSpan(0,0,0,2,500); set => new TimeSpan(); }
         public TimeSpan CmdDurationForActivatingPause                { get=>SignalDurationLowOn  = new TimeSpan(0,1,0);       set => new TimeSpan(); }
         public TimeSpan SignalDurationSignalisation                  { get=>SignalDurationLowOn  = new TimeSpan(0,0,0,0,500); set => new TimeSpan(); }
