@@ -4,6 +4,9 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using LibUdp.BASIC.INTERFACE;
+using LibUdp.BASIC.RECEIVE;
+using LibUdp.BASIC.SEND;
 
 namespace LibUdp
 {
@@ -19,10 +22,26 @@ namespace LibUdp
     }
 
  
-    public class UdpBasic
+    public class UdpBasicSenderReceiver : IUdpBasic
     {
-        public UdpBasic( )
+        UdpReceive Receiver;
+        UdpSend Sender;
+
+        public UdpBasicSenderReceiver( int PortFromWhereDataIsReceived, string IpAdressWhereDataIsSent, int PortWhereDataIsSentTo )
         {
+            Receiver = new UdpReceive( PortFromWhereDataIsReceived );
+            Receiver.EDataReceived += ( sender, eventarg ) =>
+            {
+                EDataReceived?.Invoke( sender, eventarg );
+            };
+            Sender   = new UdpSend( IpAdressWhereDataIsSent, PortWhereDataIsSentTo );
+        }
+
+        public event DataReceived EDataReceived;
+
+        public void SendString( string message )
+        {
+            Sender?.SendString( message );
         }
     }
 }
