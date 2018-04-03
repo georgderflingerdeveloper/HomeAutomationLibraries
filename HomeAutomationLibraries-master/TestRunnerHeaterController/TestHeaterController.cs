@@ -9,7 +9,9 @@ namespace TestRunnerHeaterController
     {
         public static void Main(string[] args)
         {
-            HeaterControllerPulseWidhtModulation Controller = new HeaterControllerPulseWidhtModulation( new HeaterParameters(), new ControlTimers() );
+            ControlTimers ControlTimers_ = new InialisedTimers( ).Timers;
+
+            HeaterControllerPulseWidhtModulation Controller = new HeaterControllerPulseWidhtModulation( new HeaterParameters(), ControlTimers_ );
             Controller.EActivityChanged += (sender, e) => 
             {
                 Console.WriteLine( "Controller status = " + e.Status.ActualControllerState );
@@ -20,7 +22,7 @@ namespace TestRunnerHeaterController
 
             do{
                 Console.WriteLine( "Type (s) for start controller" );
-                InputKey = Console.ReadKey().ToString();
+                InputKey = Console.ReadLine();
                 switch( InputKey )
                 {
                     case "s":

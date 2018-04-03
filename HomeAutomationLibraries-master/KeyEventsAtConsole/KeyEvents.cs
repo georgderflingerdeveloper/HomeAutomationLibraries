@@ -167,7 +167,6 @@ namespace KeyEventsAtConsole
                 case '3':
                     TestSimpleHeater.Confirm( );
                     break;
-
             }
             Watch.Reset( );
        }
