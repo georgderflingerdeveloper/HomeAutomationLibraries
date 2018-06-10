@@ -21,11 +21,37 @@ namespace LibUdp
         public static string IpAdress          =  "127.0.0.1";       //"192.168.0.105";
     }
 
- 
+    public class CommunicationConfiguration
+    {
+        string _IpAdressWhereDataIsSent = "127.0.0.1";
+        public string IpAdressWhereDataIsSent
+        { get => _IpAdressWhereDataIsSent; set => _IpAdressWhereDataIsSent = value; }
+        public int PortFromWhereDataIsReceived { get; set; }
+        public int PortWhereDataIsSentTo { get; set; }
+    }
+
     public class UdpBasicSenderReceiver : IUdpBasic
     {
         UdpReceive Receiver;
         UdpSend Sender;
+
+        private CommunicationConfiguration _configuration;
+
+        void GetConfiguration()
+        {
+             _configuration = Configuration;
+        }
+
+        public UdpBasicSenderReceiver( )
+        {
+            GetConfiguration( );
+            Receiver = new UdpReceive( _configuration.PortFromWhereDataIsReceived );
+            Receiver.EDataReceived += ( sender, eventarg ) =>
+            {
+                EDataReceived?.Invoke( sender, eventarg );
+            };
+            Sender = new UdpSend( _configuration.IpAdressWhereDataIsSent, _configuration.PortWhereDataIsSentTo );
+        }
 
         public UdpBasicSenderReceiver( int PortFromWhereDataIsReceived, string IpAdressWhereDataIsSent, int PortWhereDataIsSentTo )
         {
@@ -36,6 +62,8 @@ namespace LibUdp
             };
             Sender   = new UdpSend( IpAdressWhereDataIsSent, PortWhereDataIsSentTo );
         }
+
+        public CommunicationConfiguration Configuration { get => _configuration; set => _configuration = value; }
 
         public event DataReceived EDataReceived;
 
