@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LibUdp.BASIC.RECEIVE
 {
-    interface IUdpReceive
+    public interface IUdpReceive
     {
         event DataReceived EDataReceived;
     }
