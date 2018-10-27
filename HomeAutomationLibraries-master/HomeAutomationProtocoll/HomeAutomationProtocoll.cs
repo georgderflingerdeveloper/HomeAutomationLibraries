@@ -138,7 +138,8 @@ namespace HomeAutomationProtocoll
         public const string TURN_LIGHT_GALLERY_FLOOR_STAIRS_FRONT_OFF = "TURN-LIGHT-GALLERY-FLOOR-STAIRS-FRONT-OFF";
         public const string TURN_LIGHT_GALLERY_FLOOR_STAIRS_RIGHT_ON  = "TURN-LIGHT-GALLERY-FLOOR-STAIRS-RIGHT-ON";
         public const string TURN_LIGHT_GALLERY_FLOOR_STAIRS_RIGHT_OFF = "TURN-LIGHT-GALLERY-FLOOR-STAIRS-RIGHT-OFF";
-
+        public const string TURN_LIGHT_ANTEROOM_ON = "TURN-LIGHT-ANTEROOM-ON";
+        public const string TURN_LIGHT_ANTEROOM_OFF = "TURN-LIGHT-ANTEROOM-OFF";
 
 
         static Dictionary<uint, string> ComandoDictionary = new Dictionary<uint, string>
