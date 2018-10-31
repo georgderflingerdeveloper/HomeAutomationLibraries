@@ -1,17 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\HardConfig",
     "\\HardConfig\\ANTEROOM",
     "\\HardConfig\\ANTEROOM\\BATHROOM",
     "\\HardConfig\\ANTEROOM\\WASHROOM",
+    "\\HardConfig\\bin",
     "\\HardConfig\\LIVINGROOM",
-    "\\HardConfig\\LIVINGROOM\\EAST",
-    "\\HardConfig\\LIVINGROOM\\WEST",
+    "\\HomeAutomationProtocoll",
     "\\LibUdp",
-    "\\LibUdp\\Udp_UnitTest",
-    "\\Telegramm_UnitTests"
+    "\\LibUdp\\BASIC",
+    "\\packages\\Castle.Core.4.2.0"
   ],
-  "SelectedNode": "\\TestRunnerUdpSendPeriodicStartStop\\TestRunnerUdpSendPeriodicStartStop.csproj",
+  "SelectedNode": "\\HomeAutomationProtocoll\\HomeAutomationProtocoll.cs",
   "PreviewInSolutionExplorer": false
 }
