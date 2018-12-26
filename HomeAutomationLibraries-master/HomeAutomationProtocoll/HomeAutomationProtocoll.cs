@@ -126,20 +126,22 @@ namespace HomeAutomationProtocoll
         public const string POWER_FAIL_ON = "POWER-FAIL-ON";                                   // Stromausfall
         public const string POWER_FAIL_OFF = "POWER-FAIL-OFF";                                  // Stromausfall ist wieder vorbei
 
-        public const string TURN_LIGHT_ANTEROOM_MAIN_ON    = "TURN-LIGHT-ANTEROOM-MAIN-ON";
-        public const string TURN_LIGHT_ANTEROOM_MAIN_OFF   = "TURN-LIGHT-ANTEROOM-MAIN-OFF";
-        public const string TURN_LIGHT_ANTEROOM_BACK_ON    = "TURN-LIGHT-ANTEROOM-BACK-ON";
-        public const string TURN_LIGHT_ANTEROOM_BACK_OFF   = "TURN-LIGHT-ANTEROOM-BACK-OFF";
-        public const string TURN_LIGHT_ANTEROOM_MIDDLE_ON  = "TURN-LIGHT-ANTEROOM-MIDDLE-ON";
-        public const string TURN_LIGHT_ANTEROOM_MIDDLE_OFF = "TURN-LIGHT-ANTEROOM-MIDDLE-OFF";
-        public const string ACTIVATE_LIGHT_ANTEROOM_MIDDLE = "ACTIVATE-LIGHT-ANTEROOM-MIDDLE-ON";
-        public const string DEACTIVE_LIGHT_ANTEROOM_MIDDLE = "DEACTIVATE-LIGHT-ANTEROOM-MIDDLE-OFF";
+        public const string TURN_LIGHT_ANTEROOM_MAIN_ON               = "TURN-LIGHT-ANTEROOM-MAIN-ON";
+        public const string TURN_LIGHT_ANTEROOM_MAIN_OFF              = "TURN-LIGHT-ANTEROOM-MAIN-OFF";
+        public const string TURN_LIGHT_ANTEROOM_BACK_ON               = "TURN-LIGHT-ANTEROOM-BACK-ON";
+        public const string TURN_LIGHT_ANTEROOM_BACK_OFF              = "TURN-LIGHT-ANTEROOM-BACK-OFF";
+        public const string TURN_LIGHT_ANTEROOM_MIDDLE_ON             = "TURN-LIGHT-ANTEROOM-MIDDLE-ON";
+        public const string TURN_LIGHT_ANTEROOM_MIDDLE_OFF            = "TURN-LIGHT-ANTEROOM-MIDDLE-OFF";
+        public const string ACTIVATE_LIGHT_ANTEROOM_MIDDLE            = "ACTIVATE-LIGHT-ANTEROOM-MIDDLE-ON";
+        public const string DEACTIVE_LIGHT_ANTEROOM_MIDDLE            = "DEACTIVATE-LIGHT-ANTEROOM-MIDDLE-OFF";
         public const string TURN_LIGHT_GALLERY_FLOOR_STAIRS_FRONT_ON  = "TURN-LIGHT-GALLERY-FLOOR-STAIRS-FRONT-ON";
         public const string TURN_LIGHT_GALLERY_FLOOR_STAIRS_FRONT_OFF = "TURN-LIGHT-GALLERY-FLOOR-STAIRS-FRONT-OFF";
         public const string TURN_LIGHT_GALLERY_FLOOR_STAIRS_RIGHT_ON  = "TURN-LIGHT-GALLERY-FLOOR-STAIRS-RIGHT-ON";
         public const string TURN_LIGHT_GALLERY_FLOOR_STAIRS_RIGHT_OFF = "TURN-LIGHT-GALLERY-FLOOR-STAIRS-RIGHT-OFF";
-        public const string TURN_LIGHT_ANTEROOM_ON = "TURN-LIGHT-ANTEROOM-ON";
-        public const string TURN_LIGHT_ANTEROOM_OFF = "TURN-LIGHT-ANTEROOM-OFF";
+        public const string TURN_LIGHT_FLOOR_UP_ON                    = "TURN-LIGHT-FLOOR-UP-ON";
+        public const string TURN_LIGHT_FLOOR_UP_OFF                   = "TURN-LIGHT-FLOOR-UP-OFF";
+        public const string TURN_LIGHT_ANTEROOM_ON                    = "TURN-LIGHT-ANTEROOM-ON";
+        public const string TURN_LIGHT_ANTEROOM_OFF                   = "TURN-LIGHT-ANTEROOM-OFF";
 
 
         static Dictionary<uint, string> ComandoDictionary = new Dictionary<uint, string>
