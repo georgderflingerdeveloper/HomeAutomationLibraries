@@ -11,6 +11,8 @@ namespace LibUdp.BASIC.RECEIVE
     public class DataReceivingEventArgs : EventArgs
     {
         public string Message { get; set; }
+        public string Adress  { get; set; }
+        public string Port    { get; set; }
     }
 
     public delegate void DataReceived( object sender, DataReceivingEventArgs e );
@@ -26,8 +28,10 @@ namespace LibUdp.BASIC.RECEIVE
         public UdpReceive( int port_ )
         {
             port = port_;
+            ReceivingArgs.Port = port.ToString();
             client = new UdpClient( port );
             anyIP  = new IPEndPoint( IPAddress.Any, port );
+            ReceivingArgs.Adress = anyIP.ToString();
             receiveThread = new Thread( new ThreadStart( ReceiveData ) );
             receiveThread.IsBackground = true;
             receiveThread.Start();

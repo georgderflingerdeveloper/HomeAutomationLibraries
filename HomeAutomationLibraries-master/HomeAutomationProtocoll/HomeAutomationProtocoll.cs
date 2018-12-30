@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace HomeAutomationProtocoll
 {
@@ -142,6 +141,39 @@ namespace HomeAutomationProtocoll
         public const string TURN_LIGHT_FLOOR_UP_OFF                   = "TURN-LIGHT-FLOOR-UP-OFF";
         public const string TURN_LIGHT_ANTEROOM_ON                    = "TURN-LIGHT-ANTEROOM-ON";
         public const string TURN_LIGHT_ANTEROOM_OFF                   = "TURN-LIGHT-ANTEROOM-OFF";
+
+        public const string TURN_LIGHT_WASHROOM_ON                    = "TURN-LIGHT-WASHROOM-ON";
+        public const string TURN_LIGHT_WASHROOM_OFF                   = "TURN-LIGHT-WASHROOM-OFF";
+
+        public const string TURN_LIGHT_BATHROOM1_ON                   = "TURN-LIGHT-BATHROOM1-ON";
+        public const string TURN_LIGHT_BATHROOM1_OFF                  = "TURN-LIGHT-BATHROOM1-OFF";
+
+        public const string TURN_LIGHT_BATHROOM2_ON                   = "TURN-LIGHT-BATHROOM2-ON";
+        public const string TURN_LIGHT_BATHROOM2_OFF                  = "TURN-LIGHT-BATHROOM2-OFF";
+
+        public const string TURN_LIGHT_BATHROOM3_ON                   = "TURN-LIGHT-BATHROOM3-ON";
+        public const string TURN_LIGHT_BATHROOM3_OFF                  = "TURN-LIGHT-BATHROOM3-OFF";
+
+        public const string TURN_LIGHT_BATHROOM4_ON                   = "TURN-LIGHT-BATHROOM4-ON";
+        public const string TURN_LIGHT_BATHROOM4_OFF                  = "TURN-LIGHT-BATHROOM4-OFF";
+
+        public const string TURN_LIGHT_BATHROOM5_ON                   = "TURN-LIGHT-BATHROOM5-ON";
+        public const string TURN_LIGHT_BATHROOM5_OFF                  = "TURN-LIGHT-BATHROOM5-OFF";
+
+        public const string TURN_LIGHT_KIDROOM1_ON                    = "TURN-LIGHT-KIDROOM1-ON";
+        public const string TURN_LIGHT_KIDROOM1_OFF                   = "TURN-LIGHT-KIDROOM1-OFF";
+
+        public const string TURN_LIGHT_KIDROOM2_ON                    = "TURN-LIGHT-KIDROOM2-ON";
+        public const string TURN_LIGHT_KIDROOM2_OFF                   = "TURN-LIGHT-KIDROOM2-OFF";
+
+        public const string TURN_LIGHT_KIDROOM3_ON                    = "TURN-LIGHT-KIDROOM3-ON";
+        public const string TURN_LIGHT_KIDROOM3_OFF                   = "TURN-LIGHT-KIDROOM3-OFF";
+
+        public const string TURN_LIGHT_KIDROOM4_ON                    = "TURN-LIGHT-KIDROOM4-ON";
+        public const string TURN_LIGHT_KIDROOM4_OFF                   = "TURN-LIGHT-KIDROOM4-OFF";
+
+        public const string TURN_LIGHT_KIDROOM5_ON                    = "TURN-LIGHT-KIDROOM5-ON";
+        public const string TURN_LIGHT_KIDROOM5_OFF                   = "TURN-LIGHT-KIDROOM5-OFF";
 
 
         static Dictionary<uint, string> ComandoDictionary = new Dictionary<uint, string>
