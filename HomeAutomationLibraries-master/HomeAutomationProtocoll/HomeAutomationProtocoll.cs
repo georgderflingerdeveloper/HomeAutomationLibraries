@@ -160,6 +160,9 @@ namespace HomeAutomationProtocoll
         public const string TURN_LIGHT_BATHROOM5_ON                   = "TURN-LIGHT-BATHROOM5-ON";
         public const string TURN_LIGHT_BATHROOM5_OFF                  = "TURN-LIGHT-BATHROOM5-OFF";
 
+        public const string TURN_LIGHT_BATHROOM_ALL_ON                = "TURN-LIGHT-BATHROOM-ALL-ON";
+        public const string TURN_LIGHT_BATHROOM_ALL_OFF               = "TURN-LIGHT-BATHROOM-ALL-OFF";
+
         public const string TURN_LIGHT_KIDROOM1_ON                    = "TURN-LIGHT-KIDROOM1-ON";
         public const string TURN_LIGHT_KIDROOM1_OFF                   = "TURN-LIGHT-KIDROOM1-OFF";
 
