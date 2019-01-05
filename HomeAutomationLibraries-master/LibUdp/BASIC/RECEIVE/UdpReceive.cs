@@ -28,10 +28,8 @@ namespace LibUdp.BASIC.RECEIVE
         public UdpReceive( int port_ )
         {
             port = port_;
-            ReceivingArgs.Port = port.ToString();
             client = new UdpClient( port );
             anyIP  = new IPEndPoint( IPAddress.Any, port );
-            ReceivingArgs.Adress = anyIP.ToString();
             receiveThread = new Thread( new ThreadStart( ReceiveData ) );
             receiveThread.IsBackground = true;
             receiveThread.Start();
@@ -61,6 +59,8 @@ namespace LibUdp.BASIC.RECEIVE
                                 _receivedText = Encoding.UTF8.GetString(data);
                                 if( !String.IsNullOrEmpty( _receivedText ) )
                                 {
+                                    ReceivingArgs.Adress = anyIP.Address.ToString();
+                                    ReceivingArgs.Port = anyIP.Port.ToString();
                                     ReceivingArgs.Message = _receivedText;
                                     EDataReceived?.Invoke( this, ReceivingArgs );
                                 }
