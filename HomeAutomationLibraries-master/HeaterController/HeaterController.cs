@@ -60,6 +60,7 @@ namespace HomeAutomationHeater
 
         public PwmState ActualPwmState { get; set; }
 
+
         public enum InformationAction
         {
             None,
@@ -71,6 +72,7 @@ namespace HomeAutomationHeater
             InvalidForTesting = 99
         }
         public InformationAction ActualActionInfo { get; set; }
+
     }
 
     [Serializable]
