@@ -239,9 +239,9 @@ namespace HeaterControl_UnitTests
         {
             bool IsOn = false;
 
-          HeaterStatus TestStatus = new HeaterStatus( );
+            HeaterStatus TestStatus = new HeaterStatus( );
 
-          TestController.EActivityChanged += ( sender, e ) =>
+            TestController.EActivityChanged += ( sender, e ) =>
             {
                 TestStatus = e.Status;
                 IsOn = e.TurnOn;
