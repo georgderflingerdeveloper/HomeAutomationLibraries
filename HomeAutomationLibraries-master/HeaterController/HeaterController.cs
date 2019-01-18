@@ -142,10 +142,16 @@ namespace HomeAutomationHeater
                 Status = new HeaterStatus( )
             };
             _Status = HeaterEvArgs.Status;
-            _DelayToggelingController = DelayToggelingController;
-            _DelayToggelingController.Elapsed += DelayToggelingControllerElapsed;
-            _DelayPause = DelayControllerPause;
-            _DelayPause.Elapsed += DelayPauseElapsed;
+            if (_DelayToggelingController != null)
+            {
+                _DelayToggelingController = DelayToggelingController;
+                _DelayToggelingController.Elapsed += DelayToggelingControllerElapsed;
+            }
+            if (_DelayPause != null)
+            {
+                _DelayPause = DelayControllerPause;
+                _DelayPause.Elapsed += DelayPauseElapsed;
+            }
         }
         #endregion
 

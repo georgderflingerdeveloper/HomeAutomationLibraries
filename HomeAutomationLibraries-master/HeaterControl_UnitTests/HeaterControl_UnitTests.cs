@@ -751,9 +751,49 @@ namespace HeaterControl_UnitTests
     [TestFixture]
     public class HeaterControlThermostate_UnitTests
     {
+        HeaterControllerThermostate TestController;
+        HeaterStatus TestStatus;
+        Mock<ITimer> MockedBoostingTimer;
+        Mock<ControlTimers> MockedHeaterControlTimers;
+        ControlTimers HeaterControlTimers;
+
+
+
+        void Setup( )
+        {
+            TestStatus = new HeaterStatus();
+            MockedHeaterControlTimers = new Mock<ControlTimers>();
+            HeaterControlTimers = MockedHeaterControlTimers.Object;
+            TestController = new HeaterControllerThermostate(new HeaterParameters(), HeaterControlTimers);
+        }
+
         [SetUp]
         public void SetupTests()
         {
+            Setup();
+        }
+
+        [Test]
+        public void TestCase_StartThermostateWithBoosting()
+        {
+            bool IsOn = false;
+
+            TestController.EActivityChanged += (sender, e) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.Start();
+
+
+            HeaterStatus ReturnedTestedStatus = TestController.GetStatus();
+
+            Assert.AreEqual(HeaterStatus.ControllerState.ControllerIsOn, ReturnedTestedStatus.ActualControllerState);
+            Assert.AreEqual(HeaterStatus.OperationState.Boosting, ReturnedTestedStatus.ActualOperationState);
+            Assert.AreEqual(HeaterStatus.InformationAction.InProcess, ReturnedTestedStatus.ActualActionInfo);
+            Assert.IsTrue(IsOn);
+
         }
 
         [TearDown]
