@@ -31,53 +31,53 @@ namespace HeaterControl_UnitTests
 
         void SetupTest()
         {
-            MockedStartStopController = new Mock<ITimer>( );
-            MockedDelayControllerPause = new Mock<ITimer>( );
-            MockedDelayedToggeling = new Mock<ITimer>( );
+            MockedStartStopController = new Mock<ITimer>();
+            MockedDelayControllerPause = new Mock<ITimer>();
+            MockedDelayedToggeling = new Mock<ITimer>();
             ITimer StartStopController = MockedStartStopController.Object;
             ITimer PauseController = MockedDelayControllerPause.Object;
             ITimer TimerForToggeling = MockedDelayedToggeling.Object;
-            TestController = new HeaterController( new HeaterParameters( ),  PauseController, TimerForToggeling );
-            TestStatus = new HeaterStatus( );
+            TestController = new HeaterController(new HeaterParameters(), PauseController, TimerForToggeling);
+            TestStatus = new HeaterStatus();
         }
 
         void CleanUpTest()
         {
-            MockedStartStopController  = null;
+            MockedStartStopController = null;
             MockedDelayControllerPause = null;
-            TestController             = null;
-            TestStatus                 = null;
+            TestController = null;
+            TestStatus = null;
         }
 
         [SetUp]
         public void SetupTests()
         {
-            SetupTest( );
+            SetupTest();
         }
 
         [Test]
         public void TestCase_HeaterIsOff_StatusCheck()
         {
-            FakeInitialStatusForTesting( );
+            FakeInitialStatusForTesting();
 
             bool IsOn = true;
 
-            TestController.EActivityChanged += ( sender, e ) =>
+            TestController.EActivityChanged += (sender, e) =>
             {
                 TestStatus = e.Status;
                 IsOn = e.TurnOn;
             };
 
-            TestController.Stop( );
+            TestController.Stop();
 
-            HeaterStatus ReturnedTestedStatus = TestController.GetStatus( );
-            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOff, ReturnedTestedStatus.ActualControllerState );
-            Assert.AreEqual( HeaterStatus.OperationState.Idle, ReturnedTestedStatus.ActualOperationState );
+            HeaterStatus ReturnedTestedStatus = TestController.GetStatus();
+            Assert.AreEqual(HeaterStatus.ControllerState.ControllerIsOff, ReturnedTestedStatus.ActualControllerState);
+            Assert.AreEqual(HeaterStatus.OperationState.Idle, ReturnedTestedStatus.ActualOperationState);
 
-            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOff, TestStatus.ActualControllerState );
-            Assert.AreEqual( HeaterStatus.OperationState.Idle, TestStatus.ActualOperationState );
-            Assert.AreEqual( HeaterStatus.InformationAction.Finished, TestStatus.ActualActionInfo );
-            Assert.IsFalse( IsOn );
+            Assert.AreEqual(HeaterStatus.ControllerState.ControllerIsOff, TestStatus.ActualControllerState);
+            Assert.AreEqual(HeaterStatus.OperationState.Idle, TestStatus.ActualOperationState);
+            Assert.AreEqual(HeaterStatus.InformationAction.Finished, TestStatus.ActualActionInfo);
+            Assert.IsFalse(IsOn);
         }
 
         [Test]
@@ -85,19 +85,19 @@ namespace HeaterControl_UnitTests
         {
             bool IsOn = false;
 
-            TestController.EActivityChanged += ( sender, e ) =>
+            TestController.EActivityChanged += (sender, e) =>
             {
                 TestStatus = e.Status;
                 IsOn = e.TurnOn;
             };
 
-            TestController.Start( );
+            TestController.Start();
 
-            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOn, TestStatus.ActualControllerState );
-            Assert.AreEqual( HeaterStatus.OperationState.RegularOperation, TestStatus.ActualOperationState );
-            Assert.AreEqual( HeaterStatus.InformationAction.Finished, TestStatus.ActualActionInfo );
+            Assert.AreEqual(HeaterStatus.ControllerState.ControllerIsOn, TestStatus.ActualControllerState);
+            Assert.AreEqual(HeaterStatus.OperationState.RegularOperation, TestStatus.ActualOperationState);
+            Assert.AreEqual(HeaterStatus.InformationAction.Finished, TestStatus.ActualActionInfo);
 
-            Assert.IsTrue( IsOn );
+            Assert.IsTrue(IsOn);
         }
 
         [Test]
@@ -105,18 +105,18 @@ namespace HeaterControl_UnitTests
         {
             bool IsOn = false;
 
-            TestController.EActivityChanged += ( sender, e ) =>
+            TestController.EActivityChanged += (sender, e) =>
             {
                 TestStatus = e.Status;
                 IsOn = e.TurnOn;
             };
 
-            TestController.Start( );
-            TestController.Pause( );
+            TestController.Start();
+            TestController.Pause();
 
-            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsPaused, TestStatus.ActualControllerState );
-            Assert.AreEqual( HeaterStatus.OperationState.RegularOperation, TestStatus.ActualOperationState );
-            Assert.IsFalse( IsOn );
+            Assert.AreEqual(HeaterStatus.ControllerState.ControllerIsPaused, TestStatus.ActualControllerState);
+            Assert.AreEqual(HeaterStatus.OperationState.RegularOperation, TestStatus.ActualOperationState);
+            Assert.IsFalse(IsOn);
         }
 
         [Test]
@@ -124,19 +124,19 @@ namespace HeaterControl_UnitTests
         {
             bool IsOn = false;
 
-            TestController.EActivityChanged += ( sender, e ) =>
+            TestController.EActivityChanged += (sender, e) =>
             {
                 TestStatus = e.Status;
                 IsOn = e.TurnOn;
             };
 
-            TestController.Start( );
-            TestController.Pause( );
-            TestController.Resume( );
+            TestController.Start();
+            TestController.Pause();
+            TestController.Resume();
 
-            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOn, TestStatus.ActualControllerState );
-            Assert.AreEqual( HeaterStatus.OperationState.RegularOperation, TestStatus.ActualOperationState );
-            Assert.IsTrue( IsOn );
+            Assert.AreEqual(HeaterStatus.ControllerState.ControllerIsOn, TestStatus.ActualControllerState);
+            Assert.AreEqual(HeaterStatus.OperationState.RegularOperation, TestStatus.ActualOperationState);
+            Assert.IsTrue(IsOn);
         }
 
         [Test]
@@ -144,17 +144,17 @@ namespace HeaterControl_UnitTests
         {
             bool IsOn = false;
 
-            TestController.EActivityChanged += ( sender, e ) =>
+            TestController.EActivityChanged += (sender, e) =>
             {
                 TestStatus = e.Status;
                 IsOn = e.TurnOn;
             };
 
-            TestController.Toggle( );
+            TestController.Toggle();
 
-            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOn, TestStatus.ActualControllerState );
-            Assert.AreEqual( HeaterStatus.OperationState.RegularOperation, TestStatus.ActualOperationState );
-            Assert.IsTrue( IsOn );
+            Assert.AreEqual(HeaterStatus.ControllerState.ControllerIsOn, TestStatus.ActualControllerState);
+            Assert.AreEqual(HeaterStatus.OperationState.RegularOperation, TestStatus.ActualOperationState);
+            Assert.IsTrue(IsOn);
         }
 
         [Test]
@@ -162,18 +162,18 @@ namespace HeaterControl_UnitTests
         {
             bool IsOn = false;
 
-            TestController.EActivityChanged += ( sender, e ) =>
+            TestController.EActivityChanged += (sender, e) =>
             {
                 TestStatus = e.Status;
                 IsOn = e.TurnOn;
             };
 
-            TestController.Start( );
-            TestController.Toggle( );
+            TestController.Start();
+            TestController.Toggle();
 
-            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOff, TestStatus.ActualControllerState );
-            Assert.AreEqual( HeaterStatus.OperationState.Idle, TestStatus.ActualOperationState );
-            Assert.IsFalse( IsOn );
+            Assert.AreEqual(HeaterStatus.ControllerState.ControllerIsOff, TestStatus.ActualControllerState);
+            Assert.AreEqual(HeaterStatus.OperationState.Idle, TestStatus.ActualOperationState);
+            Assert.IsFalse(IsOn);
         }
 
         [Test]
@@ -181,18 +181,18 @@ namespace HeaterControl_UnitTests
         {
             bool IsOn = false;
 
-            TestController.EActivityChanged += ( sender, e ) =>
+            TestController.EActivityChanged += (sender, e) =>
             {
                 TestStatus = e.Status;
                 IsOn = e.TurnOn;
             };
 
-            TestController.Stop( );
-            TestController.Toggle( );
+            TestController.Stop();
+            TestController.Toggle();
 
-            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOn, TestStatus.ActualControllerState );
-            Assert.AreEqual( HeaterStatus.OperationState.RegularOperation, TestStatus.ActualOperationState );
-            Assert.IsTrue( IsOn );
+            Assert.AreEqual(HeaterStatus.ControllerState.ControllerIsOn, TestStatus.ActualControllerState);
+            Assert.AreEqual(HeaterStatus.OperationState.RegularOperation, TestStatus.ActualOperationState);
+            Assert.IsTrue(IsOn);
         }
 
         [Test]
@@ -200,18 +200,18 @@ namespace HeaterControl_UnitTests
         {
             bool IsOn = false;
 
-            TestController.EActivityChanged += ( sender, e ) =>
+            TestController.EActivityChanged += (sender, e) =>
             {
                 TestStatus = e.Status;
                 IsOn = e.TurnOn;
             };
 
-            TestController.Toggle( ); // start
-            TestController.Toggle( ); // stop
+            TestController.Toggle(); // start
+            TestController.Toggle(); // stop
 
-            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOff, TestStatus.ActualControllerState );
-            Assert.AreEqual( HeaterStatus.OperationState.Idle, TestStatus.ActualOperationState );
-            Assert.IsFalse( IsOn );
+            Assert.AreEqual(HeaterStatus.ControllerState.ControllerIsOff, TestStatus.ActualControllerState);
+            Assert.AreEqual(HeaterStatus.OperationState.Idle, TestStatus.ActualOperationState);
+            Assert.IsFalse(IsOn);
         }
 
         [Test]
@@ -219,19 +219,19 @@ namespace HeaterControl_UnitTests
         {
             bool IsOn = false;
 
-            TestController.EActivityChanged += ( sender, e ) =>
+            TestController.EActivityChanged += (sender, e) =>
             {
                 TestStatus = e.Status;
                 IsOn = e.TurnOn;
             };
 
-            TestController.Toggle( ); // start
-            TestController.Toggle( ); // stop
-            TestController.Toggle( ); // start
+            TestController.Toggle(); // start
+            TestController.Toggle(); // stop
+            TestController.Toggle(); // start
 
-            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOn, TestStatus.ActualControllerState );
-            Assert.AreEqual( HeaterStatus.OperationState.RegularOperation, TestStatus.ActualOperationState );
-            Assert.IsTrue( IsOn );
+            Assert.AreEqual(HeaterStatus.ControllerState.ControllerIsOn, TestStatus.ActualControllerState);
+            Assert.AreEqual(HeaterStatus.OperationState.RegularOperation, TestStatus.ActualOperationState);
+            Assert.IsTrue(IsOn);
         }
 
         [Test]
@@ -239,9 +239,9 @@ namespace HeaterControl_UnitTests
         {
             bool IsOn = false;
 
-            HeaterStatus TestStatus = new HeaterStatus( );
+            HeaterStatus TestStatus = new HeaterStatus();
 
-            TestController.EActivityChanged += ( sender, e ) =>
+            TestController.EActivityChanged += (sender, e) =>
             {
                 TestStatus = e.Status;
                 IsOn = e.TurnOn;
@@ -249,11 +249,11 @@ namespace HeaterControl_UnitTests
 
             TestStatus.ActualControllerState = HeaterStatus.ControllerState.ControllerIsOff;
 
-            TestController.SetStatus( TestStatus );
+            TestController.SetStatus(TestStatus);
 
-            TestController.DelayedToggle( );
+            TestController.DelayedToggle();
 
-            Assert.AreEqual( HeaterStatus.InformationAction.TurningOn, TestStatus.ActualActionInfo );
+            Assert.AreEqual(HeaterStatus.InformationAction.TurningOn, TestStatus.ActualActionInfo);
         }
 
         [Test]
@@ -261,9 +261,9 @@ namespace HeaterControl_UnitTests
         {
             bool IsOn = false;
 
-            HeaterStatus TestStatus = new HeaterStatus( );
+            HeaterStatus TestStatus = new HeaterStatus();
 
-            TestController.EActivityChanged += ( sender, e ) =>
+            TestController.EActivityChanged += (sender, e) =>
             {
                 TestStatus = e.Status;
                 IsOn = e.TurnOn;
@@ -271,11 +271,11 @@ namespace HeaterControl_UnitTests
 
             TestStatus.ActualControllerState = HeaterStatus.ControllerState.ControllerIsOn;
 
-            TestController.SetStatus( TestStatus );
+            TestController.SetStatus(TestStatus);
 
-            TestController.DelayedToggle( );
+            TestController.DelayedToggle();
 
-            Assert.AreEqual( HeaterStatus.InformationAction.TurningOff, TestStatus.ActualActionInfo );
+            Assert.AreEqual(HeaterStatus.InformationAction.TurningOff, TestStatus.ActualActionInfo);
         }
 
         [Test]
@@ -283,22 +283,22 @@ namespace HeaterControl_UnitTests
         {
             bool IsOn = false;
 
-            TestController.EActivityChanged += ( sender, e ) =>
+            TestController.EActivityChanged += (sender, e) =>
             {
                 TestStatus = e.Status;
                 IsOn = e.TurnOn;
             };
 
-            TestController.DelayedToggle( );
+            TestController.DelayedToggle();
 
-            MockedDelayedToggeling.Verify( obj => obj.SetTime( new HeaterParameters().CmdDurationForTurningStartingStopping ) );
-            MockedDelayedToggeling.Verify( obj => obj.Start( ) );
-            MockedDelayedToggeling.Verify( obj => obj.Stop( ) );
-            MockedDelayedToggeling.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
+            MockedDelayedToggeling.Verify(obj => obj.SetTime(new HeaterParameters().CmdDurationForTurningStartingStopping));
+            MockedDelayedToggeling.Verify(obj => obj.Start());
+            MockedDelayedToggeling.Verify(obj => obj.Stop());
+            MockedDelayedToggeling.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
 
-            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOn, TestStatus.ActualControllerState );
-            Assert.AreEqual( HeaterStatus.OperationState.RegularOperation, TestStatus.ActualOperationState );
-            Assert.IsTrue( IsOn );
+            Assert.AreEqual(HeaterStatus.ControllerState.ControllerIsOn, TestStatus.ActualControllerState);
+            Assert.AreEqual(HeaterStatus.OperationState.RegularOperation, TestStatus.ActualOperationState);
+            Assert.IsTrue(IsOn);
         }
 
         [Test]
@@ -306,18 +306,18 @@ namespace HeaterControl_UnitTests
         {
             bool IsOn = false;
 
-            TestController.EActivityChanged += ( sender, e ) =>
+            TestController.EActivityChanged += (sender, e) =>
             {
                 TestStatus = e.Status;
                 IsOn = e.TurnOn;
             };
 
-            TestController.Start( );
-            TestController.DelayedPause( );
+            TestController.Start();
+            TestController.DelayedPause();
 
-            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsExpectingPause, TestStatus.ActualControllerState );
-            Assert.AreEqual( HeaterStatus.OperationState.RegularOperation, TestStatus.ActualOperationState );
-            Assert.IsTrue( IsOn );
+            Assert.AreEqual(HeaterStatus.ControllerState.ControllerIsExpectingPause, TestStatus.ActualControllerState);
+            Assert.AreEqual(HeaterStatus.OperationState.RegularOperation, TestStatus.ActualOperationState);
+            Assert.IsTrue(IsOn);
         }
 
         [Test]
@@ -325,24 +325,24 @@ namespace HeaterControl_UnitTests
         {
             bool IsOn = false;
 
-            TestController.EActivityChanged += ( sender, e ) =>
+            TestController.EActivityChanged += (sender, e) =>
             {
                 TestStatus = e.Status;
                 IsOn = e.TurnOn;
             };
 
-            TestController.Start( );
-            TestController.DelayedPause( );
+            TestController.Start();
+            TestController.DelayedPause();
 
-            MockedDelayControllerPause.Verify( obj => obj.SetTime( new HeaterParameters().DurationDelayPause ));
-            MockedDelayControllerPause.Verify( obj => obj.Start( ) );
+            MockedDelayControllerPause.Verify(obj => obj.SetTime(new HeaterParameters().DurationDelayPause));
+            MockedDelayControllerPause.Verify(obj => obj.Start());
 
-            MockedDelayControllerPause.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
+            MockedDelayControllerPause.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
 
 
-            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsPaused, TestStatus.ActualControllerState );
-            Assert.AreEqual( HeaterStatus.OperationState.RegularOperation, TestStatus.ActualOperationState );
-            Assert.IsFalse( IsOn );
+            Assert.AreEqual(HeaterStatus.ControllerState.ControllerIsPaused, TestStatus.ActualControllerState);
+            Assert.AreEqual(HeaterStatus.OperationState.RegularOperation, TestStatus.ActualOperationState);
+            Assert.IsFalse(IsOn);
         }
 
         [Test]
@@ -350,39 +350,39 @@ namespace HeaterControl_UnitTests
         {
             bool IsOn = false;
 
-            TestController.EActivityChanged += ( sender, e ) =>
+            TestController.EActivityChanged += (sender, e) =>
             {
                 TestStatus = e.Status;
                 IsOn = e.TurnOn;
             };
 
-            TestController.Start( );
-            TestController.DelayedPause( );
-            TestController.Resume( );
+            TestController.Start();
+            TestController.DelayedPause();
+            TestController.Resume();
 
-            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOn, TestStatus.ActualControllerState );
-            Assert.AreEqual( HeaterStatus.OperationState.RegularOperation, TestStatus.ActualOperationState );
-            Assert.IsTrue( IsOn );
+            Assert.AreEqual(HeaterStatus.ControllerState.ControllerIsOn, TestStatus.ActualControllerState);
+            Assert.AreEqual(HeaterStatus.OperationState.RegularOperation, TestStatus.ActualOperationState);
+            Assert.IsTrue(IsOn);
         }
 
         [Test]
         public void TestCase_ConfirmCommand()
         {
-            TestController.Confirm( );
-            MockedDelayedToggeling.Verify( obj => obj.Stop() );
+            TestController.Confirm();
+            MockedDelayedToggeling.Verify(obj => obj.Stop());
         }
 
         [Test]
         public void TestCase_DelayedToggleElapsed()
         {
-            MockedDelayedToggeling.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
-            MockedDelayedToggeling.Verify( obj => obj.Stop( ) );
+            MockedDelayedToggeling.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
+            MockedDelayedToggeling.Verify(obj => obj.Stop());
         }
 
         [TearDown]
         public void TearDownTests()
         {
-            CleanUpTest( );
+            CleanUpTest();
         }
     }
 
@@ -390,18 +390,18 @@ namespace HeaterControl_UnitTests
     public class HeaterControlPwm_UnitTests
     {
         HeaterControllerPulseWidhtModulation TestController;
-        HeaterStatus                         TestStatus;
-        Mock<ITimer>                         MockedDelayControllerPause;
-        Mock<ITimer>                         MockedToggeling;
-        Mock<ITimer>                         MockControlOn;
-        Mock<ITimer>                         MockControlLow;
-        Mock<ITimer>                         MockControlMiddle;
-        Mock<ITimer>                         MockControlHigh;
-        Mock<ITimer>                         MockSignal;
-        Mock<ITimer>                         MockPwm;
-        Mock<ITimer>                         MockPause;
-        Mock<ITimer>                         MockDelayedToggeling;
-        Mock<ControlTimers>                  MockedHeaterControlTimers;
+        HeaterStatus TestStatus;
+        Mock<ITimer> MockedDelayControllerPause;
+        Mock<ITimer> MockedToggeling;
+        Mock<ITimer> MockControlOn;
+        Mock<ITimer> MockControlLow;
+        Mock<ITimer> MockControlMiddle;
+        Mock<ITimer> MockControlHigh;
+        Mock<ITimer> MockSignal;
+        Mock<ITimer> MockPwm;
+        Mock<ITimer> MockPause;
+        Mock<ITimer> MockDelayedToggeling;
+        Mock<ControlTimers> MockedHeaterControlTimers;
 
         void FakeInitialStatusForTesting()
         {
@@ -410,71 +410,71 @@ namespace HeaterControl_UnitTests
                 TestStatus.ActualControllerState = HeaterStatus.ControllerState.InvalidForTesting;
                 TestStatus.ActualOperationState = HeaterStatus.OperationState.InvalidForTesting;
                 TestStatus.ActualActionInfo = HeaterStatus.InformationAction.InvalidForTesting;
-                TestController.SetStatus( TestStatus );
+                TestController.SetStatus(TestStatus);
             }
         }
 
-        void MakeAndVerifyControllerTimer( Mock<ITimer> MockedTestTimer, TimeSpan ConfiguredTime )
+        void MakeAndVerifyControllerTimer(Mock<ITimer> MockedTestTimer, TimeSpan ConfiguredTime)
         {
-            MockedTestTimer.Verify( obj => obj.SetTime( ConfiguredTime ) );
-            MockedTestTimer.Verify( obj => obj.Start( ) );
-            MockedTestTimer.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
+            MockedTestTimer.Verify(obj => obj.SetTime(ConfiguredTime));
+            MockedTestTimer.Verify(obj => obj.Start());
+            MockedTestTimer.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
         }
 
         void PwmStartedAndElapsed()
         {
-            MockPwm.Verify( obj => obj.Start( ) );
-            MockPwm.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
+            MockPwm.Verify(obj => obj.Start());
+            MockPwm.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
         }
 
         void MakeAndVerifyPwmLowOff()
         {
-            MockPwm.Verify( obj => obj.SetTime( new HeaterParameters().SignalDurationLowOff ));
-            PwmStartedAndElapsed( );
+            MockPwm.Verify(obj => obj.SetTime(new HeaterParameters().SignalDurationLowOff));
+            PwmStartedAndElapsed();
         }
 
         void MakeAndVerifyPwmLowOn()
         {
-            MockPwm.Verify( obj => obj.Start( ) );
-            MockPwm.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
+            MockPwm.Verify(obj => obj.Start());
+            MockPwm.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
         }
 
-        void MakeAndVerifyControllerOn( )
+        void MakeAndVerifyControllerOn()
         {
-            MakeAndVerifyControllerTimer( MockControlOn, new HeaterParameters().CmdDurationTurningOn );
+            MakeAndVerifyControllerTimer(MockControlOn, new HeaterParameters().CmdDurationTurningOn);
         }
 
-        void MakeAndVerifyControllerPwmLow( )
+        void MakeAndVerifyControllerPwmLow()
         {
-            MakeAndVerifyControllerOn( );
-            MakeAndVerifyControllerTimer( MockControlLow, new HeaterParameters( ).SignalDurationLowOn );
+            MakeAndVerifyControllerOn();
+            MakeAndVerifyControllerTimer(MockControlLow, new HeaterParameters().SignalDurationLowOn);
         }
 
         void SetupTest()
         {
-            MockedDelayControllerPause                 = new Mock<ITimer>( );
-            MockedToggeling                            = new Mock<ITimer>( );
-            MockControlOn                              = new Mock<ITimer>( );
-            MockControlLow                             = new Mock<ITimer>( );
-            MockControlMiddle                          = new Mock<ITimer>( );
-            MockControlHigh                            = new Mock<ITimer>( );
-            MockSignal                                 = new Mock<ITimer>( );
-            MockPwm                                    = new Mock<ITimer>( );
-            MockPause                                  = new Mock<ITimer>( );
-            MockDelayedToggeling                       = new Mock<ITimer>( );
-            MockedHeaterControlTimers                  = new Mock<ControlTimers>( );
-            ControlTimers HeaterControlTimers          = MockedHeaterControlTimers.Object;
-            HeaterControlTimers.TimerOn                = MockControlOn.Object;
-            HeaterControlTimers.TimerLow               = MockControlLow.Object;
-            HeaterControlTimers.TimerMiddle            = MockControlMiddle.Object;
-            HeaterControlTimers.TimerHigh              = MockControlHigh.Object;
-            HeaterControlTimers.TimerSignal            = MockSignal.Object;
-            HeaterControlTimers.TimerPwm               = MockPwm.Object;
-            HeaterControlTimers.TimerPause             = MockPause.Object;
-            HeaterControlTimers.TimerToggelingDelay    = MockDelayedToggeling.Object;
+            MockedDelayControllerPause = new Mock<ITimer>();
+            MockedToggeling = new Mock<ITimer>();
+            MockControlOn = new Mock<ITimer>();
+            MockControlLow = new Mock<ITimer>();
+            MockControlMiddle = new Mock<ITimer>();
+            MockControlHigh = new Mock<ITimer>();
+            MockSignal = new Mock<ITimer>();
+            MockPwm = new Mock<ITimer>();
+            MockPause = new Mock<ITimer>();
+            MockDelayedToggeling = new Mock<ITimer>();
+            MockedHeaterControlTimers = new Mock<ControlTimers>();
+            ControlTimers HeaterControlTimers = MockedHeaterControlTimers.Object;
+            HeaterControlTimers.TimerOn = MockControlOn.Object;
+            HeaterControlTimers.TimerLow = MockControlLow.Object;
+            HeaterControlTimers.TimerMiddle = MockControlMiddle.Object;
+            HeaterControlTimers.TimerHigh = MockControlHigh.Object;
+            HeaterControlTimers.TimerSignal = MockSignal.Object;
+            HeaterControlTimers.TimerPwm = MockPwm.Object;
+            HeaterControlTimers.TimerPause = MockPause.Object;
+            HeaterControlTimers.TimerToggelingDelay = MockDelayedToggeling.Object;
 
-            TestController = new HeaterControllerPulseWidhtModulation( new HeaterParameters( ), HeaterControlTimers );
-            TestStatus = new HeaterStatus( );
+            TestController = new HeaterControllerPulseWidhtModulation(new HeaterParameters(), HeaterControlTimers);
+            TestStatus = new HeaterStatus();
         }
 
         void CleanUpTest()
@@ -487,162 +487,162 @@ namespace HeaterControl_UnitTests
         [SetUp]
         public void SetupTests()
         {
-            SetupTest( );
+            SetupTest();
         }
 
         [TearDown]
         public void TearDownTests()
         {
-            CleanUpTest( );
+            CleanUpTest();
         }
 
         [Test]
         public void TestCase_Pwm_Off_StatusCheck()
         {
-            FakeInitialStatusForTesting( );
+            FakeInitialStatusForTesting();
 
             bool IsOn = true;
 
-            TestController.EActivityChanged += ( sender, e ) =>
+            TestController.EActivityChanged += (sender, e) =>
             {
                 TestStatus = e.Status;
                 IsOn = e.TurnOn;
             };
 
-            TestController.Start( );
+            TestController.Start();
 
-            HeaterStatus ReturnedTestedStatus = TestController.GetStatus( );
+            HeaterStatus ReturnedTestedStatus = TestController.GetStatus();
 
-            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOff, ReturnedTestedStatus.ActualControllerState );
-            Assert.AreEqual( HeaterStatus.OperationState.Idle, ReturnedTestedStatus.ActualOperationState );
+            Assert.AreEqual(HeaterStatus.ControllerState.ControllerIsOff, ReturnedTestedStatus.ActualControllerState);
+            Assert.AreEqual(HeaterStatus.OperationState.Idle, ReturnedTestedStatus.ActualOperationState);
         }
 
         [Test]
         public void TestCase_PwmOff_To_On_StatusCheck()
         {
-            FakeInitialStatusForTesting( );
+            FakeInitialStatusForTesting();
 
             bool IsOn = true;
 
-            TestController.EActivityChanged += ( sender, e ) =>
+            TestController.EActivityChanged += (sender, e) =>
             {
                 TestStatus = e.Status;
                 IsOn = e.TurnOn;
             };
 
-            TestController.Start( );
+            TestController.Start();
 
-            MakeAndVerifyControllerOn( );
+            MakeAndVerifyControllerOn();
 
-            HeaterStatus ReturnedTestedStatus = TestController.GetStatus( );
+            HeaterStatus ReturnedTestedStatus = TestController.GetStatus();
 
-            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOn, ReturnedTestedStatus.ActualControllerState );
-            Assert.AreEqual( HeaterStatus.OperationState.RegularOperation, ReturnedTestedStatus.ActualOperationState );
-            Assert.AreEqual( HeaterStatus.InformationAction.ItensityChanging, ReturnedTestedStatus.ActualActionInfo );
-            Assert.IsTrue( IsOn );
+            Assert.AreEqual(HeaterStatus.ControllerState.ControllerIsOn, ReturnedTestedStatus.ActualControllerState);
+            Assert.AreEqual(HeaterStatus.OperationState.RegularOperation, ReturnedTestedStatus.ActualOperationState);
+            Assert.AreEqual(HeaterStatus.InformationAction.ItensityChanging, ReturnedTestedStatus.ActualActionInfo);
+            Assert.IsTrue(IsOn);
         }
 
         [Test]
         public void TestCase_Start_To_Confirm_Without_Start_StatusCheck()
         {
-            FakeInitialStatusForTesting( );
+            FakeInitialStatusForTesting();
 
             bool IsOn = true;
 
-            TestController.EActivityChanged += ( sender, e ) =>
+            TestController.EActivityChanged += (sender, e) =>
             {
                 TestStatus = e.Status;
                 IsOn = e.TurnOn;
             };
 
-            TestController.Start( );
+            TestController.Start();
 
-            TestController.Confirm( );
+            TestController.Confirm();
 
-            MockControlOn.Verify( obj => obj.Start( ) );
+            MockControlOn.Verify(obj => obj.Start());
 
-            HeaterStatus ReturnedTestedStatus = TestController.GetStatus( );
+            HeaterStatus ReturnedTestedStatus = TestController.GetStatus();
 
-            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOff, ReturnedTestedStatus.ActualControllerState );
-            Assert.AreEqual( HeaterStatus.OperationState.Idle, ReturnedTestedStatus.ActualOperationState );
-            Assert.IsFalse( IsOn );
+            Assert.AreEqual(HeaterStatus.ControllerState.ControllerIsOff, ReturnedTestedStatus.ActualControllerState);
+            Assert.AreEqual(HeaterStatus.OperationState.Idle, ReturnedTestedStatus.ActualOperationState);
+            Assert.IsFalse(IsOn);
         }
 
         [Test]
         public void TestCase_PwmOff_To_Low_StatusCheck()
         {
-            FakeInitialStatusForTesting( );
+            FakeInitialStatusForTesting();
 
             bool IsOn = true;
 
-            TestController.EActivityChanged += ( sender, e ) =>
+            TestController.EActivityChanged += (sender, e) =>
             {
                 TestStatus = e.Status;
                 IsOn = e.TurnOn;
             };
 
-            TestController.Start( );
+            TestController.Start();
 
-            MakeAndVerifyControllerPwmLow( );
+            MakeAndVerifyControllerPwmLow();
 
-            HeaterStatus ReturnedTestedStatus = TestController.GetStatus( );
+            HeaterStatus ReturnedTestedStatus = TestController.GetStatus();
 
-            Assert.AreEqual( HeaterStatus.ControllerState.ControllerIsOn, ReturnedTestedStatus.ActualControllerState );
-            Assert.AreEqual( HeaterStatus.OperationState.PwmIsWorking, ReturnedTestedStatus.ActualOperationState );
-            Assert.AreEqual( HeaterStatus.PwmState.Low, ReturnedTestedStatus.ActualPwmState );
-            Assert.AreEqual( HeaterStatus.InformationAction.ItensityChanging, ReturnedTestedStatus.ActualActionInfo );
-            Assert.IsTrue( IsOn );
+            Assert.AreEqual(HeaterStatus.ControllerState.ControllerIsOn, ReturnedTestedStatus.ActualControllerState);
+            Assert.AreEqual(HeaterStatus.OperationState.PwmIsWorking, ReturnedTestedStatus.ActualOperationState);
+            Assert.AreEqual(HeaterStatus.PwmState.Low, ReturnedTestedStatus.ActualPwmState);
+            Assert.AreEqual(HeaterStatus.InformationAction.ItensityChanging, ReturnedTestedStatus.ActualActionInfo);
+            Assert.IsTrue(IsOn);
         }
 
         [Test]
         public void TestCase_PwmOff_To_Low_InitialSignalisation()
         {
-            FakeInitialStatusForTesting( );
+            FakeInitialStatusForTesting();
 
             bool IsOn = true;
 
-            TestController.EActivityChanged += ( sender, e ) =>
+            TestController.EActivityChanged += (sender, e) =>
             {
                 TestStatus = e.Status;
                 IsOn = e.TurnOn;
             };
 
-            TestController.Start( );
+            TestController.Start();
 
-            MakeAndVerifyControllerPwmLow( );
-            MakeAndVerifyControllerTimer( MockSignal, new HeaterParameters( ).SignalDurationSignalisation );
+            MakeAndVerifyControllerPwmLow();
+            MakeAndVerifyControllerTimer(MockSignal, new HeaterParameters().SignalDurationSignalisation);
 
-            HeaterStatus ReturnedTestedStatus = TestController.GetStatus( );
+            HeaterStatus ReturnedTestedStatus = TestController.GetStatus();
 
-            Assert.IsFalse( IsOn );
+            Assert.IsFalse(IsOn);
         }
 
         [Test]
         public void TestCase_PwmOff_To_Low_SignalisationStart()
         {
-            FakeInitialStatusForTesting( );
+            FakeInitialStatusForTesting();
 
             bool IsOn = true;
 
-            TestController.EActivityChanged += ( sender, e ) =>
+            TestController.EActivityChanged += (sender, e) =>
             {
                 TestStatus = e.Status;
                 IsOn = e.TurnOn;
             };
 
 
-            MockControlLow.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
-            MockSignal.Verify( obj => obj.Start( ) );
+            MockControlLow.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
+            MockSignal.Verify(obj => obj.Start());
         }
 
         [Test]
         public void TestCase_PwmOff_To_Low_SignalisationSequence()
         {
-            FakeInitialStatusForTesting( );
+            FakeInitialStatusForTesting();
 
             bool IsOn = false;
 
-            TestController.EActivityChanged += ( sender, e ) =>
+            TestController.EActivityChanged += (sender, e) =>
             {
                 TestStatus = e.Status;
                 IsOn = e.TurnOn;
@@ -650,19 +650,19 @@ namespace HeaterControl_UnitTests
 
             for (int i = 1; i <= Settings.SignalCountsForPwmLow; i++)
             {
-                MockSignal.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
-                MockSignal.Verify( obj => obj.Stop( ), Times.Exactly( i ) );
-                MockSignal.Verify( obj => obj.Start( ), Times.Exactly( i ) );
+                MockSignal.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
+                MockSignal.Verify(obj => obj.Stop(), Times.Exactly(i));
+                MockSignal.Verify(obj => obj.Start(), Times.Exactly(i));
 
-                bool EverySecondTime = ( i % 2 ) == 0;
+                bool EverySecondTime = (i % 2) == 0;
 
                 if (EverySecondTime)
                 {
-                    Assert.IsTrue( IsOn );
+                    Assert.IsTrue(IsOn);
                 }
                 else
                 {
-                    Assert.IsFalse( IsOn );
+                    Assert.IsFalse(IsOn);
                 }
             }
         }
@@ -670,21 +670,21 @@ namespace HeaterControl_UnitTests
         [Test]
         public void TestCase_PwmOff_To_Low()
         {
-            MockControlLow.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
+            MockControlLow.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
 
-            MockPwm.Verify( obj => obj.Start( ) );
-            MockPwm.Verify( obj => obj.SetTime( new HeaterParameters().SignalDurationLowOn ) );
+            MockPwm.Verify(obj => obj.Start());
+            MockPwm.Verify(obj => obj.SetTime(new HeaterParameters().SignalDurationLowOn));
         }
 
         [Test]
         public void TestCase_PwmStartedWithLowParametersIsNowLOW()
         {
-            MockControlLow.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
-            MockPwm.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
+            MockControlLow.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
+            MockPwm.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
 
-            MockPwm.Verify( obj => obj.Stop( ) );
-            MockPwm.Verify( obj => obj.SetTime( new HeaterParameters( ).SignalDurationLowOff ) );
-            MockPwm.Verify( obj => obj.Start( ), Times.Exactly( 2 ) );
+            MockPwm.Verify(obj => obj.Stop());
+            MockPwm.Verify(obj => obj.SetTime(new HeaterParameters().SignalDurationLowOff));
+            MockPwm.Verify(obj => obj.Start(), Times.Exactly(2));
         }
 
         [Test]
@@ -692,29 +692,29 @@ namespace HeaterControl_UnitTests
         {
             bool IsOn = true;
 
-            TestController.EActivityChanged += ( sender, e ) =>
+            TestController.EActivityChanged += (sender, e) =>
             {
                 TestStatus = e.Status;
                 IsOn = e.TurnOn;
             };
 
-            MockControlLow.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
-            MockPwm.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
+            MockControlLow.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
+            MockPwm.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
 
-            Assert.IsFalse( IsOn );
+            Assert.IsFalse(IsOn);
         }
 
         [Test]
         public void TestCase_PwmStartedWithLowParametersIsNowHigh()
         {
-            MockControlLow.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
-            MockPwm.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
-            MockPwm.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
+            MockControlLow.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
+            MockPwm.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
+            MockPwm.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
 
             // first time is creation
             // second time is pwm low
             // third time is pwm on again
-            MockPwm.Verify( obj => obj.SetTime( new HeaterParameters( ).SignalDurationLowOn ), Times.Exactly( 3 ) );
+            MockPwm.Verify(obj => obj.SetTime(new HeaterParameters().SignalDurationLowOn), Times.Exactly(3));
         }
 
         [Test]
@@ -722,29 +722,45 @@ namespace HeaterControl_UnitTests
         {
             bool IsOn = false;
 
-            TestController.EActivityChanged += ( sender, e ) =>
+            TestController.EActivityChanged += (sender, e) =>
             {
                 TestStatus = e.Status;
                 IsOn = e.TurnOn;
             };
 
-            MockControlLow.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
-            MockPwm.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
+            MockControlLow.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
+            MockPwm.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
             // check alternating turn on/off
-            Assert.IsFalse( IsOn );
-            MockPwm.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
-            Assert.IsTrue( IsOn );
-            MockPwm.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
-            Assert.IsFalse( IsOn );
-            MockPwm.Raise( obj => obj.Elapsed += null, new EventArgs( ) as ElapsedEventArgs );
-            Assert.IsTrue( IsOn );
+            Assert.IsFalse(IsOn);
+            MockPwm.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
+            Assert.IsTrue(IsOn);
+            MockPwm.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
+            Assert.IsFalse(IsOn);
+            MockPwm.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
+            Assert.IsTrue(IsOn);
         }
 
         [Test]
         public void TestControllerIsInitialised()
         {
-             HeaterControllerPulseWidhtModulation Test_Controller = new HeaterControllerPulseWidhtModulation( new HeaterParameters(), new InialisedTimers().Timers );
+            HeaterControllerPulseWidhtModulation Test_Controller = new HeaterControllerPulseWidhtModulation(new HeaterParameters(), new InialisedTimers().Timers);
+        }
+
+    }
+
+    [TestFixture]
+    public class HeaterControlThermostate_UnitTests
+    {
+        [SetUp]
+        public void SetupTests()
+        {
+        }
+
+        [TearDown]
+        public void TearDownTests()
+        {
         }
 
     }
 }
+

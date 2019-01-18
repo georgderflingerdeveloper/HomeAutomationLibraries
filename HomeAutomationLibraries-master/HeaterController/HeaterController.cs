@@ -18,6 +18,7 @@ namespace HomeAutomationHeater
         public ITimer TimerSignal         { get; set; } // timer for indication signal
         public ITimer TimerPause          { get; set; }
         public ITimer TimerToggelingDelay { get; set; }
+        public ITimer TimerBoost          { get; set; }
     }
 
     [Serializable]
@@ -68,6 +69,7 @@ namespace HomeAutomationHeater
             TurningOff,
             Pausing,
             Finished,
+            InProcess,
             InvalidForTesting = 99
         }
         public InformationAction ActualActionInfo { get; set; }
@@ -107,7 +109,7 @@ namespace HomeAutomationHeater
         public TimeSpan SignalDurationHighOff                        { get=>SignalDurationLowOff = new TimeSpan(0,20,0);      set => new TimeSpan(); }
         public TimeSpan SignalDurationVariableOn                     { get; set; }
         public TimeSpan SignalDurationVariableOff                    { get; set; }
-        public TimeSpan SignalDurationBoosting                       { get; set; }
+        public TimeSpan SignalDurationBoosting                       { get => SignalDurationBoosting = new TimeSpan(0, 20, 0); set => new TimeSpan(); }
         public TimeSpan DurationDelayPause                           { get; set; }
     }
 
@@ -533,7 +535,26 @@ namespace HomeAutomationHeater
         public HeaterControllerByTemperature( HeaterParameters Parameters, ITimer PauseController, ITimer DelayToggelingController )
             : base( Parameters, PauseController, DelayToggelingController )
         {
+        }
+    }
 
+    public class HeaterControllerThermostate : HeaterController
+    {
+        public new event ActivityChanged EActivityChanged;
+
+        public HeaterControllerThermostate(HeaterParameters Parameters, ControlTimers HeaterControlTimers)
+            : base(Parameters, HeaterControlTimers.TimerPause, HeaterControlTimers.TimerToggelingDelay)
+        {
+        }
+
+        override protected void ControllerStart()
+        {
+            Turn(GeneralConstants.ON);
+            HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerIsOn;
+            HeaterEvArgs.Status.ActualOperationState = HeaterStatus.OperationState.Boosting;
+            HeaterEvArgs.Status.ActualActionInfo = HeaterStatus.InformationAction.InProcess;
+            _Status = HeaterEvArgs.Status;
+            EActivityChanged?.Invoke(this, HeaterEvArgs);
         }
     }
 }
