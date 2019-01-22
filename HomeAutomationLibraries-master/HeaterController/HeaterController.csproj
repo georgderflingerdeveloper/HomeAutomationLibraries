@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HeaterController.cs" />
+    <Compile Include="IHeaterControllerThermostate.cs" />
     <Compile Include="INTERFACE\IHeaterControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

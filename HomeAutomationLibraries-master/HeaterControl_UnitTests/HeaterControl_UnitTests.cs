@@ -756,15 +756,19 @@ namespace HeaterControl_UnitTests
         Mock<ITimer> MockedBoostingTimer;
         Mock<ControlTimers> MockedHeaterControlTimers;
         ControlTimers HeaterControlTimers;
+        HeaterParameters TestParameters;
 
 
 
         void Setup( )
         {
+            TestParameters = new HeaterParameters();
             TestStatus = new HeaterStatus();
             MockedHeaterControlTimers = new Mock<ControlTimers>();
+            MockedBoostingTimer = new Mock<ITimer>();
             HeaterControlTimers = MockedHeaterControlTimers.Object;
-            TestController = new HeaterControllerThermostate(new HeaterParameters(), HeaterControlTimers);
+            HeaterControlTimers.TimerBoost = MockedBoostingTimer.Object;
+            TestController = new HeaterControllerThermostate(TestParameters, HeaterControlTimers);
         }
 
         [SetUp]
@@ -792,7 +796,86 @@ namespace HeaterControl_UnitTests
             Assert.AreEqual(HeaterStatus.ControllerState.ControllerIsOn, ReturnedTestedStatus.ActualControllerState);
             Assert.AreEqual(HeaterStatus.OperationState.Boosting, ReturnedTestedStatus.ActualOperationState);
             Assert.AreEqual(HeaterStatus.InformationAction.InProcess, ReturnedTestedStatus.ActualActionInfo);
+            MockedBoostingTimer.Verify(obj => obj.SetTime( TestParameters.SignalDurationBoosting) );
+            MockedBoostingTimer.Verify(obj => obj.Start(), Times.AtLeastOnce() );
             Assert.IsTrue(IsOn);
+
+        }
+
+        [Test]
+        public void TestCase_BoostingElapsed_ThermostateSignalIsInactive()
+        {
+            bool IsOn = true;
+
+            TestController.EActivityChanged += (sender, e) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.Start();
+
+            MockedBoostingTimer.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
+
+            TestController.Signal = false;
+
+            HeaterStatus ReturnedTestedStatus = TestController.GetStatus();
+
+            Assert.AreEqual(HeaterStatus.ControllerState.ControllerIsOn, ReturnedTestedStatus.ActualControllerState);
+            Assert.AreEqual(HeaterStatus.OperationState.Thermostate, ReturnedTestedStatus.ActualOperationState);
+            Assert.AreEqual(HeaterStatus.InformationAction.Finished, ReturnedTestedStatus.ActualActionInfo);
+            Assert.IsFalse(IsOn);
+
+        }
+
+        [Test]
+        public void TestCase_BoostingElapsed_ThermostateSignalActive()
+        {
+            bool IsOn = false;
+
+            TestController.EActivityChanged += (sender, e) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.Start();
+
+            MockedBoostingTimer.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
+
+            TestController.Signal = true;
+
+            HeaterStatus ReturnedTestedStatus = TestController.GetStatus();
+
+            Assert.AreEqual(HeaterStatus.ControllerState.ControllerIsOn, ReturnedTestedStatus.ActualControllerState);
+            Assert.AreEqual(HeaterStatus.OperationState.Thermostate, ReturnedTestedStatus.ActualOperationState);
+            Assert.AreEqual(HeaterStatus.InformationAction.Finished, ReturnedTestedStatus.ActualActionInfo);
+            Assert.IsFalse(IsOn);
+        }
+
+        [Test]
+        public void TestCase_BoostingElapsed_CheckThermostateOnActive()
+        {
+            bool IsOn = false;
+
+            TestController.EActivityChanged += (sender, e) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.Start();
+            MockedBoostingTimer.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
+
+            TestController.Signal = true;
+            TestController.Signal = false;
+ 
+            HeaterStatus ReturnedTestedStatus = TestController.GetStatus();
+
+            Assert.AreEqual(HeaterStatus.ControllerState.ControllerIsOn, ReturnedTestedStatus.ActualControllerState);
+            Assert.AreEqual(HeaterStatus.OperationState.Thermostate, ReturnedTestedStatus.ActualOperationState);
+            Assert.AreEqual(HeaterStatus.InformationAction.Finished, ReturnedTestedStatus.ActualActionInfo);
+            Assert.IsFalse(IsOn);
 
         }
 

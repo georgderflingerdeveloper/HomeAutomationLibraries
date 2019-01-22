@@ -3,8 +3,7 @@ using HomeAutomationHeater.INTERFACE;
 using System;
 using System.Timers;
 using TimerMockable;
-using Signalsequencer;
-using System.Runtime.Remoting.Messaging;
+using InterfacesHeaterController;
 
 namespace HomeAutomationHeater
 {
@@ -45,6 +44,7 @@ namespace HomeAutomationHeater
             TemperatureControl,
             Boosting,
             Defrosting,
+            Thermostate,
             InvalidForTesting = 99
         }
 
@@ -544,21 +544,65 @@ namespace HomeAutomationHeater
         }
     }
 
-    public class HeaterControllerThermostate : HeaterController
+    public class HeaterControllerThermostate : HeaterController, IHeaterControl, IHeaterControllerThermostate
     {
+        bool _Signal = false;
+        ControlTimers _HeaterControlTimers;
+        HeaterParameters _Parameters;
+
         public new event ActivityChanged EActivityChanged;
 
         public HeaterControllerThermostate(HeaterParameters Parameters, ControlTimers HeaterControlTimers)
             : base(Parameters, HeaterControlTimers.TimerPause, HeaterControlTimers.TimerToggelingDelay)
         {
+            _HeaterControlTimers = HeaterControlTimers;
+            _Parameters = Parameters;
+            _HeaterControlTimers.TimerBoost.Elapsed += TimerBoostElapsed;
+        }
+
+        public bool Signal
+        {
+            set
+            {
+                _Signal = value;
+                ControlOnSignal();
+            }
+            get => _Signal;
+        }
+
+        void ControlOnSignal( )
+        {
+            if (HeaterEvArgs.Status.ActualControllerState == HeaterStatus.ControllerState.ControllerIsOn)
+            {
+                if (_Signal == true)
+                {
+                    Turn(GeneralConstants.ON);
+                }
+                else
+                {
+                    Turn(GeneralConstants.OFF);
+                }
+            }
         }
 
         override protected void ControllerStart()
         {
             Turn(GeneralConstants.ON);
             HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerIsOn;
-            HeaterEvArgs.Status.ActualOperationState = HeaterStatus.OperationState.Boosting;
-            HeaterEvArgs.Status.ActualActionInfo = HeaterStatus.InformationAction.InProcess;
+            HeaterEvArgs.Status.ActualOperationState  = HeaterStatus.OperationState.Boosting;
+            HeaterEvArgs.Status.ActualActionInfo      = HeaterStatus.InformationAction.InProcess;
+            _Status = HeaterEvArgs.Status;
+            EActivityChanged?.Invoke(this, HeaterEvArgs);
+            _HeaterControlTimers.TimerBoost.SetTime( _Parameters.SignalDurationBoosting );
+            _HeaterControlTimers.TimerBoost.Start();
+        }
+
+        private void TimerBoostElapsed(object sender, ElapsedEventArgs e)
+        {
+            ControlOnSignal();
+            HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerIsOn;
+            HeaterEvArgs.Status.ActualOperationState  = HeaterStatus.OperationState.Thermostate;
+            HeaterEvArgs.Status.ActualActionInfo      = HeaterStatus.InformationAction.Finished;
             _Status = HeaterEvArgs.Status;
             EActivityChanged?.Invoke(this, HeaterEvArgs);
         }
