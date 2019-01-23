@@ -4,10 +4,7 @@ using Moq;
 using System;
 using System.Timers;
 using HomeAutomationHeater;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using HardConfig.COMMON;
 
 namespace HeaterControl_UnitTests
 {
@@ -368,6 +365,7 @@ namespace HeaterControl_UnitTests
         [Test]
         public void TestCase_ConfirmCommand()
         {
+//            SetupTest();
             TestController.Confirm();
             MockedDelayedToggeling.Verify(obj => obj.Stop());
         }
@@ -377,6 +375,51 @@ namespace HeaterControl_UnitTests
         {
             MockedDelayedToggeling.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
             MockedDelayedToggeling.Verify(obj => obj.Stop());
+        }
+
+        [Test]
+        public void TestCase_ForceHeater()
+        {
+            FakeInitialStatusForTesting();
+
+            bool IsOn = false;
+
+            TestController.EActivityChanged += (sender, e) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.Force();
+
+            TestController.Start();
+
+            Assert.IsFalse(IsOn);
+        }
+
+        [Test]
+        public void TestCase_ForceHeaterOn()
+        {
+            FakeInitialStatusForTesting();
+
+            bool IsOn = false;
+
+            TestController.EActivityChanged += (sender, e) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.Force();
+
+            TestController.Start();
+            TestController.Stop();
+
+            TestController.ForcedOn();
+
+            TestController.Stop();
+
+            Assert.IsTrue(IsOn);
         }
 
         [TearDown]
@@ -839,18 +882,18 @@ namespace HeaterControl_UnitTests
                 IsOn = e.TurnOn;
             };
 
+            TestController.Signal = true;
             TestController.Start();
 
             MockedBoostingTimer.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
 
-            TestController.Signal = true;
 
             HeaterStatus ReturnedTestedStatus = TestController.GetStatus();
 
             Assert.AreEqual(HeaterStatus.ControllerState.ControllerIsOn, ReturnedTestedStatus.ActualControllerState);
             Assert.AreEqual(HeaterStatus.OperationState.Thermostate, ReturnedTestedStatus.ActualOperationState);
             Assert.AreEqual(HeaterStatus.InformationAction.Finished, ReturnedTestedStatus.ActualActionInfo);
-            Assert.IsFalse(IsOn);
+            Assert.IsTrue(IsOn);
         }
 
         [Test]
