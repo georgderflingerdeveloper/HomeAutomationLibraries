@@ -392,13 +392,13 @@ namespace HeaterControl_UnitTests
 
             TestController.Force();
 
-            TestController.Start();
+            TestController.Start();//  ignore
 
             Assert.IsFalse(IsOn);
         }
 
         [Test]
-        public void TestCase_ForceHeaterOn()
+        public void TestCase_ForceHeaterOn_IgnoreStartStop()
         {
             FakeInitialStatusForTesting();
 
@@ -412,14 +412,64 @@ namespace HeaterControl_UnitTests
 
             TestController.Force();
 
-            TestController.Start();
-            TestController.Stop();
+            TestController.Start(); //  ignore
+            TestController.Stop();//  ignore
 
             TestController.ForcedOn();
 
-            TestController.Stop();
+            TestController.Stop();//  ignore
 
             Assert.IsTrue(IsOn);
+        }
+
+
+        [Test]
+        public void TestCase_ForceHeaterOff_IgnoreStartStop()
+        {
+            FakeInitialStatusForTesting();
+
+            bool IsOn = true;
+
+            TestController.EActivityChanged += (sender, e) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.Force();
+
+            TestController.Start(); //  ignore
+
+            TestController.ForcedOff();
+
+            TestController.Start();//  ignore
+
+            Assert.IsFalse(IsOn);
+        }
+
+        [Test]
+        public void TestCase_ForceHeaterOff_IgnoreToggle()
+        {
+            FakeInitialStatusForTesting();
+
+            bool IsOn = true;
+
+            TestController.EActivityChanged += (sender, e) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.Force();
+
+            TestController.Toggle(); //  ignore
+
+            TestController.ForcedOff();
+
+            TestController.Toggle(); // ignore
+            TestController.Toggle(); // ignore
+
+            Assert.IsFalse(IsOn);
         }
 
         [TearDown]

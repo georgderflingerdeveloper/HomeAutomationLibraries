@@ -225,6 +225,10 @@ namespace HomeAutomationHeater
 
         public void Toggle( )
         {
+            if (IsForced())
+            {
+                return;
+            }
             ToggleController( );
         }
 
@@ -270,22 +274,33 @@ namespace HomeAutomationHeater
 
         public void ForcedOn( )
         {
-            if(HeaterEvArgs.Status.ActualControllerState == HeaterStatus.ControllerState.ControllerInForcedMode)
+            if( IsForced() )
             {
                 Turn(GeneralConstants.ON);
-                _Status = HeaterEvArgs.Status;
-                EActivityChanged?.Invoke(this, HeaterEvArgs);
+                Update();
             }
         }
 
         public void ForcedOff()
         {
-
+            if ( IsForced() )
+            {
+                Turn(GeneralConstants.OFF);
+                Update();
+            }
         }
 
         #endregion
 
         #region PRIVATE
+        bool IsForced( )
+        {
+            return (
+                HeaterEvArgs.Status.ActualControllerState 
+                == 
+                HeaterStatus.ControllerState.ControllerInForcedMode ? true : false);
+        }
+
         void ActivateTimer( TimeSpan delay, ITimer Timer_ )
         {
             Timer_.SetTime( delay );
@@ -298,8 +313,7 @@ namespace HomeAutomationHeater
             HeaterEvArgs.Status.ActualActionInfo      = HeaterStatus.InformationAction.TurningOn;
             HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerIsOff;
             HeaterEvArgs.Status.ActualOperationState  = HeaterStatus.OperationState.Idle;
-            _Status = HeaterEvArgs.Status;
-            EActivityChanged?.Invoke( this, HeaterEvArgs );
+            Update();
         }
 
         void InformerTurningOff()
@@ -307,16 +321,14 @@ namespace HomeAutomationHeater
             HeaterEvArgs.Status.ActualActionInfo      = HeaterStatus.InformationAction.TurningOff;
             HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerIsOn;
             HeaterEvArgs.Status.ActualOperationState  = HeaterStatus.OperationState.Idle;
-            _Status = HeaterEvArgs.Status;
-            EActivityChanged?.Invoke( this, HeaterEvArgs );
+            Update();
         }
 
         void InformerExpectingPause()
         {
             HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerIsExpectingPause;
             HeaterEvArgs.Status.ActualOperationState  = HeaterStatus.OperationState.RegularOperation;
-            _Status = HeaterEvArgs.Status;
-            EActivityChanged?.Invoke( this, HeaterEvArgs );
+            Update();
         }
 
         void ToggleControllerStartStop( )
@@ -335,6 +347,12 @@ namespace HomeAutomationHeater
         #endregion
 
         #region PROTECTED
+        protected void Update()
+        {
+            _Status = HeaterEvArgs.Status;
+            EActivityChanged?.Invoke(this, HeaterEvArgs);
+        }
+
         virtual protected void ConfirmCommand( )
         {
             _DelayToggelingController?.Stop( );
@@ -358,8 +376,7 @@ namespace HomeAutomationHeater
             HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerIsOff;
             HeaterEvArgs.Status.ActualOperationState = HeaterStatus.OperationState.Idle;
             HeaterEvArgs.Status.ActualActionInfo    = HeaterStatus.InformationAction.Finished;
-            _Status = HeaterEvArgs.Status;
-            EActivityChanged?.Invoke( this, HeaterEvArgs );
+            Update();
         }
 
         virtual protected void ControllerStart( )
@@ -368,8 +385,7 @@ namespace HomeAutomationHeater
             HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerIsOn;
             HeaterEvArgs.Status.ActualOperationState = HeaterStatus.OperationState.RegularOperation;
             HeaterEvArgs.Status.ActualActionInfo = HeaterStatus.InformationAction.Finished;
-            _Status = HeaterEvArgs.Status;
-            EActivityChanged?.Invoke( this, HeaterEvArgs );
+            Update();
         }
 
         virtual protected void ControllerPause( )
@@ -380,8 +396,7 @@ namespace HomeAutomationHeater
                 Turn( GeneralConstants.OFF );
                 HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerIsPaused;
                 HeaterEvArgs.Status.ActualOperationState = HeaterStatus.OperationState.RegularOperation;
-                _Status = HeaterEvArgs.Status;
-                EActivityChanged?.Invoke( this, HeaterEvArgs );
+                Update();
             }
         }
         #endregion
