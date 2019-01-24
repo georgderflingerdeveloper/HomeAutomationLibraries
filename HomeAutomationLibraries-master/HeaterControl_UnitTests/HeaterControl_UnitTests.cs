@@ -1152,30 +1152,30 @@ namespace HeaterControl_UnitTests
             Assert.IsTrue(IsOn);
         }
 
-        [Test]
-        public void TestCase_BoostingElapsed_SignalHigh_Pause_SignalLow_Resume()
-        {
-            bool IsOn = false;
+        //[Test]
+        //public void TestCase_BoostingElapsed_SignalHigh_Pause_SignalLow_Resume()
+        //{
+        //    bool IsOn = false;
 
-            TestController.EActivityChanged += (sender, e) =>
-            {
-                TestStatus = e.Status;
-                IsOn = e.TurnOn;
-            };
+        //    TestController.EActivityChanged += (sender, e) =>
+        //    {
+        //        TestStatus = e.Status;
+        //        IsOn = e.TurnOn;
+        //    };
 
-            TestController.Start();
-            MockedBoostingTimer.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
+        //    TestController.Start();
+        //    MockedBoostingTimer.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
 
-            TestController.Signal = true;
+        //    TestController.Signal = true;
 
-            TestController.Pause();
+        //    TestController.Pause();
 
-            TestController.Signal = false;
+        //    TestController.Signal = false;
 
-            TestController.Resume();
+        //    TestController.Resume();
 
-            Assert.IsFalse(IsOn);
-        }
+        //    Assert.IsFalse(IsOn);
+        //}
 
         [TearDown]
         public void TearDownTests()
