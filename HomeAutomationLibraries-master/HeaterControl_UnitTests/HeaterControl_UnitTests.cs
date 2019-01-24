@@ -1065,7 +1065,7 @@ namespace HeaterControl_UnitTests
         }
 
         [Test]
-        public void TestCase_BoostingElapsed_CheckThermostateOnActive()
+        public void TestCase_BoostingElapsed_CheckThermostateSignalLow()
         {
             bool IsOn = false;
 
@@ -1087,7 +1087,94 @@ namespace HeaterControl_UnitTests
             Assert.AreEqual(HeaterStatus.OperationState.Thermostate, ReturnedTestedStatus.ActualOperationState);
             Assert.AreEqual(HeaterStatus.InformationAction.Finished, ReturnedTestedStatus.ActualActionInfo);
             Assert.IsFalse(IsOn);
+        }
 
+        [Test]
+        public void TestCase_BoostingElapsed_CheckThermostateSignalHigh()
+        {
+            bool IsOn = false;
+
+            TestController.EActivityChanged += (sender, e) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.Start();
+            MockedBoostingTimer.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
+
+            TestController.Signal = true;
+
+            Assert.IsTrue(IsOn);
+        }
+
+        [Test]
+        public void TestCase_BoostingElapsed_SignalHigh_Pause()
+        {
+            bool IsOn = false;
+
+            TestController.EActivityChanged += (sender, e) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.Start();
+            MockedBoostingTimer.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
+
+            TestController.Signal = true;
+
+            TestController.Pause();
+
+            Assert.IsFalse(IsOn);
+        }
+
+        [Test]
+        public void TestCase_BoostingElapsed_SignalHigh_Pause_Resume()
+        {
+            bool IsOn = false;
+
+            TestController.EActivityChanged += (sender, e) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.Start();
+            MockedBoostingTimer.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
+
+            TestController.Signal = true;
+
+            TestController.Pause();
+
+            TestController.Resume();
+
+            Assert.IsTrue(IsOn);
+        }
+
+        [Test]
+        public void TestCase_BoostingElapsed_SignalHigh_Pause_SignalLow_Resume()
+        {
+            bool IsOn = false;
+
+            TestController.EActivityChanged += (sender, e) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.Start();
+            MockedBoostingTimer.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
+
+            TestController.Signal = true;
+
+            TestController.Pause();
+
+            TestController.Signal = false;
+
+            TestController.Resume();
+
+            Assert.IsFalse(IsOn);
         }
 
         [TearDown]
