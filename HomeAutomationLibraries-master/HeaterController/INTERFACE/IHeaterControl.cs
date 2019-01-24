@@ -12,6 +12,7 @@
         void DelayedToggle();
         void Reset();
         void Force();
+        void UnForce();
         void ForcedOn();
         void ForcedOff();
         void UpdateParameters( HeaterParameters Parameters );

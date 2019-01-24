@@ -30,6 +30,7 @@ namespace HomeAutomationHeater
             ControllerIsExpectingPause,
             ControllerIsPaused,
             ControllerInForcedMode,
+            ControllerUnforced,
             InvalidForTesting = 99
         }
 
@@ -127,6 +128,7 @@ namespace HomeAutomationHeater
         #region DECLARATIONES
         bool _CommandTurnOn;
         bool _ToggleController;
+        bool _IsOn;
         ITimer _DelayToggelingController;
         ITimer _DelayPause;
         HeaterParameters _Parameters;
@@ -173,6 +175,15 @@ namespace HomeAutomationHeater
         #endregion
 
         #region PROPERTIES
+        public bool IsOn
+        {
+            get => _IsOn;
+            set
+            {
+                _IsOn = value;
+                HeaterEvArgs.TurnOn = value;
+            }
+        }
         #endregion
 
         #region INTERFACE_IMPLEMENTATION
@@ -193,6 +204,10 @@ namespace HomeAutomationHeater
 
         public void Pause( )
         {
+            if (IsForced())
+            {
+                return;
+            }
             ControllerPause( );
         }
 
@@ -270,6 +285,15 @@ namespace HomeAutomationHeater
             HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerInForcedMode;
             HeaterEvArgs.Status.ActualOperationState = HeaterStatus.OperationState.Idle;
             HeaterEvArgs.Status.ActualActionInfo = HeaterStatus.InformationAction.Finished;
+            Update();
+        }
+
+        public void UnForce( )
+        {
+            HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerUnforced;
+            HeaterEvArgs.Status.ActualOperationState = HeaterStatus.OperationState.Idle;
+            HeaterEvArgs.Status.ActualActionInfo = HeaterStatus.InformationAction.Finished;
+            Update();
         }
 
         public void ForcedOn( )
@@ -299,6 +323,14 @@ namespace HomeAutomationHeater
                 HeaterEvArgs.Status.ActualControllerState 
                 == 
                 HeaterStatus.ControllerState.ControllerInForcedMode ? true : false);
+        }
+
+        bool IsControllerOn( )
+        {
+            return (
+                HeaterEvArgs.Status.ActualControllerState 
+                == 
+                HeaterStatus.ControllerState.ControllerIsOn ? true : false);
         }
 
         void ActivateTimer( TimeSpan delay, ITimer Timer_ )
@@ -349,6 +381,7 @@ namespace HomeAutomationHeater
         #region PROTECTED
         protected void Update()
         {
+            _IsOn = HeaterEvArgs.TurnOn;
             _Status = HeaterEvArgs.Status;
             EActivityChanged?.Invoke(this, HeaterEvArgs);
         }
@@ -390,7 +423,9 @@ namespace HomeAutomationHeater
 
         virtual protected void ControllerPause( )
         {
-            if (( HeaterEvArgs.Status.ActualControllerState == HeaterStatus.ControllerState.ControllerIsOn ) ||
+            if ( 
+                (IsControllerOn()) 
+                ||
                 ( HeaterEvArgs.Status.ActualControllerState == HeaterStatus.ControllerState.ControllerIsExpectingPause ))
             {
                 Turn( GeneralConstants.OFF );

@@ -472,6 +472,124 @@ namespace HeaterControl_UnitTests
             Assert.IsFalse(IsOn);
         }
 
+        [Test]
+        public void TestCase_ForceHeaterOff_IgnorePause()
+        {
+            FakeInitialStatusForTesting();
+
+            bool IsOn = false;
+
+            TestController.IsOn = true;
+
+            TestController.EActivityChanged += (sender, e) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.Force();
+
+            TestController.Pause(); //  ignore
+
+            Assert.IsTrue(IsOn);
+        }
+
+        [Test]
+        public void TestCase_ForceHeaterOff_IgnorePauseResume()
+        {
+            FakeInitialStatusForTesting();
+
+            bool IsOn = false;
+
+            TestController.EActivityChanged += (sender, e) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.Pause(); //  ignore
+            TestController.Force();
+            TestController.Resume();//  ignore
+
+            Assert.IsFalse(IsOn);
+        }
+
+        [Test]
+        public void TestCase_Unforce()
+        {
+            FakeInitialStatusForTesting();
+
+            TestController.EActivityChanged += (sender, e) =>
+            {
+                TestStatus = e.Status;
+            };
+
+            TestController.Force();
+            TestController.UnForce();
+
+            Assert.AreEqual(HeaterStatus.ControllerState.ControllerUnforced, TestStatus.ActualControllerState);
+        }
+
+        [Test]
+        public void TestCase_Off_Unforce_WithTurningOn()
+        {
+            FakeInitialStatusForTesting();
+
+            bool IsOn = false;
+
+            TestController.EActivityChanged += (sender, e) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.Force();
+            TestController.Start();//  ignore
+
+            TestController.UnForce();
+            TestController.Start();//  ignore
+            
+            Assert.IsTrue(IsOn);
+        }
+
+        [Test]
+        public void TestCase_IgnoreForceOn()
+        {
+            FakeInitialStatusForTesting();
+
+            bool IsOn = false;
+
+            TestController.EActivityChanged += (sender, e) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.ForcedOn();
+
+            Assert.IsFalse(IsOn);
+        }
+
+        [Test]
+        public void TestCase_IgnoreForceOff()
+        {
+            FakeInitialStatusForTesting();
+
+            bool IsOn = true;
+            TestController.IsOn = IsOn;
+
+            TestController.EActivityChanged += (sender, e) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.ForcedOff();
+
+            Assert.IsTrue(IsOn);
+        }
+
+
         [TearDown]
         public void TearDownTests()
         {
