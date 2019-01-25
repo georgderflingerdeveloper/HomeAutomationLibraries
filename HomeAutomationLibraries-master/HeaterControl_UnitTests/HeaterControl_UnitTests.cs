@@ -982,6 +982,12 @@ namespace HeaterControl_UnitTests
             TestController = new HeaterControllerThermostate(TestParameters, HeaterControlTimers);
         }
 
+        void ThermostateIsNowTurnedOn()
+        {
+            TestController.Start();
+            MockedBoostingTimer.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
+        }
+
         [SetUp]
         public void SetupTests()
         {
@@ -1100,8 +1106,7 @@ namespace HeaterControl_UnitTests
                 IsOn = e.TurnOn;
             };
 
-            TestController.Start();
-            MockedBoostingTimer.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
+            ThermostateIsNowTurnedOn();
 
             TestController.Signal = true;
 
@@ -1119,8 +1124,7 @@ namespace HeaterControl_UnitTests
                 IsOn = e.TurnOn;
             };
 
-            TestController.Start();
-            MockedBoostingTimer.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
+            ThermostateIsNowTurnedOn();
 
             TestController.Signal = true;
 
@@ -1140,8 +1144,7 @@ namespace HeaterControl_UnitTests
                 IsOn = e.TurnOn;
             };
 
-            TestController.Start();
-            MockedBoostingTimer.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
+            ThermostateIsNowTurnedOn();
 
             TestController.Signal = true;
 
@@ -1200,19 +1203,58 @@ namespace HeaterControl_UnitTests
                 IsOn = e.TurnOn;
             };
 
-            TestController.Start();
-            MockedBoostingTimer.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
+            ThermostateIsNowTurnedOn();     // EXAMPLE: Heater was turned on via button
+
+            TestController.Signal = true;   // EXAMPLE: Thermostate signal is ON
+
+            TestController.Pause();         // EXAMPLE: Somebody opens the window
+
+            TestController.Signal = false;  // EXAMPLE: Thermostate signal gets OFF
+
+            TestController.Resume();        // EXAMPLE: Somebody closes the windown
+
+            Assert.IsFalse(IsOn);           // EXAMPLE: Signal for heater is OFF
+        }
+
+        [Test]
+        public void TestCase_Controller_Is_Off_SignalIsHigh()
+        {
+            bool IsOn = false;
+
+            TestController.EActivityChanged += (sender, e) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            TestController.Stop();
 
             TestController.Signal = true;
+              
+            Assert.IsFalse(IsOn);
+        }
+
+        [Test]
+        public void TestCase_Controller_Is_Pause_SignalIsHigh()
+        {
+            bool IsOn = false;
+
+            TestController.EActivityChanged += (sender, e) =>
+            {
+                TestStatus = e.Status;
+                IsOn = e.TurnOn;
+            };
+
+            ThermostateIsNowTurnedOn();
 
             TestController.Pause();
 
-            TestController.Signal = false;
-
-            TestController.Resume();
+            TestController.Signal = true;
 
             Assert.IsFalse(IsOn);
         }
+
+
 
         [TearDown]
         public void TearDownTests()

@@ -642,7 +642,6 @@ namespace HomeAutomationHeater
         bool _Signal = false;
         ControlTimers _HeaterControlTimers;
         HeaterParameters _Parameters;
-
        
         public HeaterControllerThermostate(HeaterParameters Parameters, ControlTimers HeaterControlTimers)
             : base(Parameters, HeaterControlTimers.TimerPause, HeaterControlTimers.TimerToggelingDelay)
@@ -657,7 +656,6 @@ namespace HomeAutomationHeater
             set
             {
                 _Signal = value;
-                Turn(value);
                 if (IsControllerOn())
                 {
                     TurnWhenSignalChanged();
@@ -695,13 +693,16 @@ namespace HomeAutomationHeater
 
         override protected void ControllerPause()
         {
+            HeaterEvArgs.Status.ActualControllerState = HeaterStatus.ControllerState.ControllerIsPaused;
+            HeaterEvArgs.Status.ActualActionInfo = HeaterStatus.InformationAction.Pausing;
             Turn(GeneralConstants.OFF);
             Update();
         }
 
         override protected void ControllerResume()
         {
-            switch(HeaterEvArgs.Status.ActualOperationState)
+            HeaterEvArgs.Status.ActualActionInfo = HeaterStatus.InformationAction.Finished;
+            switch (HeaterEvArgs.Status.ActualOperationState)
             {
                 case HeaterStatus.OperationState.Boosting:
                     Turn(GeneralConstants.ON);
@@ -721,7 +722,6 @@ namespace HomeAutomationHeater
                 ==
                 HeaterStatus.OperationState.Boosting ? true : false);
         }
-
 
     }
 }
