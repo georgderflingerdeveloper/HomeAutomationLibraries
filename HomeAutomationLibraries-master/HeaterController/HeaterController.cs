@@ -475,6 +475,10 @@ namespace HomeAutomationHeater
             TimerPause          = new Timer_( ),
             TimerToggelingDelay = new Timer_( )
         };
+        public  InialisedTimers()
+        {
+            Timers.TimerBoost = new Timer_();
+        }
     }
 
     public class HeaterControllerPulseWidhtModulation : HeaterController
@@ -609,12 +613,7 @@ namespace HomeAutomationHeater
             _Status = HeaterEvArgs.Status;
             EActivityChanged?.Invoke( this, HeaterEvArgs );
         }
-
-        override protected void ControllerStop( )
-        {
-
-        }
-
+ 
         protected override void ConfirmCommand( )
         {
             _HeaterControlTimers.TimerOn.Stop( );
