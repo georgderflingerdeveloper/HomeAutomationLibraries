@@ -74,6 +74,7 @@ namespace HomeAutomationHeater
             InProcess,
             InvalidForTesting = 99
         }
+
         public InformationAction ActualActionInfo { get; set; }
     }
 
@@ -656,24 +657,18 @@ namespace HomeAutomationHeater
             set
             {
                 _Signal = value;
-                ControlOnSignal();
+                Turn(value);
+                if (IsControllerOn())
+                {
+                    TurnWhenSignalChanged();
+                }
             }
             get => _Signal;
         }
 
-        void ControlOnSignal( )
+        void TurnWhenSignalChanged()
         {
-            if ( IsControllerOn() )
-            {
-                if (_Signal == true)
-                {
-                    Turn(GeneralConstants.ON);
-                }
-                else
-                {
-                    Turn(GeneralConstants.OFF);
-                }
-            }
+            Turn(_Signal);
             Update();
         }
 
@@ -695,7 +690,38 @@ namespace HomeAutomationHeater
            HeaterEvArgs.Status.ActualOperationState  = HeaterStatus.OperationState.Thermostate;
            HeaterEvArgs.Status.ActualActionInfo      = HeaterStatus.InformationAction.Finished;
             _Status = HeaterEvArgs.Status;
-           ControlOnSignal();
+            TurnWhenSignalChanged();
         }
+
+        override protected void ControllerPause()
+        {
+            Turn(GeneralConstants.OFF);
+            Update();
+        }
+
+        override protected void ControllerResume()
+        {
+            switch(HeaterEvArgs.Status.ActualOperationState)
+            {
+                case HeaterStatus.OperationState.Boosting:
+                    Turn(GeneralConstants.ON);
+                    Update();
+                    break;
+
+                case HeaterStatus.OperationState.Thermostate:
+                    TurnWhenSignalChanged();
+                    break;
+            }
+        }
+
+        protected bool IsBoosting()
+        {
+            return (
+                HeaterEvArgs.Status.ActualOperationState
+                ==
+                HeaterStatus.OperationState.Boosting ? true : false);
+        }
+
+
     }
 }
