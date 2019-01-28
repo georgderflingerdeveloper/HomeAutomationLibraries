@@ -4,16 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6FC3E203-9513-4F12-9966-B41F31A6396E}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>KeyEventsAtConsole</RootNamespace>
-    <AssemblyName>KeyEventsAtConsole</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <ProjectGuid>{3B53484E-E9F7-41DC-BF90-D93389D4E2EA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CommonController</RootNamespace>
+    <AssemblyName>CommonController</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -42,25 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="KeyEvents.cs" />
+    <Compile Include="CommonController.cs" />
+    <Compile Include="IController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CommonController\CommonController.csproj">
-      <Project>{3b53484e-e9f7-41dc-bf90-d93389d4e2ea}</Project>
-      <Name>CommonController</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\HeaterController\HeaterController.csproj">
-      <Project>{cdc27552-2a35-4885-b458-868aa8f3dec1}</Project>
-      <Name>HeaterController</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TimerMockable\TimerMockable.csproj">
-      <Project>{323a5aa7-f7eb-4990-9b0e-540d75837716}</Project>
-      <Name>TimerMockable</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

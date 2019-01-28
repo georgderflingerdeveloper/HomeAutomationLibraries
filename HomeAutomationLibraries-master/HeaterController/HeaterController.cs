@@ -4,6 +4,7 @@ using System;
 using System.Timers;
 using TimerMockable;
 using InterfacesHeaterController;
+using CommonController;
 
 namespace HomeAutomationHeater
 {
@@ -21,21 +22,8 @@ namespace HomeAutomationHeater
     }
 
     [Serializable]
-    public class HeaterStatus
+    public class HeaterStatus : Controller_State
     {
-        public enum ControllerState
-        {
-            ControllerIsOff,
-            ControllerIsOn,
-            ControllerIsExpectingPause,
-            ControllerIsPaused,
-            ControllerInForcedMode,
-            ControllerUnforced,
-            InvalidForTesting = 99
-        }
-
-        public ControllerState ActualControllerState { get; set; }
-
         public  int ActualSignalisationCounts { get; set; }
 
         public enum OperationState
@@ -124,7 +112,7 @@ namespace HomeAutomationHeater
 
     public delegate void ActivityChanged( object sender, HeaterControllerEventArgs e );
 
-    public class HeaterController : IHeaterControl
+    public class HeaterController : IController, IHeaterControl
     {
         #region DECLARATIONES
         bool _CommandTurnOn;
@@ -302,7 +290,7 @@ namespace HomeAutomationHeater
             }
         }
 
-        public void ForcedOff()
+        public void ForcedOff( )
         {
             if ( IsForced() )
             {

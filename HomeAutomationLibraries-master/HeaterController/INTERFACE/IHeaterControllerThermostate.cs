@@ -8,6 +8,5 @@ namespace InterfacesHeaterController
 {
     interface IHeaterControllerThermostate
     {
-        //void CheckSignal( );
     }
 }
