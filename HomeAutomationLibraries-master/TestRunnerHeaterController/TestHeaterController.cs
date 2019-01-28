@@ -14,8 +14,10 @@ namespace TestRunnerHeaterController
             HeaterControllerThermostate Controller = new HeaterControllerThermostate( new HeaterParameters(), ControlTimers_ );
             Controller.EActivityChanged += (sender, e) => 
             {
-                Console.WriteLine( e.Status.ActualControllerState );
-                
+                Console.WriteLine("CONTROLLER STATE: " + e.Status.ActualControllerState );
+                Console.WriteLine("OPERATION STATE:  " + e.Status.ActualOperationState);
+                Console.WriteLine("INFORMATION:      " +  e.Status.ActualActionInfo);
+                Console.WriteLine("Heater element:   " + " " +  e.TurnOn.ToString() + " " );
             };
 
             string InputKey;
