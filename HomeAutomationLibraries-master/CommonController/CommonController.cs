@@ -1,9 +1,10 @@
 ﻿using System;
+using HardConfig.COMMON;
 
 namespace UnivCommonController
 {
     [Serializable]
-    public class ControllerConstants
+    public class ControllerInformer
     {
         public enum ControllerState
         {
@@ -27,11 +28,11 @@ namespace UnivCommonController
 
     public class CommonController /*: IController*/
     {
-        protected ControllerConstants State;
+        protected ControllerInformer State;
 
         public CommonController()
         {
-            State = new ControllerConstants();
+            State = new ControllerInformer();
         }
 
         public void Start()
@@ -52,12 +53,40 @@ namespace UnivCommonController
             ControllerStop();
         }
 
+        public void ForcedOn()
+        {
+            if (IsForced())
+            {
+                Turn(GeneralConstants.ON);
+                Update();
+            }
+        }
+
+        public void Force()
+        {
+            force_();
+        }
+
+        public void UnForce()
+        {
+            unforce_();
+        }
+
+        public void ForcedOff()
+        {
+            if (IsForced())
+            {
+                Turn(GeneralConstants.OFF);
+                Update();
+            }
+        }
+
         protected bool IsForced()
         {
             return (
                 State.ActualControllerState
                 ==
-                ControllerConstants.ControllerState.ControllerInForcedMode ? true : false);
+                ControllerInformer.ControllerState.ControllerInForcedMode ? true : false);
         }
 
         protected bool IsControllerOn()
@@ -65,7 +94,7 @@ namespace UnivCommonController
             return (
                 State.ActualControllerState
                 ==
-                ControllerConstants.ControllerState.ControllerIsOn ? true : false);
+                ControllerInformer.ControllerState.ControllerIsOn ? true : false);
         }
 
         virtual protected void Turn(bool value)
@@ -77,6 +106,18 @@ namespace UnivCommonController
         }
 
         virtual protected void ControllerStop()
+        {
+        }
+
+        virtual protected void  Update()
+        {
+        }
+
+        virtual protected void force_()
+        {
+        }
+
+        virtual protected void unforce_()
         {
         }
     }

@@ -14,7 +14,7 @@ namespace Power_Controller
     }
 
     [Serializable]
-    public class PowerStatus : ControllerConstants
+    public class PowerStatus : ControllerInformer
     {
     }
 
