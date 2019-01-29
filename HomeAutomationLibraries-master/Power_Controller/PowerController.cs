@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TimerMockable;
-using CommonController;
+using UnivCommonController;
 
 namespace Power_Controller
 {
@@ -14,7 +14,7 @@ namespace Power_Controller
     }
 
     [Serializable]
-    public class PowerStatus : Controller_State
+    public class PowerStatus : ControllerConstants
     {
     }
 
