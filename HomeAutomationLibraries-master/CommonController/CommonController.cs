@@ -17,4 +17,16 @@ namespace CommonController
         }
         public ControllerState ActualControllerState { get; set; }
     }
+
+    public class ControllerEventArgs : EventArgs
+    {
+        public bool TurnOn { get; set; }
+    }
+
+    public delegate void ActivityChanged(object sender, ControllerEventArgs e);
+
+    public class CommonController /*: IController*/
+    {
+
+    }
 }

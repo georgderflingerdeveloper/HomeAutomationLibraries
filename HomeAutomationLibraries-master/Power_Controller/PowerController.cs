@@ -18,6 +18,15 @@ namespace Power_Controller
     {
     }
 
+    public class PowerEventArgs : EventArgs
+    {
+        public bool TurnOn { get; set; }
+    }
+
+    public delegate void ActivityChanged(object sender, PowerEventArgs e);
+
+
+
 
     public class PowerController
     {

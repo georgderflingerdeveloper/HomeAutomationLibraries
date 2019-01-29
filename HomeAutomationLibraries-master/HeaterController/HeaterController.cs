@@ -110,7 +110,7 @@ namespace HomeAutomationHeater
         public HeaterStatus Status { get; set; }
     }
 
-    public delegate void ActivityChanged( object sender, HeaterControllerEventArgs e );
+    public delegate void ActivityChanged(object sender, HeaterControllerEventArgs e);
 
     public class HeaterController : IController, IHeaterControl
     {
@@ -123,17 +123,20 @@ namespace HomeAutomationHeater
         HeaterParameters _Parameters;
         protected HeaterStatus _Status;
         protected HeaterControllerEventArgs HeaterEvArgs;
+        Controller_State ControllerState;
         #endregion
 
         #region CONSTRUCTOR
         public HeaterController( HeaterParameters Parameters, ITimer DelayControllerPause, ITimer DelayToggelingController )
         {
             _Parameters = Parameters;
+
             HeaterEvArgs = new HeaterControllerEventArgs
             {
                 Status = new HeaterStatus( )
             };
             _Status = HeaterEvArgs.Status;
+            ControllerState = HeaterEvArgs.Status;
 
             _DelayToggelingController = DelayToggelingController;
             _DelayPause = DelayControllerPause;
@@ -178,7 +181,7 @@ namespace HomeAutomationHeater
         #region INTERFACE_IMPLEMENTATION
         public void Start( )
         {
-            if (HeaterEvArgs.Status.ActualControllerState == HeaterStatus.ControllerState.ControllerInForcedMode) 
+            if (IsForced()) 
             {
                 return;
             }
@@ -207,7 +210,7 @@ namespace HomeAutomationHeater
 
         public void Stop( )
         {
-            if (HeaterEvArgs.Status.ActualControllerState == HeaterStatus.ControllerState.ControllerInForcedMode)
+            if (IsForced())
             {
                 return;
             }
@@ -351,17 +354,17 @@ namespace HomeAutomationHeater
         protected bool IsForced( )
         {
             return (
-                HeaterEvArgs.Status.ActualControllerState 
+                ControllerState.ActualControllerState
                 == 
-                HeaterStatus.ControllerState.ControllerInForcedMode ? true : false);
+                Controller_State.ControllerState.ControllerInForcedMode ? true : false);
         }
 
         protected bool IsControllerOn( )
         {
             return (
-                HeaterEvArgs.Status.ActualControllerState 
-                == 
-                HeaterStatus.ControllerState.ControllerIsOn ? true : false);
+                ControllerState.ActualControllerState
+                ==
+                Controller_State.ControllerState.ControllerIsOn ? true : false);
         }
 
         protected void Update()

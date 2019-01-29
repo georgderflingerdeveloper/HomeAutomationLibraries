@@ -1,4 +1,5 @@
-﻿namespace HomeAutomationHeater.INTERFACE
+﻿using HomeAutomationHeater;
+namespace HomeAutomationHeater.INTERFACE
 {
     interface IHeaterControl
     {
