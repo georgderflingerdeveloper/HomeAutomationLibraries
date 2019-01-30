@@ -24,7 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "COMMUNICATION", "COMMUNICAT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimerMockable", "TimerMockable\TimerMockable.csproj", "{323A5AA7-F7EB-4990-9B0E-540D75837716}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryTestRunner", "LibraryTestRunner\LibraryTestRunner.csproj", "{AB0386B7-A989-4D8E-997B-ACA7A3C03170}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestRunnerUdpSend", "LibraryTestRunner\TestRunnerUdpSend.csproj", "{AB0386B7-A989-4D8E-997B-ACA7A3C03170}"
 	ProjectSection(ProjectDependencies) = postProject
 		{2EEFD039-02A7-4DC4-940E-58B76074EB88} = {2EEFD039-02A7-4DC4-940E-58B76074EB88}
 	EndProjectSection

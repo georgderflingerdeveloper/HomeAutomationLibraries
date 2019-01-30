@@ -45,9 +45,9 @@
       <Project>{04B6D081-6952-4F0D-8402-DF169E0DFB51}</Project>
       <Name>LibUdp</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LibraryTestRunner\LibraryTestRunner.csproj">
+    <ProjectReference Include="..\LibraryTestRunner\TestRunnerUdpSend.csproj">
       <Project>{AB0386B7-A989-4D8E-997B-ACA7A3C03170}</Project>
-      <Name>LibraryTestRunner</Name>
+      <Name>TestRunnerUdpSend</Name>
     </ProjectReference>
     <ProjectReference Include="..\SystemServices\SystemServices.csproj">
       <Project>{2eefd039-02a7-4dc4-940e-58b76074eb88}</Project>
