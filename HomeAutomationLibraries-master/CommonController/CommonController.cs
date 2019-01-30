@@ -22,19 +22,30 @@ namespace UnivCommonController
     public class ControllerEventArgs : EventArgs
     {
         public bool TurnOn { get; set; }
+        public ControllerInformer Informer { get; set; }
     }
 
     public delegate void ActivityChanged(object sender, ControllerEventArgs e);
 
-    public class CommonController /*: IController*/
+    public class CommonController : IController
     {
-        protected ControllerInformer State;
+        #region DECLARATION
+        protected ControllerInformer Informer;
+        ControllerEventArgs CommonEventArgs;
+        #endregion
 
+        #region CONSTRUCTOR
         public CommonController()
         {
-            State = new ControllerInformer();
+            Informer = new ControllerInformer();
+            CommonEventArgs = new ControllerEventArgs
+            {
+                Informer = Informer
+            };
         }
+        #endregion
 
+        #region INTERFACE_IMPLEMENTATION
         public void Start()
         {
             if (IsForced())
@@ -64,12 +75,12 @@ namespace UnivCommonController
 
         public void Force()
         {
-            force_();
+            Force_();
         }
 
         public void UnForce()
         {
-            unforce_();
+            Unforce_();
         }
 
         public void ForcedOff()
@@ -81,10 +92,18 @@ namespace UnivCommonController
             }
         }
 
+        public void Reset()
+        {
+        }
+
+        public event ActivityChanged EActivityChanged;
+        #endregion
+
+        #region PROTECTED
         protected bool IsForced()
         {
             return (
-                State.ActualControllerState
+                Informer.ActualControllerState
                 ==
                 ControllerInformer.ControllerState.ControllerInForcedMode ? true : false);
         }
@@ -92,17 +111,23 @@ namespace UnivCommonController
         protected bool IsControllerOn()
         {
             return (
-                State.ActualControllerState
+                Informer.ActualControllerState
                 ==
                 ControllerInformer.ControllerState.ControllerIsOn ? true : false);
         }
+        #endregion
 
+        #region VIRTUAL
         virtual protected void Turn(bool value)
         {
+            CommonEventArgs.TurnOn = value;
         }
 
         virtual protected void ControllerStart()
         {
+            Turn(GeneralConstants.ON);
+            CommonEventArgs.Informer.ActualControllerState = ControllerInformer.ControllerState.ControllerIsOn;
+            Update();
         }
 
         virtual protected void ControllerStop()
@@ -111,14 +136,16 @@ namespace UnivCommonController
 
         virtual protected void  Update()
         {
+            EActivityChanged?.Invoke(this, CommonEventArgs);
         }
 
-        virtual protected void force_()
+        virtual protected void Force_()
         {
         }
 
-        virtual protected void unforce_()
+        virtual protected void Unforce_()
         {
         }
+        #endregion
     }
 }

@@ -15,5 +15,6 @@ namespace UnivCommonController
         void UnForce();
         void ForcedOn();
         void ForcedOff();
+        event ActivityChanged EActivityChanged;
     }
 }

@@ -135,7 +135,7 @@ namespace HomeAutomationHeater
                 Status = new HeaterStatus( )
             };
             _Status = _HeaterEvArgs.Status;
-            State = _HeaterEvArgs.Status;
+            Informer = _HeaterEvArgs.Status;
 
             _DelayToggelingController = DelayToggelingController;
             _DelayPause = DelayControllerPause;
@@ -198,10 +198,6 @@ namespace HomeAutomationHeater
             ControllerResume();
         }
 
-        public void Reset( )
-        {
-        }
-
         public void Confirm( )
         {
             ConfirmCommand( );
@@ -247,7 +243,7 @@ namespace HomeAutomationHeater
             _Status = status;
         }
 
-        public event ActivityChanged EActivityChanged;
+        public new event ActivityChanged EActivityChanged;
 
         #endregion
 
@@ -299,8 +295,8 @@ namespace HomeAutomationHeater
         void StatusForce()
         {
             _HeaterEvArgs.Status.ActualControllerState = ControllerInformer.ControllerState.ControllerInForcedMode;
-            _HeaterEvArgs.Status.ActualOperationState = HeaterStatus.OperationState.Idle;
-            _HeaterEvArgs.Status.ActualActionInfo = HeaterStatus.InformationAction.Finished;
+            _HeaterEvArgs.Status.ActualOperationState  = HeaterStatus.OperationState.Idle;
+            _HeaterEvArgs.Status.ActualActionInfo      = HeaterStatus.InformationAction.Finished;
         }
 
         void StatusUnForce()
@@ -350,13 +346,13 @@ namespace HomeAutomationHeater
         #endregion
 
         #region OVERRIDE
-        override protected void force_()
+        override protected void Force_()
         {
             StatusForce();
             Update();
         }
 
-        override protected void unforce_()
+        override protected void Unforce_()
         {
             StatusUnForce();
             Update();
