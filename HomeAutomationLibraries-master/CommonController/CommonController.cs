@@ -117,6 +117,13 @@ namespace UnivCommonController
         }
         #endregion
 
+        #region PRIVATE
+        void SetControllerState(ControllerInformer.ControllerState state)
+        {
+            CommonEventArgs.Informer.ActualControllerState = state;
+        }
+        #endregion
+
         #region VIRTUAL
         virtual protected void Turn(bool value)
         {
@@ -126,15 +133,18 @@ namespace UnivCommonController
         virtual protected void ControllerStart()
         {
             Turn(GeneralConstants.ON);
-            CommonEventArgs.Informer.ActualControllerState = ControllerInformer.ControllerState.ControllerIsOn;
+            SetControllerState(ControllerInformer.ControllerState.ControllerIsOn);
             Update();
         }
 
         virtual protected void ControllerStop()
         {
+            Turn(GeneralConstants.OFF);
+            SetControllerState(ControllerInformer.ControllerState.ControllerIsOff);
+            Update();
         }
 
-        virtual protected void  Update()
+        virtual protected void Update()
         {
             EActivityChanged?.Invoke(this, CommonEventArgs);
         }

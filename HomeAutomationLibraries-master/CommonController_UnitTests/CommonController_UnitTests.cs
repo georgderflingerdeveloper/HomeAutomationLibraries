@@ -39,7 +39,20 @@ namespace CommonController_UnitTests
         [Test]
         public void Test_Start_Informer()
         {
-            bool IsOn = false;
+            TestController.EActivityChanged += (sender, e) =>
+            {
+                TestInformer = e.Informer;
+            };
+
+            TestController.Start();
+
+            Assert.AreEqual(ControllerInformer.ControllerState.ControllerIsOn, TestInformer.ActualControllerState);
+        }
+
+        [Test]
+        public void Test_Start_Stop()
+        {
+            bool IsOn = true;
             TestController.EActivityChanged += (sender, e) =>
             {
                 IsOn = e.TurnOn;
@@ -47,8 +60,23 @@ namespace CommonController_UnitTests
             };
 
             TestController.Start();
+            TestController.Stop();
 
-            Assert.AreEqual(ControllerInformer.ControllerState.ControllerIsOn, TestInformer.ActualControllerState);
+            Assert.IsFalse(IsOn);
+        }
+
+        [Test]
+        public void Test_Stop_Informer()
+        {
+            TestController.EActivityChanged += (sender, e) =>
+            {
+                TestInformer = e.Informer;
+            };
+
+            TestController.Start();
+            TestController.Stop();
+
+            Assert.AreEqual(ControllerInformer.ControllerState.ControllerIsOff, TestInformer.ActualControllerState);
         }
 
         [TearDown]
