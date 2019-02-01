@@ -238,7 +238,7 @@ namespace HomeAutomationHeater
             return _Status;
         }
 
-        public void  SetStatus( HeaterStatus status )
+        public void SetStatus( HeaterStatus status )
         {
             _Status = status;
         }
@@ -302,8 +302,8 @@ namespace HomeAutomationHeater
         void StatusUnForce()
         {
             _HeaterEvArgs.Status.ActualControllerState = ControllerInformer.ControllerState.ControllerUnforced;
-            _HeaterEvArgs.Status.ActualOperationState = HeaterStatus.OperationState.Idle;
-            _HeaterEvArgs.Status.ActualActionInfo = HeaterStatus.InformationAction.Finished;
+            _HeaterEvArgs.Status.ActualOperationState  = HeaterStatus.OperationState.Idle;
+            _HeaterEvArgs.Status.ActualActionInfo      = HeaterStatus.InformationAction.Finished;
         }
         #endregion
 

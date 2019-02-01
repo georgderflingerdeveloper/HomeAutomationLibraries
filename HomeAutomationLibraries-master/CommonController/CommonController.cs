@@ -115,13 +115,15 @@ namespace UnivCommonController
                 ==
                 ControllerInformer.ControllerState.ControllerIsOn ? true : false);
         }
-        #endregion
 
-        #region PRIVATE
-        void SetControllerState(ControllerInformer.ControllerState state)
+        protected void SetControllerState(ControllerInformer.ControllerState state)
         {
             CommonEventArgs.Informer.ActualControllerState = state;
         }
+
+        #endregion
+
+        #region PRIVATE
         #endregion
 
         #region VIRTUAL

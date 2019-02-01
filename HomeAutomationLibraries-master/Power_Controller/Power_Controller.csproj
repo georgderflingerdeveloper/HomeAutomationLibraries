@@ -49,6 +49,10 @@
       <Project>{3b53484e-e9f7-41dc-bf90-d93389d4e2ea}</Project>
       <Name>CommonController</Name>
     </ProjectReference>
+    <ProjectReference Include="..\HardConfig\HardConfig.csproj">
+      <Project>{5d49f2ea-7a48-4d68-badc-a40414ff7fd7}</Project>
+      <Name>HardConfig</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TimerMockable\TimerMockable.csproj">
       <Project>{323a5aa7-f7eb-4990-9b0e-540d75837716}</Project>
       <Name>TimerMockable</Name>

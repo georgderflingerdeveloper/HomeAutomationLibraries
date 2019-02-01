@@ -10,8 +10,17 @@ namespace PowerController_UnitTest
     [TestFixture]
     public class PowerController_UnitTests
     {
+        void SetupTest()
+        {
+
+        }
+        [SetUp]
+        public void SetupTests()
+        {
+            SetupTest();
+        }
         [Test]
-        public void TestProg()
+        public void TestCase_PowerStart()
         {
 
         }
