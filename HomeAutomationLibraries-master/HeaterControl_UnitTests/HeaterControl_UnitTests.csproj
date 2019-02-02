@@ -67,6 +67,10 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CommonController\CommonController.csproj">
+      <Project>{3b53484e-e9f7-41dc-bf90-d93389d4e2ea}</Project>
+      <Name>CommonController</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HardConfig\HardConfig.csproj">
       <Project>{5D49F2EA-7A48-4D68-BADC-A40414FF7FD7}</Project>
       <Name>HardConfig</Name>
@@ -93,7 +97,7 @@
       <Properties>
         <Policies>
           <VersionControlPolicy>
-            <CommitMessageStyle Indent="&#x9;" FirstFilePrefix="" FileSeparator=":&#xA;" LastFilePostfix=":&#xA;" LineAlign="0" IncludeDirectoryPaths="True" />
+            <CommitMessageStyle Indent="	" FirstFilePrefix="" FileSeparator=":&#xA;" LastFilePostfix=":&#xA;" LineAlign="0" IncludeDirectoryPaths="True" />
           </VersionControlPolicy>
         </Policies>
       </Properties>

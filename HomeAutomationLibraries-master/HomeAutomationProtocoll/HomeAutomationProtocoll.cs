@@ -111,6 +111,9 @@ namespace HomeAutomationProtocoll
         public const string TURN_LIGHT_TRIANGLE_SMALL_WEST_ON = "TURN-LIGHT-TRIANGLE-SMALL-WEST-ON";               // Lichtleiste am Dreieckfenster West Seitig - kleine Leist
         public const string TURN_LIGHT_TRIANGLE_SMALL_WEST_OFF = "TURN-LIGHT-TRIANGLE-SMALL-WEST-OFF";              // Lichtleiste am Dreieckfenster West Seitig - kleine Leist
 
+        public const string HEATER_MANUAL      = "HEATER-MANUAL";
+        public const string HEATER_THERMOSTATE = "HEATER-THERMOSTATE";
+
         public const string TURN_HEATER_BODY_EAST_ON = "TURN-HEATER-BODY-EAST-ON";                        // Heizkörper OSTEN
         public const string TURN_HEATER_BODY_EAST_OFF = "TURN-HEATER-BODY-EAST-OFF";
 

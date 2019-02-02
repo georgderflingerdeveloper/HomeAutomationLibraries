@@ -1,15 +1,9 @@
 ﻿using System;
 
-using System.Threading;
-using System.Timers;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using HomeAutomationHeater;
 using TimerMockable;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 // so far this application only works in windows environment !
 namespace KeyEventsAtConsole

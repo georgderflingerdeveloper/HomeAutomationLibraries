@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HeaterController.cs" />
+    <Compile Include="INTERFACE\IHeaterControllerThermostate.cs" />
     <Compile Include="INTERFACE\IHeaterControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -65,6 +66,10 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CommonController\CommonController.csproj">
+      <Project>{3b53484e-e9f7-41dc-bf90-d93389d4e2ea}</Project>
+      <Name>CommonController</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HardConfig\HardConfig.csproj">
       <Project>{5d49f2ea-7a48-4d68-badc-a40414ff7fd7}</Project>
       <Name>HardConfig</Name>
