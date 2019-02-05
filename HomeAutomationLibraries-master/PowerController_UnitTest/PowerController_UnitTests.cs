@@ -18,6 +18,10 @@ namespace PowerController_UnitTest
         PowerController TestPowerController;
         PowerParameters TestPowerParameters;
 
+        void RaiseTimer( Mock<ITimer> TimerToRaise)
+        {
+            TimerToRaise.Raise(obj => obj.Elapsed += null, new EventArgs() as ElapsedEventArgs);
+        }
 
         void SetupTest()
         {
@@ -53,6 +57,48 @@ namespace PowerController_UnitTest
 
             Assert.IsTrue(IsOn);
 
+        }
+
+        [Test]
+        public void TestCase_PowerStart_Status()
+        {
+            TestPowerStatus.ActualOperationState = PowerStatus.OperationState.InvalidForTesting;
+            TestPowerStatus.ActualControllerState = ControllerInformer.ControllerState.InvalidForTesting;
+
+            TestPowerController.EActivityChanged += (sender, e) =>
+            {
+                TestPowerStatus = e.Status;
+            };
+
+            TestPowerController.Start();
+
+            Assert.AreEqual(ControllerInformer.ControllerState.ControllerIsOn, TestPowerStatus.ActualControllerState);
+            Assert.AreEqual(PowerStatus.OperationState.TimerActive, TestPowerStatus.ActualOperationState);
+        }
+
+        [Test]
+        public void TestCase_PowerStart_Timer()
+        {
+           TestPowerController.Start();
+
+           MockedTimerAutomaticOff.Verify(obj => obj.SetTime(TestPowerParameters.DurationPowerOn));
+           MockedTimerAutomaticOff.Verify(obj => obj.Stop(), Times.AtLeastOnce());
+           MockedTimerAutomaticOff.Verify(obj => obj.Start(), Times.AtLeastOnce());
+        }
+
+        [Test]
+        public void TestCase_PowerStart_TimerElapsed()
+        {
+            bool IsOn = true;
+
+            TestPowerController.EActivityChanged += (sender, e) =>
+            {
+                IsOn = e.TurnOn;
+            };
+
+            RaiseTimer(MockedTimerAutomaticOff);
+
+            Assert.IsFalse(IsOn);
         }
 
         [TearDown]
