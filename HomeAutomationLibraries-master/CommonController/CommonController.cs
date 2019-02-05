@@ -31,7 +31,7 @@ namespace UnivCommonController
     {
         #region DECLARATION
         protected ControllerInformer Informer;
-        ControllerEventArgs CommonEventArgs;
+        protected ControllerEventArgs CommonEventArgs;
         #endregion
 
         #region CONSTRUCTOR

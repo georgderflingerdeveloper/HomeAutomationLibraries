@@ -40,29 +40,49 @@ namespace Power_Controller
 
     public delegate void ActivityChanged(object sender, PowerEventArgs e);
 
-
-    public class PowerController  : CommonController
+    public class PowerController  : CommonController, IController
     {
+        #region DECLARATION
         PowerStatus _PowerStatus;
+        PowerEventArgs _PowerEventArgs;
+        #endregion
 
+        #region CONSTRUCTOR
         public PowerController(PowerParameters Parameters, ControlTimers Timers) : base()
         {
-            _PowerStatus = new PowerStatus();
+            _PowerStatus    = new PowerStatus();
+            _PowerEventArgs = new PowerEventArgs();
+
             SetOperationState(PowerStatus.OperationState.Idle);
         }
+        #endregion
 
+        #region OVERRIDE
         override protected void ControllerStart()
         {
             Turn(GeneralConstants.ON);
             SetControllerState(ControllerInformer.ControllerState.ControllerIsOn);
             SetOperationState(PowerStatus.OperationState.TimerActive);
+            _PowerEventArgs.TurnOn = true;
             Update();
         }
 
+        override protected void Update()
+        {
+            EActivityChanged?.Invoke( this, _PowerEventArgs );
+        }
+        #endregion
+
+        #region PRIVATE
         void SetOperationState(PowerStatus.OperationState operationState)
         {
             _PowerStatus.ActualOperationState = operationState;
         }
+        #endregion
+
+        #region NEW
+        public new event ActivityChanged EActivityChanged;
+        #endregion
     }
 
 
