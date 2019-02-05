@@ -23,6 +23,7 @@ namespace Power_Controller
             Idle,
             TimerActive,
             TimerFinished,
+            TimerInterrupted,
             InvalidForTesting = 99
         }
 
@@ -84,6 +85,15 @@ namespace Power_Controller
             Update();
         }
 
+        override protected void ControllerStop()
+        {
+            SetControllerState(ControllerInformer.ControllerState.ControllerIsOff);
+            SetOperationState(PowerStatus.OperationState.TimerInterrupted);
+            _PowerEventArgs.TurnOn = false;
+            _Timers.TimerAutomaticOff.Stop();
+            Update();
+        }
+
         override protected void Update()
         {
             _PowerEventArgs.Status.ActualControllerState = CommonEventArgs.Informer.ActualControllerState;
@@ -94,6 +104,9 @@ namespace Power_Controller
         #region EVENTHANDLERS
         private void TimerAutomaticOffElapsed(object sender, ElapsedEventArgs e)
         {
+            SetControllerState(ControllerInformer.ControllerState.ControllerIsOff);
+            SetOperationState(PowerStatus.OperationState.TimerFinished);
+            _Timers.TimerAutomaticOff.Stop();
             _PowerEventArgs.TurnOn = false;
             Update();
         }

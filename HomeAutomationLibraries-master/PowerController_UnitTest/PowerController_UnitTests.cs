@@ -101,6 +101,67 @@ namespace PowerController_UnitTest
             Assert.IsFalse(IsOn);
         }
 
+        [Test]
+        public void TestCase_PowerStart_TimerElapsedTurItOff()
+        {
+            RaiseTimer(MockedTimerAutomaticOff);
+            MockedTimerAutomaticOff.Verify(obj => obj.Stop(), Times.AtLeastOnce());
+        }
+
+        [Test]
+        public void TestCase_PowerStart_TimerFinished()
+        {
+            TestPowerStatus.ActualOperationState = PowerStatus.OperationState.InvalidForTesting;
+            TestPowerStatus.ActualControllerState = ControllerInformer.ControllerState.InvalidForTesting;
+
+            TestPowerController.EActivityChanged += (sender, e) =>
+            {
+                TestPowerStatus = e.Status;
+            };
+
+            RaiseTimer(MockedTimerAutomaticOff);
+
+            Assert.AreEqual(ControllerInformer.ControllerState.ControllerIsOff, TestPowerStatus.ActualControllerState);
+            Assert.AreEqual(PowerStatus.OperationState.TimerFinished, TestPowerStatus.ActualOperationState);
+        }
+
+        [Test]
+        public void TestCase_Power_Stop()
+        {
+            bool IsOn = true;
+
+            TestPowerController.EActivityChanged += (sender, e) =>
+            {
+                IsOn = e.TurnOn;
+            };
+
+            TestPowerController.Start();
+            TestPowerController.Stop();
+
+            Assert.IsFalse(IsOn);
+
+        }
+
+        [Test]
+        public void TestCase_Power_Stop_States()
+        {
+            TestPowerStatus.ActualOperationState = PowerStatus.OperationState.InvalidForTesting;
+            TestPowerStatus.ActualControllerState = ControllerInformer.ControllerState.InvalidForTesting;
+
+            TestPowerController.EActivityChanged += (sender, e) =>
+            {
+                TestPowerStatus = e.Status;
+            };
+
+
+            TestPowerController.Start();
+            TestPowerController.Stop();
+
+            Assert.AreEqual(ControllerInformer.ControllerState.ControllerIsOff, TestPowerStatus.ActualControllerState);
+            Assert.AreEqual(PowerStatus.OperationState.TimerInterrupted, TestPowerStatus.ActualOperationState);
+        }
+
+
         [TearDown]
         public void TearDown()
         {
