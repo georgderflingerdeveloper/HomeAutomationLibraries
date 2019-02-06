@@ -39,3 +39,4 @@ Thumbs.db
 # dotCover
 *.dotCover
 *.lock
+/HomeAutomationLibraries-master/PowerController_UnitTest/PowerController_UnitTest.csproj.bak
