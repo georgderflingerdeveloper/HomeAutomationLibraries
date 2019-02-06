@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Timers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,7 +22,9 @@ namespace Power_Controller
         {
             Idle,
             TimerActive,
-            TimerFinished
+            TimerFinished,
+            TimerInterrupted,
+            InvalidForTesting = 99
         }
 
         public OperationState ActualOperationState { get; set; }
@@ -30,6 +33,7 @@ namespace Power_Controller
     public class PowerEventArgs : EventArgs
     {
         public bool TurnOn { get; set; }
+        public PowerStatus Status { get; set; }
     }
 
     [Serializable]
@@ -40,29 +44,84 @@ namespace Power_Controller
 
     public delegate void ActivityChanged(object sender, PowerEventArgs e);
 
-
-    public class PowerController  : CommonController
+    public class PowerController  : CommonController, IController
     {
+        #region DECLARATION
         PowerStatus _PowerStatus;
+        PowerEventArgs _PowerEventArgs;
+        ControlTimers _Timers;
+        PowerParameters _Parameters;
+        #endregion
 
+        #region CONSTRUCTOR
         public PowerController(PowerParameters Parameters, ControlTimers Timers) : base()
         {
             _PowerStatus = new PowerStatus();
+            _PowerEventArgs = new PowerEventArgs()
+            {
+                Status = _PowerStatus
+            };
+            _Timers = new ControlTimers()
+            {
+                TimerAutomaticOff = Timers.TimerAutomaticOff
+            };
+            _Parameters = Parameters;
+            _Timers.TimerAutomaticOff.Elapsed += TimerAutomaticOffElapsed;
+
             SetOperationState(PowerStatus.OperationState.Idle);
         }
 
+        #endregion
+
+        #region OVERRIDE
         override protected void ControllerStart()
         {
-            Turn(GeneralConstants.ON);
             SetControllerState(ControllerInformer.ControllerState.ControllerIsOn);
             SetOperationState(PowerStatus.OperationState.TimerActive);
+            _PowerEventArgs.TurnOn = true;
+            _Timers.TimerAutomaticOff.SetTime(_Parameters.DurationPowerOn);
+            _Timers.TimerAutomaticOff.Stop();
+            _Timers.TimerAutomaticOff.Start();
             Update();
         }
 
+        override protected void ControllerStop()
+        {
+            SetControllerState(ControllerInformer.ControllerState.ControllerIsOff);
+            SetOperationState(PowerStatus.OperationState.TimerInterrupted);
+            _PowerEventArgs.TurnOn = false;
+            _Timers.TimerAutomaticOff.Stop();
+            Update();
+        }
+
+        override protected void Update()
+        {
+            _PowerEventArgs.Status.ActualControllerState = CommonEventArgs.Informer.ActualControllerState;
+            EActivityChanged?.Invoke( this, _PowerEventArgs );
+        }
+        #endregion
+
+        #region EVENTHANDLERS
+        private void TimerAutomaticOffElapsed(object sender, ElapsedEventArgs e)
+        {
+            SetControllerState(ControllerInformer.ControllerState.ControllerIsOff);
+            SetOperationState(PowerStatus.OperationState.TimerFinished);
+            _Timers.TimerAutomaticOff.Stop();
+            _PowerEventArgs.TurnOn = false;
+            Update();
+        }
+        #endregion
+
+        #region PRIVATE
         void SetOperationState(PowerStatus.OperationState operationState)
         {
             _PowerStatus.ActualOperationState = operationState;
         }
+        #endregion
+
+        #region NEW
+        public new event ActivityChanged EActivityChanged;
+        #endregion
     }
 
 
