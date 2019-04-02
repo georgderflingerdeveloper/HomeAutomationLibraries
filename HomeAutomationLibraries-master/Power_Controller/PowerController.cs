@@ -70,7 +70,6 @@ namespace Power_Controller
 
             SetOperationState(PowerStatus.OperationState.Idle);
         }
-
         #endregion
 
         #region OVERRIDE
