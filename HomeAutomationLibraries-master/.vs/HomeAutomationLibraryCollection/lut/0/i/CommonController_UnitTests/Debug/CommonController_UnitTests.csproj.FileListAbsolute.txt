@@ -1,0 +1,11 @@
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\b\CommonController_UnitTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\b\CommonController_UnitTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\b\CommonController_UnitTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\b\CommonController_UnitTests\bin\Debug\de\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.resources.dll
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\b\CommonController_UnitTests\bin\Debug\de\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.resources.dll
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\b\CommonController_UnitTests\bin\Debug\de\Microsoft.VisualStudio.TestPlatform.TestFramework.resources.dll
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\b\CommonController_UnitTests\bin\Debug\CommonController_UnitTests.dll
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\CommonController_UnitTests\Debug\CommonController_UnitTests.csprojAssemblyReference.cache
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\CommonController_UnitTests\Debug\CommonController_UnitTests.csproj.CoreCompileInputs.cache
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\CommonController_UnitTests\Debug\CommonController_UnitTests.csproj.CopyComplete
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\CommonController_UnitTests\Debug\CommonController_UnitTests.dll

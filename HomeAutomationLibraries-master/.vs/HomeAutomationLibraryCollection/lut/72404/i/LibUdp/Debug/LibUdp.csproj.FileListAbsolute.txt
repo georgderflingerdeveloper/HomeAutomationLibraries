@@ -1,0 +1,4 @@
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\b\LibUdp\bin\Debug\LibUdp.dll
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\LibUdp\Debug\LibUdp.csproj.CoreCompileInputs.cache
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\LibUdp\Debug\LibUdp.csproj.CopyComplete
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\LibUdp\Debug\LibUdp.dll

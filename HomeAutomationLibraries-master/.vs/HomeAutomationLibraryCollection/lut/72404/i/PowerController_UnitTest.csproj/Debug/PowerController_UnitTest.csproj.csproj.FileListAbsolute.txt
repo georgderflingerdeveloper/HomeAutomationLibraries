@@ -1,0 +1,5 @@
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\b\PowerController_UnitTest\bin\Debug\PowerController_UnitTest.dll
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\PowerController_UnitTest.csproj\Debug\PowerController_UnitTest.csproj.csprojAssemblyReference.cache
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\PowerController_UnitTest.csproj\Debug\PowerController_UnitTest.csproj.csproj.CoreCompileInputs.cache
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\PowerController_UnitTest.csproj\Debug\PowerController_UnitTest.csproj.csproj.CopyComplete
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\PowerController_UnitTest.csproj\Debug\PowerController_UnitTest.dll

@@ -1,0 +1,6 @@
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\b\TestRunnerUdpReceive\bin\Debug\TestRunnerUdpReceive.exe.config
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\b\TestRunnerUdpReceive\bin\Debug\TestRunnerUdpReceive.exe
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\TestRunnerUdpReceive\Debug\TestRunnerUdpReceive.csprojAssemblyReference.cache
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\TestRunnerUdpReceive\Debug\TestRunnerUdpReceive.csproj.CoreCompileInputs.cache
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\TestRunnerUdpReceive\Debug\TestRunnerUdpReceive.csproj.CopyComplete
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\TestRunnerUdpReceive\Debug\TestRunnerUdpReceive.exe
