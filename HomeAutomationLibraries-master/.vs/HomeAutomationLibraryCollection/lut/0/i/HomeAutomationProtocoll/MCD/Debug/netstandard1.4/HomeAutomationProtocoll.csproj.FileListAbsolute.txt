@@ -1,0 +1,7 @@
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\b\HomeAutomationProtocoll\MCD\Debug\netstandard1.4\HomeAutomationProtocoll.deps.json
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\b\HomeAutomationProtocoll\MCD\Debug\netstandard1.4\HomeAutomationProtocoll.dll
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\HomeAutomationProtocoll\MCD\Debug\netstandard1.4\HomeAutomationProtocoll.csprojAssemblyReference.cache
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\HomeAutomationProtocoll\MCD\Debug\netstandard1.4\HomeAutomationProtocoll.csproj.CoreCompileInputs.cache
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\HomeAutomationProtocoll\MCD\Debug\netstandard1.4\HomeAutomationProtocoll.AssemblyInfo.cs
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\HomeAutomationProtocoll\MCD\Debug\netstandard1.4\HomeAutomationProtocoll.csproj.CopyComplete
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\HomeAutomationProtocoll\MCD\Debug\netstandard1.4\HomeAutomationProtocoll.dll

@@ -1,0 +1,5 @@
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\b\KeyEventsAtConsole\bin\Debug\KeyEventsAtConsole.exe.config
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\b\KeyEventsAtConsole\bin\Debug\KeyEventsAtConsole.exe
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\KeyEventsAtConsole_TestHeaterController\Debug\KeyEventsAtConsole_TestHeaterController.csproj.CoreCompileInputs.cache
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\KeyEventsAtConsole_TestHeaterController\Debug\KeyEventsAtConsole_TestHeaterController.csproj.CopyComplete
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\KeyEventsAtConsole_TestHeaterController\Debug\KeyEventsAtConsole.exe

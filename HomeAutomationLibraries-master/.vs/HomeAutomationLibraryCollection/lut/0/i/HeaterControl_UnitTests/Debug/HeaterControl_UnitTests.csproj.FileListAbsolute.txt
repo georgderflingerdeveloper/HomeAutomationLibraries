@@ -1,0 +1,4 @@
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\b\HeaterControl_UnitTests\bin\Debug\HeaterControl_UnitTests.dll
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\HeaterControl_UnitTests\Debug\HeaterControl_UnitTests.csproj.CoreCompileInputs.cache
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\HeaterControl_UnitTests\Debug\HeaterControl_UnitTests.csproj.CopyComplete
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\HeaterControl_UnitTests\Debug\HeaterControl_UnitTests.dll

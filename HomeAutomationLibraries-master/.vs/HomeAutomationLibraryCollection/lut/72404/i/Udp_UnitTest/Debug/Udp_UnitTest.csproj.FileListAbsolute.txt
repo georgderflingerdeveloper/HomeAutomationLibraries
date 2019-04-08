@@ -1,0 +1,5 @@
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\b\LibUdp\Udp_UnitTest\bin\Debug\Udp_UnitTest.dll
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\Udp_UnitTest\Debug\Udp_UnitTest.csprojAssemblyReference.cache
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\Udp_UnitTest\Debug\Udp_UnitTest.csproj.CoreCompileInputs.cache
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\Udp_UnitTest\Debug\Udp_UnitTest.csproj.CopyComplete
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\Udp_UnitTest\Debug\Udp_UnitTest.dll

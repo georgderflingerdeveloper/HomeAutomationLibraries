@@ -1,0 +1,5 @@
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\b\TestRunnerHeaterController\bin\Debug\TestRunnerHeaterController.exe
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\TestRunnerHeaterController\Debug\TestRunnerHeaterController.csprojAssemblyReference.cache
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\TestRunnerHeaterController\Debug\TestRunnerHeaterController.csproj.CoreCompileInputs.cache
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\TestRunnerHeaterController\Debug\TestRunnerHeaterController.csproj.CopyComplete
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\TestRunnerHeaterController\Debug\TestRunnerHeaterController.exe

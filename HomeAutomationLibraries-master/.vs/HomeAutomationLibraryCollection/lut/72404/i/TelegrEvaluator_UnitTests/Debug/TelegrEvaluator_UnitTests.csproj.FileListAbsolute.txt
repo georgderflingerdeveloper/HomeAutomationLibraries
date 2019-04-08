@@ -1,0 +1,5 @@
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\b\TelegrEvaluator_UnitTests\bin\Debug\TelegrEvaluator_UnitTests.dll
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\TelegrEvaluator_UnitTests\Debug\TelegrEvaluator_UnitTests.csprojAssemblyReference.cache
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\TelegrEvaluator_UnitTests\Debug\TelegrEvaluator_UnitTests.csproj.CoreCompileInputs.cache
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\TelegrEvaluator_UnitTests\Debug\TelegrEvaluator_UnitTests.csproj.CopyComplete
+C:\PROJECT\HomeAutomationLibraries\HomeAutomationLibraries-master\.vs\HomeAutomationLibraryCollection\lut\0\i\TelegrEvaluator_UnitTests\Debug\TelegrEvaluator_UnitTests.dll
