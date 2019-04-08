@@ -120,6 +120,9 @@ namespace HomeAutomationProtocoll
         public const string TURN_HEATER_BODY_WEST_ON = "TURN-HEATER-BODY-WEST-ON";                        // Heizkörper WESTEN
         public const string TURN_HEATER_BODY_WEST_OFF = "TURN-HEATER-BODY-WEST-OFF";
 
+        public const string TURN_HEATER_BATH_ON = "TURN-HEATER-BATH-ON";
+        public const string TURN_HEATER_BATH_OFF = "TURN-HEATER-BATH-OFF";
+
         public const string TURN_LIGHT_OUTSIDE_ON = "TURN-LIGHT-OUTSIDE-ON";                           // Aussenbeleuchtung
         public const string TURN_LIGHT_OUTSIDE_BY_OPEN_DOOR_CONTACT_ON = "TURN-LIGHT-OUTSIDE-BY-OPEN-DOOR-CONTACT-ON";                           // Aussenbeleuchtung
         public const string TURN_LIGHT_OUTSIDE_BY_OPEN_DOOR_CONTACT_OFF = "TURN-LIGHT-OUTSIDE-BY-OPEN-DOOR-CONTACT-OFF";                           // Aussenbeleuchtung
@@ -127,6 +130,9 @@ namespace HomeAutomationProtocoll
 
         public const string POWER_FAIL_ON = "POWER-FAIL-ON";                                   // Stromausfall
         public const string POWER_FAIL_OFF = "POWER-FAIL-OFF";                                  // Stromausfall ist wieder vorbei
+
+        public const string POWER_PLUG_INFRA_RED_ON  = "POWER-PLUG-INFRA-RED-ON";
+        public const string POWER_PLUG_INFRA_RED_OFF = "POWER-PLUG-INFRA-RED-OFF";
 
         public const string TURN_LIGHT_ANTEROOM_MAIN_ON               = "TURN-LIGHT-ANTEROOM-MAIN-ON";
         public const string TURN_LIGHT_ANTEROOM_MAIN_OFF              = "TURN-LIGHT-ANTEROOM-MAIN-OFF";
