@@ -187,6 +187,18 @@ namespace HomeAutomationProtocoll
         public const string TURN_LIGHT_KIDROOM5_ON                    = "TURN-LIGHT-KIDROOM5-ON";
         public const string TURN_LIGHT_KIDROOM5_OFF                   = "TURN-LIGHT-KIDROOM5-OFF";
 
+        public const string PRESENCE_DETECTOR_EAST_1_ON               = "PRESENCE-DETECTOR-EAST-1-ON";
+        public const string PRESENCE_DETECTOR_EAST_1_OFF              = "PRESENCE-DETECTOR-EAST-1-OFF";
+
+        public const string PRESENCE_DETECTOR_WEST_ON                 = "PRESENCE-DETECTOR-WEST-ON";
+        public const string PRESENCE_DETECTOR_WEST_OFF                = "PRESENCE-DETECTOR-WEST-OFF";
+
+        public const string PRESENCE_DETECTOR_EAST_KITCHEN_ON         = "PRESENCE-DETECTOR-EAST-KITCHEN-ON";
+        public const string PRESENCE_DETECTOR_EAST_KITCHEN_OFF        = "PRESENCE-DETECTOR-EAST-KITCHEN-OFF";
+
+        public const string PRESENCE_DETECTOR_ANTEROOM_ON             = "PRESENCE-DETECTOR-ANTEROOM-ON";
+        public const string PRESENCE_DETECTOR_ANTEROOM_OFF            = "PRESENCE-DETECTOR-ANTEROOM-OFF";
+
 
         static Dictionary<uint, string> ComandoDictionary = new Dictionary<uint, string>
             {
