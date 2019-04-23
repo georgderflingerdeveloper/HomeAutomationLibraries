@@ -190,6 +190,9 @@ namespace HomeAutomationProtocoll
         public const string TURN_LIGHT_KIDROOM5_ON                    = "TURN-LIGHT-KIDROOM5-ON";
         public const string TURN_LIGHT_KIDROOM5_OFF                   = "TURN-LIGHT-KIDROOM5-OFF";
 
+        public const string TURN_ALL_LIGHTS_KIDROOM_ON                = "TURN-ALL-LIGHTS-KIDROOM-ON";
+        public const string TURN_ALL_LIGHTS_KIDROOM_OFF               = "TURN-ALL-LIGHTS-KIDROOM-OFF";
+
         public const string PRESENCE_DETECTOR_EAST_1_ON               = "PRESENCE-DETECTOR-EAST-1-ON";
         public const string PRESENCE_DETECTOR_EAST_1_OFF              = "PRESENCE-DETECTOR-EAST-1-OFF";
 
