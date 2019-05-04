@@ -119,6 +119,12 @@ namespace HomeAutomationProtocoll
         public const string TURN_HEATER_BODY_WEST_ON = "TURN-HEATER-BODY-WEST-ON";                        // Heizkörper WESTEN
         public const string TURN_HEATER_BODY_WEST_OFF = "TURN-HEATER-BODY-WEST-OFF";
 
+        public const string TURN_HEATER_BATH_ON = "TURN-HEATER-BATH-ON";
+        public const string TURN_HEATER_BATH_OFF = "TURN-HEATER-BATH-OFF";
+
+        public const string TURN_HEATER_KID_ROOM_ON = "TURN-HEATER-KID-ROOM-ON";
+        public const string TURN_HEATER_KID_ROOM_OFF = "TURN-HEATER-KID-ROOM-OFF";
+
         public const string TURN_LIGHT_OUTSIDE_ON = "TURN-LIGHT-OUTSIDE-ON";                           // Aussenbeleuchtung
         public const string TURN_LIGHT_OUTSIDE_BY_OPEN_DOOR_CONTACT_ON = "TURN-LIGHT-OUTSIDE-BY-OPEN-DOOR-CONTACT-ON";                           // Aussenbeleuchtung
         public const string TURN_LIGHT_OUTSIDE_BY_OPEN_DOOR_CONTACT_OFF = "TURN-LIGHT-OUTSIDE-BY-OPEN-DOOR-CONTACT-OFF";                           // Aussenbeleuchtung
@@ -126,6 +132,9 @@ namespace HomeAutomationProtocoll
 
         public const string POWER_FAIL_ON = "POWER-FAIL-ON";                                   // Stromausfall
         public const string POWER_FAIL_OFF = "POWER-FAIL-OFF";                                  // Stromausfall ist wieder vorbei
+
+        public const string POWER_PLUG_INFRA_RED_ON  = "POWER-PLUG-INFRA-RED-ON";
+        public const string POWER_PLUG_INFRA_RED_OFF = "POWER-PLUG-INFRA-RED-OFF";
 
         public const string TURN_LIGHT_ANTEROOM_MAIN_ON               = "TURN-LIGHT-ANTEROOM-MAIN-ON";
         public const string TURN_LIGHT_ANTEROOM_MAIN_OFF              = "TURN-LIGHT-ANTEROOM-MAIN-OFF";
@@ -179,6 +188,21 @@ namespace HomeAutomationProtocoll
 
         public const string TURN_LIGHT_KIDROOM5_ON                    = "TURN-LIGHT-KIDROOM5-ON";
         public const string TURN_LIGHT_KIDROOM5_OFF                   = "TURN-LIGHT-KIDROOM5-OFF";
+
+        public const string TURN_ALL_LIGHTS_KIDROOM_ON                = "TURN-ALL-LIGHTS-KIDROOM-ON";
+        public const string TURN_ALL_LIGHTS_KIDROOM_OFF               = "TURN-ALL-LIGHTS-KIDROOM-OFF";
+
+        public const string PRESENCE_DETECTOR_EAST_1_ON               = "PRESENCE-DETECTOR-EAST-1-ON";
+        public const string PRESENCE_DETECTOR_EAST_1_OFF              = "PRESENCE-DETECTOR-EAST-1-OFF";
+
+        public const string PRESENCE_DETECTOR_WEST_ON                 = "PRESENCE-DETECTOR-WEST-ON";
+        public const string PRESENCE_DETECTOR_WEST_OFF                = "PRESENCE-DETECTOR-WEST-OFF";
+
+        public const string PRESENCE_DETECTOR_EAST_KITCHEN_ON         = "PRESENCE-DETECTOR-EAST-KITCHEN-ON";
+        public const string PRESENCE_DETECTOR_EAST_KITCHEN_OFF        = "PRESENCE-DETECTOR-EAST-KITCHEN-OFF";
+
+        public const string PRESENCE_DETECTOR_ANTEROOM_ON             = "PRESENCE-DETECTOR-ANTEROOM-ON";
+        public const string PRESENCE_DETECTOR_ANTEROOM_OFF            = "PRESENCE-DETECTOR-ANTEROOM-OFF";
 
 
         static Dictionary<uint, string> ComandoDictionary = new Dictionary<uint, string>
