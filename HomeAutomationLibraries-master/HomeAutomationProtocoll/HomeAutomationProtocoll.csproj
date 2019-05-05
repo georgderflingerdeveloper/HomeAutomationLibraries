@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CB846605-02BF-420B-9E2D-67EED8B6D16E}</ProjectGuid>
+    <ProjectGuid>{9C9EDF50-A44B-469F-BA18-24250C05C015}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>HomeAutomationProtocoll</RootNamespace>
