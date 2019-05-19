@@ -125,6 +125,9 @@ namespace HomeAutomationProtocoll
         public const string TURN_HEATER_KID_ROOM_ON = "TURN-HEATER-KID-ROOM-ON";
         public const string TURN_HEATER_KID_ROOM_OFF = "TURN-HEATER-KID-ROOM-OFF";
 
+        public const string TURN_HEATER_ANTE_ROOM_ON = "TURN-HEATER-ANTE-ROOM-ON";
+        public const string TURN_HEATER_ANTE_ROOM_OFF = "TURN-HEATER-ANTE-ROOM-OFF";
+
         public const string TURN_LIGHT_OUTSIDE_ON = "TURN-LIGHT-OUTSIDE-ON";                           // Aussenbeleuchtung
         public const string TURN_LIGHT_OUTSIDE_BY_OPEN_DOOR_CONTACT_ON = "TURN-LIGHT-OUTSIDE-BY-OPEN-DOOR-CONTACT-ON";                           // Aussenbeleuchtung
         public const string TURN_LIGHT_OUTSIDE_BY_OPEN_DOOR_CONTACT_OFF = "TURN-LIGHT-OUTSIDE-BY-OPEN-DOOR-CONTACT-OFF";                           // Aussenbeleuchtung
