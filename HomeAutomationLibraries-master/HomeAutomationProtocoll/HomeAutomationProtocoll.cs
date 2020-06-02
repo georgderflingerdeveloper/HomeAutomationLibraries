@@ -151,8 +151,10 @@ namespace HomeAutomationProtocoll
         public const string TURN_LIGHT_GALLERY_FLOOR_STAIRS_FRONT_OFF = "TURN-LIGHT-GALLERY-FLOOR-STAIRS-FRONT-OFF";
         public const string TURN_LIGHT_GALLERY_FLOOR_STAIRS_RIGHT_ON  = "TURN-LIGHT-GALLERY-FLOOR-STAIRS-RIGHT-ON";
         public const string TURN_LIGHT_GALLERY_FLOOR_STAIRS_RIGHT_OFF = "TURN-LIGHT-GALLERY-FLOOR-STAIRS-RIGHT-OFF";
-        public const string TURN_LIGHT_FLOOR_UP_ON                    = "TURN-LIGHT-FLOOR-UP-ON";
-        public const string TURN_LIGHT_FLOOR_UP_OFF                   = "TURN-LIGHT-FLOOR-UP-OFF";
+        public const string TURN_LIGHT_FLOOR_UP1_ON                   = "TURN-LIGHT-FLOOR-UP1-ON";
+        public const string TURN_LIGHT_FLOOR_UP1_OFF                  = "TURN-LIGHT-FLOOR-UP1-OFF";
+        public const string TURN_LIGHT_FLOOR_UP2_ON                   = "TURN-LIGHT-FLOOR-UP2-ON";
+        public const string TURN_LIGHT_FLOOR_UP2_OFF                  = "TURN-LIGHT-FLOOR-UP2-OFF";
         public const string TURN_LIGHT_ANTEROOM_ON                    = "TURN-LIGHT-ANTEROOM-ON";
         public const string TURN_LIGHT_ANTEROOM_OFF                   = "TURN-LIGHT-ANTEROOM-OFF";
 
