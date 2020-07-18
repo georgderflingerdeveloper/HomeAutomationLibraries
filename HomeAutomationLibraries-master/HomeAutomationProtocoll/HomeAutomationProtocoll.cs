@@ -139,6 +139,9 @@ namespace HomeAutomationProtocoll
         public const string POWER_PLUG_INFRA_RED_ON  = "POWER-PLUG-INFRA-RED-ON";
         public const string POWER_PLUG_INFRA_RED_OFF = "POWER-PLUG-INFRA-RED-OFF";
 
+        public const string POWER_PLUG_KITCHEN_DOOR_ON = "POWER-PLUG-KITCHEN-DOOR-ON";
+        public const string POWER_PLUG_KITCHEN_DOOR_OFF = "POWER-PLUG-KITCHEN-DOOR-OFF";
+
         public const string TURN_LIGHT_ANTEROOM_MAIN_ON               = "TURN-LIGHT-ANTEROOM-MAIN-ON";
         public const string TURN_LIGHT_ANTEROOM_MAIN_OFF              = "TURN-LIGHT-ANTEROOM-MAIN-OFF";
         public const string TURN_LIGHT_ANTEROOM_BACK_ON               = "TURN-LIGHT-ANTEROOM-BACK-ON";
