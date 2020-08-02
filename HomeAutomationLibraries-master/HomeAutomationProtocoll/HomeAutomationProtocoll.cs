@@ -135,36 +135,46 @@ namespace HomeAutomationProtocoll
 
         public const string POWER_FAIL_ON                               = "POWER-FAIL-ON";                                   // Stromausfall
         public const string POWER_FAIL_OFF                              = "POWER-FAIL-OFF";                                  // Stromausfall ist wieder vorbei
-
+ 
         public const string POWER_PLUG_INFRA_RED_ON                     = "POWER-PLUG-INFRA-RED-ON";
         public const string POWER_PLUG_INFRA_RED_OFF                    = "POWER-PLUG-INFRA-RED-OFF";
+        public const string ACTIVATE_POWER_PLUG_INFRA_RED_AUTO          = "ACTIVATE-POWER-PLUG-INFRA-RED-AUTO-OFF";
 
         public const string POWER_PLUG_KITCHEN_DOOR_ON                  = "POWER-PLUG-KITCHEN-DOOR-ON";
         public const string POWER_PLUG_KITCHEN_DOOR_OFF                 = "POWER-PLUG-KITCHEN-DOOR-OFF";
+        public const string ACTIVATE_POWER_PLUG_KITCHEN_DOOR_AUTO       = "ACTIVATE-POWER-PLUG-KITCHEN-DOOR";
 
         public const string POWER_PLUG_KITCHEN_STOVE_ON                 = "POWER-PLUG-KITCHEN-STOVE-ON";
         public const string POWER_PLUG_KITCHEN_STOVE_OFF                = "POWER-PLUG-KITCHEN-STOVE-OFF";
+        public const string ACTIVATE_POWER_PLUG_KITCHEN_STOVE_AUTO      = "ACTIVATE-POWER-PLUG-KITCHEN-STOVE-AUTO";
 
         public const string POWER_PLUG_ANTEROOM_ON                      = "POWER-PLUG-ANTEROOM-ON";
         public const string POWER_PLUG_ANTEROOM_OFF                     = "POWER-PLUG-ANTEROOM-OFF";
+        public const string ACTIVATE_POWER_PLUG_ANTREROOM_AUTO          = "ACTIVATE-POWER-PLUG-ANTEROOM-AUTO";
 
         public const string POWER_PLUG_BATHROOM_ON                      = "POWER-PLUG-BATHROOM-ON";
         public const string POWER_PLUG_BATHROOM_OFF                     = "POWER-PLUG-BATHROOM-OFF";
+        public const string ACTIVATE_POWER_PLUG_BATHROOM_AUTO           = "ACTVIATE-POWER-PLUG-BATHROOM-AUTO";        
 
         public const string POWER_PLUG_LIVINGROOM_ON                    = "POWER-PLUG-LIVINGROOM-ON";
         public const string POWER_PLUG_LIVINGROOM_OFF                   = "POWER-PLUG-LIVINGROOM-OFF";
+        public const string ACTIVATE_POWER_PLUG_LIVINGROOM_AUTO         = "ACTIVATE-POWER-PLUG-LIVINGROOM-AUTO";
 
         public const string POWER_PLUG_WINTERGARDEN_ON                  = "POWER-PLUG-WINTERGARDEN-ON";
         public const string POWER_PLUG_WINTERGARDEN_OFF                 = "POWER-PLUG-WINTERGARDEN-OFF";
+        public const string ACTIVATE_POWER_PLUG_WINTERGARDEN_AUTO       = "ACTIVATE-POWER-PLUG-WINTERGARDEN-AUTO";
 
         public const string POWER_PLUG_WINTERGARDEN_ROOF_ON             = "POWER-PLUG-WINTERGARDEN-ROOF-ON";
         public const string POWER_PLUG_WINTERGARDEN_ROOF_OFF            = "POWER-PLUG-WINTERGARDEN-ROOF-OFF";
+        public const string ACTIVATE_POWER_PLUG_WINTERGARDEN_ROOF_AUTO  = "ACTIVATE-POWER-PLUG-WINTERGARDEN-ROOF-AUTO";
 
         public const string POWER_PLUG_GALLERY_ON                       = "POWER-PLUG-GALLERY-ON";
         public const string POWER_PLUG_GALLYERY_OFF                     = "POWER-PLUG-GALLERY-OFF";
+        public const string ACTIVATE_POWER_PLUG_GALLERY_AUTO            = "ACTIVATE-POWER-PLUG-GALLERY-AUTO";
 
         public const string POWER_PLUG_UPSTAIRS_ON                      = "POWER-PLUG-UPSTAIRS-ON";
         public const string POWER_PLUG_UPSTAIRS_OFF                     = "POWER-PLUG-UPSTAIRS-OFF";
+        public const string ACTIVATE_POWER_PLUG_UPSTAIRS_AUTO           = "ACTIVATE-POWER-PLUG-UPSTAIRS-AUTO";
 
         public const string TURN_LIGHT_ANTEROOM_MAIN_ON                 = "TURN-LIGHT-ANTEROOM-MAIN-ON";
         public const string TURN_LIGHT_ANTEROOM_MAIN_OFF                = "TURN-LIGHT-ANTEROOM-MAIN-OFF";
@@ -238,6 +248,8 @@ namespace HomeAutomationProtocoll
 
         public const string BELL_ON                                     = "BELL-ON";
         public const string BELL_OFF                                    = "BELL-OFF";
+
+
 
 
         static Dictionary<uint, string> ComandoDictionary = new Dictionary<uint, string>
