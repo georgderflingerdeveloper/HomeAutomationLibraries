@@ -93,6 +93,8 @@ namespace HomeAutomationProtocoll
 
         public const string TURN_BOILER_ON                              = "TURN-BOILER-ON";
         public const string TURN_BOILER_OFF                             = "TURN-BOILER-OFF";
+        public const string ACTIVATE_BOILER_AUTO                        = "ACTIVATE-BOILER-AUTO";
+
         public const string TURN_FRONT_LIGHTS_ON                        = "TURN-FRONT-LIGHTS-ON";
         public const string TURN_FRONT_LIGHTS_OFF                       = "TURN-FRONT-LIGHTS-OFF";                           // Vorderlichter Küche über der Arbeitsfläche
         public const string TURN_WINDOW_LEDGE_EAST_ON                   = "TURN-WINDOW-LEDGE-EAST-ON";
