@@ -42,6 +42,8 @@ namespace HomeAutomationProtocoll
         public const string TURN_KITCHEN_FRONT_LIGHT_1_OFF = "TURN-KITCHEN-FRONT-LIGHT-1-OFF";
         public const string TURN_KITCHEN_FRONT_LIGHT_2_OFF = "TURN-KITCHEN-FRONT-LIGHT-2-OFF";
         public const string TURN_KITCHEN_FRONT_LIGHT_3_OFF = "TURN-KITCHEN-FRONT-LIGHT-3-OFF";
+        public const string ENABLE_KITCHEN_BUTTON          = "ENABLE-KITCHEN-BUTTON";
+        public const string DISABLE_KITCHEN_BUTTON         = "DISABLE-KITCHEN-BUTTON";
 
         public const string TURN_GALLERY_UP_ON = "TURN-GALLERY-UP-ON";
         public const string TURN_GALLERY_UP_OFF = "TURN-GALLERY-UP-OFF";
